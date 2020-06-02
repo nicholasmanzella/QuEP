@@ -7,38 +7,22 @@ import matplotlib as mpl
 import matplotlib.cm as cm
 import matplotlib.ticker as ticker
 import include.plotSimTracks as plotSimTracks
+from mpl_toolkits import mplot3d
 
-def plot(r, z, t, xi, E, r_sim, xi_sim, SHM, track):
+#def plot(r, z, t, xi, E, r_sim, xi_sim, SHM, track):
+def plot(x,y,z,t,E):
+    fig = plt.figure()
+    ax = plt.axes(projection='3d')
 
-  fig, ax = plt.subplots()
-  #Make color axis of electric field
-  if SHM:
-    colors = ax.pcolormesh(z,r,E,cmap="YlGnBu")
-    cbar = fig.colorbar(colors,ax=ax)
-    cbar.set_label('Electric Field ($m_e c\omega_p/e$)')
-    ax.set_xlabel("z ($c/\omega_p$)")
-    ax.set_ylabel("r ($c/\omega_p$)")
-    ax.plot(xi,r,'k')
-  else:
-    colors = ax.pcolormesh(xi_sim ,r_sim,E,norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-E.max(),vmax=E.max()),cmap="RdBu_r")
-    
-    tick_locations=[x*0.01 for x in range(2,10)]+ [x*0.01 for x in range(-10,-1)] + [x*0.1 for x in range(-10,10)] +[ x for x in range(-10,10)]
-    cbar = fig.colorbar(colors,ax=ax,ticks=tick_locations, format=ticker.LogFormatterMathtext())
-    cbar.set_label('$E_r$, Transverse Electric Field ($m_e c\omega_p / e$)') 
-    ax.set_xlabel("$\\xi$ ($c/\omega_p$)")
-    ax.set_ylabel('r ($c/\omega_p$)')
-    ax.set_title('Electron trajectory from simulation v. OSIRIS for ' + track + ' track')
-    
-    ax.plot(xi,r,'k',label = "Simulated")
+    ax.set_xlabel("x ($c/\omega_p$)")
+    ax.set_ylabel("$\\xi$ ($c/\omega_p$)")
+    ax.set_zlabel("y ($c/\omega_p$)")
+    ax.set_title("Electron Probe Trajectory from Simulation")
 
-  plt.xlim(xi_sim[0], xi_sim[-1])
-  xi_OSIRIS, r_OSIRIS = plotSimTracks.get_xir(track)
-  ax.plot(xi_OSIRIS, r_OSIRIS, 'c--', label="OSIRIS")
-  ax.legend()
-  if SHM:
-    model = "SHM"
-  else:
-    model = "simE"
-  fn = "plots/"+model + "_"+track +".png"
-  plt.savefig(fn,dpi=200,transparent=True)
-  plt.show()
+    ax.plot3D(x, z, y, 'k',label = "Simulated") # Want vertical axis as y
+
+    ax.legend()
+
+    fn = "/Users/Marisa/Documents/Research/PWFA-eTracks/plots/eProbe.png"
+    #plt.savefig(fn,dpi=200,transparent=True)
+    plt.show()
