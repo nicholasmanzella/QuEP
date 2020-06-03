@@ -183,7 +183,7 @@ def main():
         pz_0 = float(input("Initial z momentum (m_e c): "))
         track = 'med'
     else:
-        print("Improper number of arguments. Expected 'python3 eTracks.py' or 'python3 eTracks.py <fname>'")
+        print("Improper number of arguments. Expected 'python3 eProbe.py' or 'python3 eProbe.py <fname>'")
         return
 
 # Simulate trajectory and create n-length array of data for plotting
