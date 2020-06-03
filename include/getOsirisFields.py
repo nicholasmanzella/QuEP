@@ -2,6 +2,7 @@
 
 import h5py as h5
 import numpy as np
+import math
 
 def getField(fname):
   f = h5.File(fname,"r")
@@ -18,11 +19,14 @@ def axes():
   a1_bounds = f['AXIS']['AXIS1']
   a2_bounds = f['AXIS']['AXIS2']
 
-  t0 = 858.95 #time at which field data was simulated, constant for all fields
+  t0 = getTime() #time at which field data was simulated, constant for all fields
   xi_dat = np.linspace(a1_bounds[0] - t0,a1_bounds[1] - t0,len(Field_dat[0]))
   r_dat = np.linspace(a2_bounds[0],a2_bounds[1],len(Field_dat))
 
-  return r_dat, xi_dat, t0
+  return r_dat, xi_dat
+
+def getTime():
+    return 858.95 # Time at which field data was simulated, constant for all fields
 
 def transE():
   return getField('data/EField_r.h5')
@@ -33,10 +37,20 @@ def longE():
 def phiB():
   return getField('data/BField_phi.h5')
 
-r_sim, xi_sim, t0 = axes()
+r_sim, xi_sim = axes()
 Er_sim = transE()
 Ez_sim = longE()
 Bphi_sim = phiB()
+
+def GetPhi(x,y):
+    return math.atan2(y,x) # From -pi to pi
+
+def find_nearest_index(array,value):
+    idx = np.searchsorted(array, value, side="left")
+    if idx > 0 and (idx == len(array) or math.fabs(value - array[idx-1]) < math.fabs(value - array[idx])):
+        return idx-1
+    else:
+        return idx
 
 def EField(x,y,z,axis):
 # axis = 1 refers to x-axis field
