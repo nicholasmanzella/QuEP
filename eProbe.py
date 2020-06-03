@@ -23,7 +23,7 @@ import matplotlib.colors as col
 
 # Include file imports
 import include.plotTracks as plotTracks
-import include.getOsirisFields as osiris
+#import include.getOsirisFields as osiris
 
 # Definition of Constants
 M_E = 9.109e-31                  #electron rest mass in kg
@@ -34,10 +34,10 @@ N = 1e23                         #electron number density in 1/m^3
 W_P = math.sqrt(N*EC**2/(M_E*EP_0))   #plasma frequency in 1/s
 
 # Retrieve simulated fields from OSIRIS simulations
-r_sim, xi_sim, t0 = osiris.axes()
-Er_sim = osiris.transE()
-Ez_sim = osiris.longE()
-Bphi_sim = osiris.phiB()
+# r_sim, xi_sim, t0 = osiris.axes()
+# Er_sim = osiris.transE()
+# Ez_sim = osiris.longE()
+# Bphi_sim = osiris.phiB()
 
 def find_nearest_index(array,value):
     idx = np.searchsorted(array, value, side="left")
@@ -49,38 +49,38 @@ def find_nearest_index(array,value):
 def GetPhi(x,y):
     return math.atan2(y,x) # From -pi to pi
 
-def EField(x,y,z,axis):
-# axis = 1 refers to x-axis field
-# axis = 2 refers to y-axis field
-# axis = 3 refers to z-axis field
-# axis = 4 refers to r-axis field
-    r = math.sqrt(x**2 + y**2)
-    phi = GetPhi(x, y)
-    zDex = find_nearest_index(xi_sim, z)
-    rDex = find_nearest_index(r_sim, r)
-    if axis == 1: # x axis
-        return Er_sim[rDex, zDex] * math.cos(phi)
-    elif axis == 2:
-        return Er_sim[rDex, zDex] * math.sin(phi)
-    elif axis == 3:
-        return Ez_sim[rDex, zDex]
-    elif axis == 4:
-        return -1.0*Er_sim[rDex, zDex]
-
-def BField(x,y,z,axis):
-# axis = 1 refers to x-axis field
-# axis = 2 refers to y-axis field
-# axis = 3 refers to z-axis field
-    r = math.sqrt(x**2 + y**2)
-    phi = GetPhi(x, y)
-    zDex = find_nearest_index(xi_sim, z)
-    rDex = find_nearest_index(r_sim, r)
-    if axis == 1:
-        return -1.0 * Bphi_sim[rDex, zDex] * math.sin(phi)
-    elif axis == 2:
-        return Bphi_sim[rDex, zDex] * math.cos(phi)
-    elif axis == 3:
-        return 0
+# def EField(x,y,z,axis):
+# # axis = 1 refers to x-axis field
+# # axis = 2 refers to y-axis field
+# # axis = 3 refers to z-axis field
+# # axis = 4 refers to r-axis field
+#     r = math.sqrt(x**2 + y**2)
+#     phi = GetPhi(x, y)
+#     zDex = find_nearest_index(xi_sim, z)
+#     rDex = find_nearest_index(r_sim, r)
+#     if axis == 1: # x axis
+#         return Er_sim[rDex, zDex] * math.cos(phi)
+#     elif axis == 2:
+#         return Er_sim[rDex, zDex] * math.sin(phi)
+#     elif axis == 3:
+#         return Ez_sim[rDex, zDex]
+#     elif axis == 4:
+#         return -1.0*Er_sim[rDex, zDex]
+#
+# def BField(x,y,z,axis):
+# # axis = 1 refers to x-axis field
+# # axis = 2 refers to y-axis field
+# # axis = 3 refers to z-axis field
+#     r = math.sqrt(x**2 + y**2)
+#     phi = GetPhi(x, y)
+#     zDex = find_nearest_index(xi_sim, z)
+#     rDex = find_nearest_index(r_sim, r)
+#     if axis == 1:
+#         return -1.0 * Bphi_sim[rDex, zDex] * math.sin(phi)
+#     elif axis == 2:
+#         return Bphi_sim[rDex, zDex] * math.cos(phi)
+#     elif axis == 3:
+#         return 0
 
 def Gamma(p):
     return math.sqrt(1.0 + p**2)
@@ -172,7 +172,7 @@ def main():
         px_0 = init.px_0
         py_0 = init.py_0
         pz_0 = init.pz_0
-        track = init.track
+        sim = init.simulation
     elif len(sys.argv) == 1:
 # Get initial position and momentum from user input
         x_0 = float(input("Initial x position (c/w_p): "))
@@ -181,9 +181,9 @@ def main():
         px_0 = float(input("Initial x momentum (m_e c): "))
         py_0 = float(input("Initial y momentum (m_e c): "))
         pz_0 = float(input("Initial z momentum (m_e c): "))
-        track = 'med'
+        sim = str(input("Simulation Type: "))
     else:
-        print("Improper number of arguments. Expected 'python3 eTracks.py' or 'python3 eTracks.py <fname>'")
+        print("Improper number of arguments. Expected 'python3 eProbe.py' or 'python3 eProbe.py <fname>'")
         return
 
 # Simulate trajectory and create n-length array of data for plotting
