@@ -4,6 +4,14 @@ import h5py as h5
 import numpy as np
 import math
 
+# Coordinate System
+# z   - Direction of laser propagation (longitudinal)
+# xi  - Position along z relative to wavefront (unnecessary?)
+# r   - Cylindrical coordinate around z
+# phi - Cylindrical coordinate around z, define phi = 0 along x
+# x   - Direction of transverse probe
+# y   - Direction perpendicular to transverse probe
+
 def getField(fname):
   f = h5.File(fname,"r")
   datasetNames = [n for n in f.keys()] #Two Datasets: AXIS and e2
@@ -42,7 +50,7 @@ Er_sim = transE()
 Ez_sim = longE()
 Bphi_sim = phiB()
 
-def GetPhi(x,y):
+def getPhi(x,y):
     return math.atan2(y,x) # From -pi to pi
 
 def find_nearest_index(array,value):
@@ -58,7 +66,7 @@ def EField(x,y,z,axis):
 # axis = 3 refers to z-axis field
 # axis = 4 refers to r-axis field
     r = math.sqrt(x**2 + y**2)
-    phi = GetPhi(x, y)
+    phi = getPhi(x, y)
     zDex = find_nearest_index(xi_sim, z)
     rDex = find_nearest_index(r_sim, r)
     if axis == 1: # x axis
@@ -70,17 +78,17 @@ def EField(x,y,z,axis):
     elif axis == 4:
         return -1.0*Er_sim[rDex, zDex]
 
-def BField(x,y,z,axis):
+def BField(x,y,z,vx,vy,vz,vr,vphi,axis):
 # axis = 1 refers to x-axis field
 # axis = 2 refers to y-axis field
 # axis = 3 refers to z-axis field
     r = math.sqrt(x**2 + y**2)
-    phi = GetPhi(x, y)
+    phi = getPhi(x, y)
     zDex = find_nearest_index(xi_sim, z)
     rDex = find_nearest_index(r_sim, r)
     if axis == 1:
-        return -1.0 * Bphi_sim[rDex, zDex] * math.sin(phi)
+        return -1.0 * vz * Bphi_sim[rDex, zDex] * math.cos(phi)
     elif axis == 2:
-        return Bphi_sim[rDex, zDex] * math.cos(phi)
+        return -1.0 * vz * Bphi_sim[rDex, zDex] * math.sin(phi)
     elif axis == 3:
-        return 0
+        return vx * Bphi_sim[rDex, zDex] * math.cos(phi) + vy * Bphi_sim[rDex, zDex] * math.sin(phi)

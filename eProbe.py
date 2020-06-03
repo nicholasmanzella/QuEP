@@ -1,7 +1,13 @@
 # Transverse Electron Probe of Laser Wakefield Tracking Script
 # Author: Marisa Petrusky - marisa.petrusky@stonybrook.edu
-#   This script is designed to simulate the probing of a laser wakefield
-#   with an electron beam.
+#   This script is designed to take the Lorentz fields of a simulated laser wakefield
+#   and obtain the trajectory of an electron probe going through them.
+
+#   Implemented Simulations:
+#   - OSIRIS (Cylindrically Symmetric)
+
+#   Instructions on how to add more simulations can be found in the README
+
 #   Derived from Audrey Farrell's electron tracking script: eTracks.py
 
 # Coordinate System
@@ -34,6 +40,9 @@ W_P = math.sqrt(N*EC**2/(M_E*EP_0))   #plasma frequency in 1/s
 
 def main():
 
+    def getPhi(x,y):
+        return math.atan2(y,x) # From -pi to pi
+
     def Gamma(p):
         return math.sqrt(1.0 + p**2)
 
@@ -41,16 +50,83 @@ def main():
     # Returns relativistic velocity from momentum
         return px / Gamma(ptot)
 
+    def sortVelocity(x,y,vx,vy,vr):
+    # Would prefer a shorter way to do this
+        if (x >= 0 and y >= 0):                  # Quadrant 1
+            if (vx >= 0 and vy >= 0):
+                return vr
+            elif (vx < 0 and vy < 0):
+                return -1.0 * vr
+            elif (abs(vx) > abs(vy)):
+                if vx >= 0:
+                    return vr
+                else:
+                    return -1.0 * vr
+            elif (abs(vy) > abs(vx)):
+                if vy >= 0:
+                    return vr
+                else:
+                    return -1.0 * vr
+        elif (x < 0 and y >= 0):                 # Quadrant 2
+            if (vx < 0 and vy >= 0):
+                return vr
+            elif (vx >= 0 and vy < 0):
+                return -1.0 * vr
+            elif (abs(vx) > abs(vy)):
+                if vx >= 0:
+                    return -1.0 * vr
+                else:
+                    return vr
+            elif (abs(vy) > abs(vx)):
+                if vy >= 0:
+                    return vr
+                else:
+                    return -1.0 * vr
+        elif (x < 0 and y < 0):                   # Quadrant 3
+            if (vx >= 0 and vy >= 0):
+                return -1.0 * vr
+            elif (vx < 0 and vy < 0):
+                return vr
+            elif (abs(vx) > abs(vy)):
+                if vx >= 0:
+                    return -1.0 * vr
+                else:
+                    return vr
+            elif (abs(vy) > abs(vx)):
+                if vy >= 0:
+                    return vr
+                else:
+                    return -1.0 * vr
+        elif (x >= 0 and y < 0):                 # Quadrant 4
+            if (vx >= 0 and vy < 0):
+                return vr
+            elif (vx < 0 and vy >= 0):
+                return -1.0 * vr
+            elif (abs(vx) > abs(vy)):
+                if vx >= 0:
+                    return vr
+                else:
+                    return -1.0 * vr
+            elif (abs(vy) > abs(vx)):
+                if vy >= 0:
+                    return -1.0 * vr
+                else:
+                    return vr
+
     def Momentum(x,y,z,dt,px,py,pz):
     # Returns the new momentum after dt, in units of c in the axis direction
         p = math.sqrt(px**2 + py**2 + pz**2)
-        vx = Velocity(px,p)
-        vy = Velocity(py,p)
-        vz = Velocity(pz,p)
+        vx = Velocity(px, p)
+        vy = Velocity(py, p)
+        vz = Velocity(pz, p)
 
-        Fx = -1.0 * (sim.EField(x, y, z, 1) - vz * sim.BField(x, y, z, 2))
-        Fy = -1.0 * (sim.EField(x, y, z, 2) + vz * sim.BField(x, y, z, 1))
-        Fz = -1.0 * (sim.EField(x, y, z, 3) + vx * sim.BField(x, y, z, 2) - vy * sim.BField(x, y, z, 1))
+        vr = math.sqrt(vx**2 + vy**2)
+        vr = sortVelocity(x, y, vx, vy, vr)
+        vphi = getPhi(vx, vy)
+
+        Fx = -1.0 * (sim.EField(x, y, z, 1) + sim.BField(x, y, z, vx, vy, vz, vr, vphi, 1))
+        Fy = -1.0 * (sim.EField(x, y, z, 2) + sim.BField(x, y, z, vx, vy, vz, vr, vphi, 2))
+        Fz = -1.0 * (sim.EField(x, y, z, 3) + sim.BField(x, y, z, vx, vy, vz, vr, vphi, 3))
 
         px = px + Fx * dt
         py = py + Fy * dt
@@ -62,7 +138,7 @@ def main():
     # Returns array of x, y, z, t
         x_dat, y_dat, z_dat, t_dat, E_dat, xi_dat = [],[],[],[],[],[]
 
-        t = sim.getTime()                       # Start time in 1/w_p
+        t = 858.95                       # Start time in 1/w_p
         dt = 0.005                   # Time step in 1/w_p
         xn = x_0                     # Positions in c/w_p
         yn = y_0
@@ -122,8 +198,8 @@ def main():
         px_0 = init.px_0
         py_0 = init.py_0
         pz_0 = init.pz_0
-        sim_input = init.simulation
-        if (sim_input.upper() == 'OSIRIS'):
+        sim_name = init.simulation_name
+        if (sim_name.upper() == 'OSIRIS'):
             import include.getOsirisFields as sim
 
         t0 = sim.getTime()
@@ -145,7 +221,7 @@ def main():
 
 # Simulate trajectory and create n-length array of data for plotting
     x_dat, y_dat, z_dat, t_dat, E_dat, xi_dat = GetTrajectory(x_0, y_0, z_0, px_0, py_0, pz_0)
-    # Plot data points
-    plotTracks.plot(x_dat, y_dat, z_dat, t_dat, E_dat)
-
+# Plot data points
+    plotTracks.plot(x_dat, y_dat, xi_dat, t_dat, E_dat)
+    
 main()
