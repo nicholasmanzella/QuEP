@@ -122,9 +122,9 @@ def main():
         vr = sortVelocity(x, y, vx, vy, vr)
         vphi = vr/r
 
-        Fx = -1.0 * (sim.EField(x, y, z, 1) + sim.BField(x, y, z, vx, vy, vz, vr, vphi, 1))
-        Fy = -1.0 * (sim.EField(x, y, z, 2) + sim.BField(x, y, z, vx, vy, vz, vr, vphi, 2))
-        Fz = -1.0 * (sim.EField(x, y, z, 3) + sim.BField(x, y, z, vx, vy, vz, vr, vphi, 3))
+        Fx = -1.0 * (sim.EField(1, x, y, z, r, vx, vy, vz, vr, vphi) + sim.BField(1, x, y, z, r, vx, vy, vz, vr, vphi))
+        Fy = -1.0 * (sim.EField(2, x, y, z, r, vx, vy, vz, vr, vphi) + sim.BField(2, x, y, z, r, vx, vy, vz, vr, vphi))
+        Fz = -1.0 * (sim.EField(3, x, y, z, r, vx, vy, vz, vr, vphi) + sim.BField(3, x, y, z, r, vx, vy, vz, vr, vphi))
 
         px = px + Fx * dt
         py = py + Fy * dt
@@ -164,7 +164,7 @@ def main():
             x_dat.append(xn)
             y_dat.append(yn)
             z_dat.append(zn)
-            E_dat.append( sim.EField(xn, yn, zn, 4) ) # Might want EField in terms of r for plotting?
+            #E_dat.append( sim.EField(4, xn, yn, zn) ) # Might want EField in terms of r for plotting?
 
             xi_dat.append(xin)
 
@@ -197,8 +197,8 @@ def main():
         py_0 = init.py_0
         pz_0 = init.pz_0
         sim_name = init.simulation_name
-        if (sim_name.upper() == 'OSIRIS'):
-            import include.getOsirisFields as sim
+        if (sim_name.upper() == 'OSIRIS_CYLINSYMM'):
+            import include.getOsiCylinFields as sim
 
         t0 = sim.getTime()
         z_0 = xi_0 + t0
