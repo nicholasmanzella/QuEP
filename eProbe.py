@@ -40,9 +40,6 @@ W_P = math.sqrt(N*EC**2/(M_E*EP_0))   #plasma frequency in 1/s
 
 def main():
 
-    def getPhi(x,y):
-        return math.atan2(y,x) # From -pi to pi
-
     def Gamma(p):
         return math.sqrt(1.0 + p**2)
 
@@ -120,9 +117,10 @@ def main():
         vy = Velocity(py, p)
         vz = Velocity(pz, p)
 
+        r = math.sqrt(x**2 + y**2)
         vr = math.sqrt(vx**2 + vy**2)
         vr = sortVelocity(x, y, vx, vy, vr)
-        vphi = getPhi(vx, vy)
+        vphi = vr/r
 
         Fx = -1.0 * (sim.EField(x, y, z, 1) + sim.BField(x, y, z, vx, vy, vz, vr, vphi, 1))
         Fy = -1.0 * (sim.EField(x, y, z, 2) + sim.BField(x, y, z, vx, vy, vz, vr, vphi, 2))
@@ -223,5 +221,5 @@ def main():
     x_dat, y_dat, z_dat, t_dat, E_dat, xi_dat = GetTrajectory(x_0, y_0, z_0, px_0, py_0, pz_0)
 # Plot data points
     plotTracks.plot(x_dat, y_dat, xi_dat, t_dat, E_dat)
-    
+
 main()
