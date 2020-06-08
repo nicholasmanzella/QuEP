@@ -77,7 +77,11 @@ def EField(axis,x,y,z,r=-1,vx=-1,vy=-1,vz=-1,vr=-1,vphi=-1):
     elif axis == 4:
         return -1.0*Er_sim[rDex, zDex]
 
+<<<<<<< HEAD:include/getOsiCylinFields.py
 def BForce(axis,x,y,z,r=-1,vx=-1,vy=-1,vz=-1,vr=-1,vphi=-1):
+=======
+def BField(axis,x,y,z,r=-1,vx=-1,vy=-1,vz=-1,vr=-1,vphi=-1):
+>>>>>>> 74c88ef49ee4ebf9497f0e424170b137bc656e9c:include/getOsirisFields.py
 # axis = 1 refers to x-axis field
 # axis = 2 refers to y-axis field
 # axis = 3 refers to z-axis field
