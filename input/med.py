@@ -7,4 +7,4 @@ xi_0 = 7.16644
 px_0 = 0
 py_0 = 0
 pz_0 = 0
-simulation_name = 'OSIRIS'
+simulation_name = 'OSIRIS_cylinsymm'
