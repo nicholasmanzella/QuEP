@@ -26,6 +26,7 @@ import h5py as h5
 import importlib
 import matplotlib.pyplot as plt
 import matplotlib.colors as col
+import pdb
 
 # Include file imports
 import include.plotTracks as plotTracks
@@ -153,6 +154,7 @@ def main():
 
         while i < 10000000:
 
+            #print('Iteration ', i)
     # Determine new momentum and velocity from this position
             px, py, pz, p = Momentum(xn, yn, xin, dt, px, py, pz)
 
@@ -198,7 +200,9 @@ def main():
         pz_0 = init.pz_0
         sim_name = init.simulation_name
         if (sim_name.upper() == 'OSIRIS_CYLINSYMM'):
-            import include.getOsiCylinFields as sim
+            import include.useOsiCylin as sim
+        elif (sim_name.upper() == 'QUASI3D'):
+            import include.useQuasi3D as sim
 
         t0 = sim.getTime()
         z_0 = xi_0 + t0
@@ -207,12 +211,17 @@ def main():
 # Get initial position and momentum from user input
         x_0 = float(input("Initial x position (c/w_p): "))
         y_0 = float(input("Initial y position (c/w_p): "))
-        z_0 = float(input("Initial z position (c/w_p): "))
+        xi_0 = float(input("Initial z position (c/w_p): "))
         px_0 = float(input("Initial x momentum (m_e c): "))
         py_0 = float(input("Initial y momentum (m_e c): "))
         pz_0 = float(input("Initial z momentum (m_e c): "))
         sim = str(input("Simulation Type: "))
-        t0 = float(input("Starting Time: ")) # Get normalized time units
+        if (sim_name.upper() == 'OSIRIS_CYLINSYMM'):
+            import include.useOsiCylin as sim
+        elif (sim_name.upper() == 'QUASI3D'):
+            import include.useQuasi3D as sim
+        t0 = sim.getTime() # Get normalized time units
+        z_0 = xi_0 + t0
     else:
         print("Improper number of arguments. Expected 'python3 eProbe.py' or 'python3 eProbe.py <fname>'")
         return
