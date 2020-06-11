@@ -4,7 +4,7 @@
 #   and obtain the trajectory of an electron probe going through them.
 
 #   Implemented Simulations:
-#   - OSIRIS (Cylindrically Symmetric)
+#   - Quasi3D
 
 #   Instructions on how to add more simulations can be found in the README
 
@@ -31,14 +31,6 @@ import time
 
 # Include file imports
 import include.plot3DTracks as plot3DTracks
-
-# Definition of Constants
-M_E = 9.109e-31                  #electron rest mass in kg
-EC = 1.60217662e-19              #electron charge in C
-EP_0 = 8.854187817               #vacuum permittivity in C/(V m) (not e-12?)
-C = 299892458                    #speed of light in vacuum in m/s
-N = 1e23                         #electron number density in 1/m^3
-W_P = math.sqrt(N*EC**2/(M_E*EP_0))   #plasma frequency in 1/s
 
 def main():
 

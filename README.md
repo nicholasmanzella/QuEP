@@ -3,7 +3,7 @@
 This code was developed to simulate an electron probe's trajectory through a plasma wakefield accelerator. It does so by taking previously simulated fields and propagating an electron through these fields. This allows us to quickly estimate the trajectories of individual electrons without the repeated use of computationally expensive simulations.
 
 The code is presently compatible with the following simulations:
-OSIRIS
+Quasi3D
 
 The master branch contains the most up-to-date code for tracking single electron trajectories.
 

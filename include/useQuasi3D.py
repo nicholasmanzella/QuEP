@@ -15,6 +15,14 @@ import pdb
 # x   - Direction of transverse probe
 # y   - Direction perpendicular to transverse probe
 
+# Definition of Constants
+M_E = 9.109e-31                  #electron rest mass in kg
+EC = 1.60217662e-19              #electron charge in C
+EP_0 = 8.854187817               #vacuum permittivity in C/(V m) (not e-12?)
+C = 299892458                    #speed of light in vacuum in m/s
+N = 1e15                         #electron number density in 1/m^3
+W_P = math.sqrt(N*EC**2/(M_E*EP_0))   #plasma frequency in 1/s
+
 def getField(fpath):
     f = h5.File(fpath,"r")
     datasetNames = [n for n in f.keys()]
