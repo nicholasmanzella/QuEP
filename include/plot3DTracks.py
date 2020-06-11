@@ -10,17 +10,17 @@ import include.plotSimTracks as plotSimTracks
 from mpl_toolkits import mplot3d
 
 #def plot(r, z, t, xi, E, r_sim, xi_sim, SHM, track):
-def plot(x,y,z,t,E):
+def plot(x,y,z,t,xi):
     fig = plt.figure()
     ax = plt.axes(projection='3d')
 
     ax.set_xlabel("x ($c/\omega_p$)")
-    #ax.set_ylabel("$\\xi$ ($c/\omega_p$)")
-    ax.set_ylabel("z ($c/\omega_p$)")
+    ax.set_ylabel("$\\xi$ ($c/\omega_p$)")
+    #ax.set_ylabel("z ($c/\omega_p$)")
     ax.set_zlabel("y ($c/\omega_p$)")
     ax.set_title("Electron Probe Trajectory")
 
-    ax.plot3D(x, z, y, 'k',label = "Simulated") # Want vertical axis as y
+    ax.plot3D(x, xi, y, 'k',label = "Quasi3D") # Want vertical axis as y
 
     #ax.legend()
 

@@ -207,15 +207,15 @@ def BForce(axis,x,y,z,r,vx,vy,vz,vr,vphi):
     elif axis == 3:
         return -1.0 * (vx * Bz - vz * Bx)
 
-    # elif len(sys.argv) == 4:
-    # # Return BField
-    #     phi = getPhi(x,y)
-    #     rDex = find_nearest_index(r_sim, r)
-    #     zDex = find_nearest_index(xi_sim, z)
-    # # Calculate expanded BFields
-    #     if axis == 1:
-    #         return Bx_M0[rDex, zDex] + Bx_M1_Re[rDex, zDex] * math.cos(phi) - Bx_M1_Im[rDex, zDex] * math.sin(phi)
-    #     elif axis == 2:
-    #         return By_M0[rDex, zDex] + By_M1_Re[rDex, zDex] * math.cos(phi) - By_M1_Im[rDex, zDex] * math.sin(phi)
-    #     elif axis == 3:
-    #         return Bz_M0[rDex, zDex] + Bz_M1_Re[rDex, zDex] * math.cos(phi) - Bz_M1_Im[rDex, zDex] * math.sin(phi)
+def BField(axis,x,y,z,r,vx,vy,vz,vr,vphi):
+# Return BField
+    phi = getPhi(x,y)
+    rDex = find_nearest_index(r_sim, r)
+    zDex = find_nearest_index(xi_sim, z)
+# Calculate expanded BFields
+    if axis == 1:
+        return Bx_M0[rDex, zDex] + Bx_M1_Re[rDex, zDex] * math.cos(phi) - Bx_M1_Im[rDex, zDex] * math.sin(phi)
+    elif axis == 2:
+        return By_M0[rDex, zDex] + By_M1_Re[rDex, zDex] * math.cos(phi) - By_M1_Im[rDex, zDex] * math.sin(phi)
+    elif axis == 3:
+        return Bz_M0[rDex, zDex] + Bz_M1_Re[rDex, zDex] * math.cos(phi) - Bz_M1_Im[rDex, zDex] * math.sin(phi)

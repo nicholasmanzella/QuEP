@@ -30,7 +30,7 @@ import pdb
 import time
 
 # Include file imports
-import include.plotTracks as plotTracks
+import include.plot3DTracks as plot3DTracks
 
 # Definition of Constants
 M_E = 9.109e-31                  #electron rest mass in kg
@@ -57,27 +57,27 @@ def main():
             elif (vx < 0 and vy < 0):
                 return -1.0 * vr
             elif (abs(vx) > abs(vy)):
-                if vx >= 0:
+                if vx > 0:
                     return vr
                 else:
                     return -1.0 * vr
             elif (abs(vy) > abs(vx)):
-                if vy >= 0:
+                if vy > 0:
                     return vr
                 else:
                     return -1.0 * vr
         elif (x < 0 and y >= 0):                 # Quadrant 2
-            if (vx < 0 and vy >= 0):
+            if (vx <= 0 and vy >= 0):
                 return vr
-            elif (vx >= 0 and vy < 0):
+            elif (vx > 0 and vy < 0):
                 return -1.0 * vr
             elif (abs(vx) > abs(vy)):
-                if vx >= 0:
+                if vx > 0:
                     return -1.0 * vr
                 else:
                     return vr
             elif (abs(vy) > abs(vx)):
-                if vy >= 0:
+                if vy > 0:
                     return vr
                 else:
                     return -1.0 * vr
@@ -87,27 +87,27 @@ def main():
             elif (vx < 0 and vy < 0):
                 return vr
             elif (abs(vx) > abs(vy)):
-                if vx >= 0:
+                if vx > 0:
                     return -1.0 * vr
                 else:
                     return vr
             elif (abs(vy) > abs(vx)):
-                if vy >= 0:
+                if vy > 0:
                     return vr
                 else:
                     return -1.0 * vr
         elif (x >= 0 and y < 0):                 # Quadrant 4
-            if (vx >= 0 and vy < 0):
+            if (vx >= 0 and vy <= 0):
                 return vr
-            elif (vx < 0 and vy >= 0):
+            elif (vx < 0 and vy > 0):
                 return -1.0 * vr
             elif (abs(vx) > abs(vy)):
-                if vx >= 0:
+                if vx > 0:
                     return vr
                 else:
                     return -1.0 * vr
             elif (abs(vy) > abs(vx)):
-                if vy >= 0:
+                if vy > 0:
                     return -1.0 * vr
                 else:
                     return vr
@@ -121,8 +121,13 @@ def main():
 
         r = math.sqrt(x**2 + y**2)
         vr = math.sqrt(vx**2 + vy**2)
+        #pdb.set_trace()
         vr = sortVelocity(x, y, vx, vy, vr)
         vphi = vr/r
+        #if (r > 0):
+        #    vphi = vr/r
+        #else:
+        #    vphi = 0
 
         Fx = -1.0 * (sim.EField(2, x, y, z, r, vx, vy, vz, vr, vphi) + sim.BForce(2, x, y, z, r, vx, vy, vz, vr, vphi))
         Fy = -1.0 * (sim.EField(3, x, y, z, r, vx, vy, vz, vr, vphi) + sim.BForce(3, x, y, z, r, vx, vy, vz, vr, vphi))
@@ -155,6 +160,7 @@ def main():
 
         while i < iter:
     # Determine new momentum and velocity from this position
+            #print("Iter = ", i)
             px, py, pz, p = Momentum(xn, yn, xin, dt, px, py, pz)
 
             vxn = Velocity(px, p)
@@ -165,8 +171,6 @@ def main():
             x_dat.append(xn)
             y_dat.append(yn)
             z_dat.append(zn)
-            #E_dat.append( sim.EField(4, xn, yn, zn) ) # Might want EField in terms of r for plotting?
-
             xi_dat.append(xin)
 
             xn += vxn * dt
@@ -231,6 +235,6 @@ def main():
 # Simulate trajectory and create n-length array of data for plotting
     x_dat, y_dat, z_dat, t_dat, E_dat, xi_dat = GetTrajectory(x_0, y_0, z_0, px_0, py_0, pz_0, t0, iter, bounds)
 # Plot data points
-    plotTracks.plot(x_dat, y_dat, z_dat, t_dat, E_dat)
+    plot3DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat)
 
 main()
