@@ -11,7 +11,7 @@ from mpl_toolkits import mplot3d
 
 #def plot(r, z, t, xi, E, r_sim, xi_sim, SHM, track):
 def plot(x,y,z,t,xi):
-    fig = plt.figure()
+    fig = plt.figure(1)
     ax = plt.axes(projection='3d')
 
     ax.set_xlabel("x ($c/\omega_p$)")
@@ -22,8 +22,24 @@ def plot(x,y,z,t,xi):
 
     ax.plot3D(x, xi, y, 'k',label = "Quasi3D") # Want vertical axis as y
 
+    fig.show()
+
+    fig2 = plt.figure(2)
+    ax2 = plt.axes(projection='3d')
+
+    ax2.set_xlabel("x ($c/\omega_p$)")
+    #ax.set_ylabel("$\\xi$ ($c/\omega_p$)")
+    ax2.set_ylabel("z ($c/\omega_p$)")
+    ax2.set_zlabel("y ($c/\omega_p$)")
+    ax2.set_title("Electron Probe Trajectory")
+
+    ax2.plot3D(x, z, y, 'k',label = "Quasi3D") # Want vertical axis as y
+
     #ax.legend()
 
     fn = "/Users/Marisa/Documents/Research/PWFA-eTracks/plots/eProbe.png"
     #plt.savefig(fn,dpi=200,transparent=True)
-    plt.show()
+
+    fig2.show()
+
+    input()
