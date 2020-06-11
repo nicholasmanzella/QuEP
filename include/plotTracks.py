@@ -15,13 +15,14 @@ def plot(x,y,z,t,E):
     ax = plt.axes(projection='3d')
 
     ax.set_xlabel("x ($c/\omega_p$)")
-    ax.set_ylabel("$\\xi$ ($c/\omega_p$)")
+    #ax.set_ylabel("$\\xi$ ($c/\omega_p$)")
+    ax.set_ylabel("z ($c/\omega_p$)")
     ax.set_zlabel("y ($c/\omega_p$)")
-    ax.set_title("Electron Probe Trajectory from Simulation")
+    ax.set_title("Electron Probe Trajectory")
 
     ax.plot3D(x, z, y, 'k',label = "Simulated") # Want vertical axis as y
 
-    ax.legend()
+    #ax.legend()
 
     fn = "/Users/Marisa/Documents/Research/PWFA-eTracks/plots/eProbe.png"
     #plt.savefig(fn,dpi=200,transparent=True)

@@ -46,17 +46,17 @@ def axes():
     t0 = getTime()#f.attrs['TIME']
 
 # Field Shape is (433, 25231), where data is written as E(z,r)
-    zaxis_1 = np.linspace(z_bounds_1[0] - t0, z_bounds_1[1] - t0, len(Field_dat)) # len = 433
-    zaxis_2 = np.linspace(z_bounds_2[0] - t0, z_bounds_2[1] - t0, len(Field_dat))
-    raxis_1 = np.linspace(r_bounds_1[0], r_bounds_2[1], len(Field_dat[0]))
-    raxis_2 = np.linspace(r_bounds_2[0], r_bounds_2[1], len(Field_dat[1]))
+    zaxis_1 = np.linspace(z_bounds_1[0] - t0, z_bounds_1[1] - t0, len(Field_dat[0])) # len = 25231
+    zaxis_2 = np.linspace(z_bounds_2[0] - t0, z_bounds_2[1] - t0, len(Field_dat[0]))
+    raxis_1 = np.linspace(r_bounds_1[0], r_bounds_2[1], len(Field_dat)) # 433
+    raxis_2 = np.linspace(r_bounds_2[0], r_bounds_2[1], len(Field_dat))
 
     return zaxis_1, zaxis_2, raxis_1, raxis_2
 
 zaxis_1, zaxis_2, raxis_1, raxis_2 = axes() # Evenly spaced axes data
 
 def getBoundCond():
-# Define when the electron leaves the plasma 
+# Define when the electron leaves the plasma
     f = h5.File('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-000130.h5',"r")#('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-000130.h5',"r")
     datasetNames = [n for n in f.keys()] # Three Datasets: AXIS, SIMULATION, Field data
     field = datasetNames[-1]
@@ -172,11 +172,14 @@ def EField(axis,x,y,z,r,vx,vy,vz,vr,vphi):
     rDex2 = find_nearest_index(raxis_2, r)
     # Return expanded EFields
     if axis == 1:
-        return E1_M0[zDex1, rDex2] + E1_M1_Re[zDex1, rDex2]*cos + E1_M1_Im[zDex1, rDex2]*sin
+        #return E1_M0[zDex1, rDex2] + E1_M1_Re[zDex1, rDex2]*cos + E1_M1_Im[zDex1, rDex2]*sin
+        return E1_M0[rDex2, zDex1] + E1_M1_Re[rDex2, zDex1]*cos + E1_M1_Im[rDex2, zDex1]*sin
     elif axis == 2:
-        return E2_M0[zDex2, rDex1]*cos - E3_M0[zDex2, rDex2]*sin + E2_M1_Re[zDex2, rDex1]*cos**2 - E3_M1_Re[zDex2, rDex2]*cos*sin + E2_M1_Im[zDex2, rDex1]*cos*sin - E3_M1_Im[zDex2, rDex2]*sin**2
+        #return E2_M0[zDex2, rDex1]*cos - E3_M0[zDex2, rDex2]*sin + E2_M1_Re[zDex2, rDex1]*cos**2 - E3_M1_Re[zDex2, rDex2]*cos*sin + E2_M1_Im[zDex2, rDex1]*cos*sin - E3_M1_Im[zDex2, rDex2]*sin**2
+        return E2_M0[rDex1, zDex2]*cos - E3_M0[rDex2, zDex2]*sin + E2_M1_Re[rDex1, zDex2]*cos**2 - E3_M1_Re[rDex2, zDex2]*cos*sin + E2_M1_Im[rDex1, zDex2]*cos*sin - E3_M1_Im[rDex2, zDex2]*sin**2
     elif axis == 3:
-        return E3_M0[zDex2, rDex2]*cos + E2_M0[zDex2, rDex1]*sin + E3_M1_Re[zDex2, rDex2]*cos**2 + E2_M1_Re[zDex2, rDex1]*cos*sin + E3_M1_Im[zDex2, rDex2]*cos*sin + E2_M1_Im[zDex2, rDex1]*sin**2
+        #return E3_M0[zDex2, rDex2]*cos + E2_M0[zDex2, rDex1]*sin + E3_M1_Re[zDex2, rDex2]*cos**2 + E2_M1_Re[zDex2, rDex1]*cos*sin + E3_M1_Im[zDex2, rDex2]*cos*sin + E2_M1_Im[zDex2, rDex1]*sin**2
+        return E3_M0[rDex2, zDex2]*cos + E2_M0[rDex1, zDex2]*sin + E3_M1_Re[rDex2, zDex2]*cos**2 + E2_M1_Re[rDex1, zDex2]*cos*sin + E3_M1_Im[rDex2, zDex2]*cos*sin + E2_M1_Im[rDex1, zDex2]*sin**2
 
 def BForce(axis,x,y,z,r,vx,vy,vz,vr,vphi):
 # axis = 1 refers to z-axis field
@@ -190,9 +193,12 @@ def BForce(axis,x,y,z,r,vx,vy,vz,vr,vphi):
     rDex1 = find_nearest_index(raxis_1, r)
     rDex2 = find_nearest_index(raxis_2, r)
     # Calculate expanded BFields
-    Bx = B2_M0[zDex2, rDex1]*cos - B3_M0[zDex2, rDex2]*sin + B2_M1_Re[zDex2, rDex1]*cos**2 - B3_M1_Re[zDex2, rDex2]*cos*sin + B2_M1_Im[zDex2, rDex1]*cos*sin - B3_M1_Im[zDex2, rDex2]*sin**2
-    By = B3_M0[zDex2, rDex2]*cos + B2_M0[zDex2, rDex1]*sin + B3_M1_Re[zDex2, rDex2]*cos**2 + B2_M1_Re[zDex2, rDex1]*cos*sin + B3_M1_Im[zDex2, rDex2]*cos*sin + B2_M1_Im[zDex2, rDex1]*sin**2
-    Bz = B1_M0[zDex1, rDex2] + B1_M1_Re[zDex1, rDex2]*cos + B1_M1_Im[zDex1, rDex2]*sin
+    #Bx = B2_M0[zDex2, rDex1]*cos - B3_M0[zDex2, rDex2]*sin + B2_M1_Re[zDex2, rDex1]*cos**2 - B3_M1_Re[zDex2, rDex2]*cos*sin + B2_M1_Im[zDex2, rDex1]*cos*sin - B3_M1_Im[zDex2, rDex2]*sin**2
+    #By = B3_M0[zDex2, rDex2]*cos + B2_M0[zDex2, rDex1]*sin + B3_M1_Re[zDex2, rDex2]*cos**2 + B2_M1_Re[zDex2, rDex1]*cos*sin + B3_M1_Im[zDex2, rDex2]*cos*sin + B2_M1_Im[zDex2, rDex1]*sin**2
+    #Bz = B1_M0[zDex1, rDex2] + B1_M1_Re[zDex1, rDex2]*cos + B1_M1_Im[zDex1, rDex2]*sin
+    Bz = B1_M0[rDex2, zDex1] + B1_M1_Re[rDex2, zDex1]*cos + B1_M1_Im[rDex2, zDex1]*sin
+    Bx = B2_M0[rDex1, zDex2]*cos - B3_M0[rDex2, zDex2]*sin + B2_M1_Re[rDex1, zDex2]*cos**2 - B3_M1_Re[rDex2, zDex2]*cos*sin + B2_M1_Im[rDex1, zDex2]*cos*sin - B3_M1_Im[rDex2, zDex2]*sin**2
+    By = B3_M0[rDex2, zDex2]*cos + B2_M0[rDex1, zDex2]*sin + B3_M1_Re[rDex2, zDex2]*cos**2 + B2_M1_Re[rDex1, zDex2]*cos*sin + B3_M1_Im[rDex2, zDex2]*cos*sin + B2_M1_Im[rDex1, zDex2]*sin**2
     # Cross-product velocities with BFields and return the BForce
     if axis == 1:
         return vx * By - vy * Bx
