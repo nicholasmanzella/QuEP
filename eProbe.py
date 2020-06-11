@@ -27,6 +27,7 @@ import importlib
 import matplotlib.pyplot as plt
 import matplotlib.colors as col
 import pdb
+import time
 
 # Include file imports
 import include.plotTracks as plotTracks
@@ -123,9 +124,9 @@ def main():
         vr = sortVelocity(x, y, vx, vy, vr)
         vphi = vr/r
 
-        Fx = -1.0 * (sim.EField(1, x, y, z, r, vx, vy, vz, vr, vphi) + sim.BField(1, x, y, z, r, vx, vy, vz, vr, vphi))
-        Fy = -1.0 * (sim.EField(2, x, y, z, r, vx, vy, vz, vr, vphi) + sim.BField(2, x, y, z, r, vx, vy, vz, vr, vphi))
-        Fz = -1.0 * (sim.EField(3, x, y, z, r, vx, vy, vz, vr, vphi) + sim.BField(3, x, y, z, r, vx, vy, vz, vr, vphi))
+        Fx = -1.0 * (sim.EField(2, x, y, z, r, vx, vy, vz, vr, vphi) + sim.BForce(2, x, y, z, r, vx, vy, vz, vr, vphi))
+        Fy = -1.0 * (sim.EField(3, x, y, z, r, vx, vy, vz, vr, vphi) + sim.BForce(3, x, y, z, r, vx, vy, vz, vr, vphi))
+        Fz = -1.0 * (sim.EField(1, x, y, z, r, vx, vy, vz, vr, vphi) + sim.BForce(1, x, y, z, r, vx, vy, vz, vr, vphi))
 
         px = px + Fx * dt
         py = py + Fy * dt
@@ -133,7 +134,7 @@ def main():
         p = math.sqrt(px**2 + py**2 + pz**2)
         return px, py, pz, p
 
-    def GetTrajectory(x_0,y_0,z_0,px_0,py_0,pz_0,t0):
+    def GetTrajectory(x_0,y_0,z_0,px_0,py_0,pz_0,t0,iter,bounds):
     # Returns array of x, y, z, t
         x_dat, y_dat, z_dat, t_dat, E_dat, xi_dat = [],[],[],[],[],[]
 
@@ -152,9 +153,7 @@ def main():
     # Iterate through position and time using a linear approximation until (?)
         i = 0
 
-        while i < 10000000:
-
-            #print('Iteration ', i)
+        while i < iter:
     # Determine new momentum and velocity from this position
             px, py, pz, p = Momentum(xn, yn, xin, dt, px, py, pz)
 
@@ -180,10 +179,10 @@ def main():
 
             xin = zn - t
 
-            if i > 10000000:
-                print("Tracking quit due to more than 10k iterations")
+            if i > iter:
+                print("Tracking quit due to more than ", iter, " iterations")
                 return np.array(x_dat), np.array(y_dat), np.array(z_dat), np.array(t_dat), np.array(E_dat), np.array(xi_dat)
-            if xin < 0 or xin > 8 or rn > 6:
+            if zn < bounds[0] or zn > bounds[1] or rn > bounds[2]:
                 print("Tracking quit due to coordinates out of range")
                 return np.array(x_dat), np.array(y_dat), np.array(z_dat), np.array(t_dat), np.array(E_dat), np.array(xi_dat)
         return np.array(x_dat), np.array(y_dat), np.array(z_dat), np.array(t_dat), np.array(E_dat), np.array(xi_dat)
@@ -198,6 +197,7 @@ def main():
         px_0 = init.px_0
         py_0 = init.py_0
         pz_0 = init.pz_0
+        iter = init.iterations
         sim_name = init.simulation_name
         if (sim_name.upper() == 'OSIRIS_CYLINSYMM'):
             import include.useOsiCylin as sim
@@ -206,6 +206,7 @@ def main():
 
         t0 = sim.getTime()
         z_0 = xi_0 + t0
+        bounds = sim.getBoundCond()
 
     elif len(sys.argv) == 1:
 # Get initial position and momentum from user input
@@ -222,13 +223,14 @@ def main():
             import include.useQuasi3D as sim
         t0 = sim.getTime() # Get normalized time units
         z_0 = xi_0 + t0
+        bounds = sim.getBoundCond()
     else:
         print("Improper number of arguments. Expected 'python3 eProbe.py' or 'python3 eProbe.py <fname>'")
         return
 
 # Simulate trajectory and create n-length array of data for plotting
-    x_dat, y_dat, z_dat, t_dat, E_dat, xi_dat = GetTrajectory(x_0, y_0, z_0, px_0, py_0, pz_0, t0)
+    x_dat, y_dat, z_dat, t_dat, E_dat, xi_dat = GetTrajectory(x_0, y_0, z_0, px_0, py_0, pz_0, t0, iter, bounds)
 # Plot data points
-    plotTracks.plot(x_dat, y_dat, xi_dat, t_dat, E_dat)
+    plotTracks.plot(x_dat, y_dat, z_dat, t_dat, E_dat)
 
 main()

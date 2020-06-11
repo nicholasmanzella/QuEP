@@ -92,3 +92,6 @@ def BField(axis,x,y,z,r=-1,vx=-1,vy=-1,vz=-1,vr=-1,vphi=-1):
         return -1.0 * vz * Bphi_sim[rDex, zDex] * math.sin(phi)
     elif axis == 3:
         return vx * Bphi_sim[rDex, zDex] * math.cos(phi) + vy * Bphi_sim[rDex, zDex] * math.sin(phi)
+
+def getBoundCond():
+    return [858, 866, 6]
