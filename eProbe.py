@@ -31,6 +31,16 @@ import time
 
 # Include file imports
 import include.plot3DTracks as plot3DTracks
+import include.plotGamma as plotGamma
+import include.plot2DTracks as plot2DTracks
+
+# Definition of Constants
+M_E = 9.109e-31                  #electron rest mass in kg
+EC = 1.60217662e-19              #electron charge in C
+EP_0 = 8.854187817e-12               #vacuum permittivity in C/(V m) (not e-12?)
+C = 299892458                    #speed of light in vacuum in m/s
+N = 1e15                         #electron number density in 1/m^3
+W_P = math.sqrt(N*EC**2/(M_E*EP_0))   #plasma frequency in 1/s
 
 def main():
 
@@ -129,11 +139,12 @@ def main():
         py = py + Fy * dt
         pz = pz + Fz * dt
         p = math.sqrt(px**2 + py**2 + pz**2)
-        return px, py, pz, p
+        gam = Gamma(p)
+        return px, py, pz, p, gam
 
     def GetTrajectory(x_0,y_0,z_0,px_0,py_0,pz_0,t0,iter,bounds):
     # Returns array of x, y, z, t
-        x_dat, y_dat, z_dat, t_dat, E_dat, xi_dat = [],[],[],[],[],[]
+        x_dat, y_dat, z_dat, t_dat, xi_dat, gam_dat = [],[],[],[],[],[]
 
         t = t0            # Start time in 1/w_p
         dt = 0.005                   # Time step in 1/w_p
@@ -153,7 +164,7 @@ def main():
         while i < iter:
     # Determine new momentum and velocity from this position
             #print("Iter = ", i)
-            px, py, pz, p = Momentum(xn, yn, xin, dt, px, py, pz)
+            px, py, pz, p, gam = Momentum(xn, yn, xin, dt, px, py, pz)
 
             vxn = Velocity(px, p)
             vyn = Velocity(py, p)
@@ -164,6 +175,8 @@ def main():
             y_dat.append(yn)
             z_dat.append(zn)
             xi_dat.append(xin)
+            gam_dat.append(gam)
+            t_dat.append(t)
 
             xn += vxn * dt
             yn += vyn * dt
@@ -175,13 +188,13 @@ def main():
 
             xin = zn - t
 
-            if i > iter:
+            if (i > iter):
                 print("Tracking quit due to more than ", iter, " iterations")
-                return np.array(x_dat), np.array(y_dat), np.array(z_dat), np.array(t_dat), np.array(E_dat), np.array(xi_dat)
-            if zn < bounds[0] or zn > bounds[1] or rn > bounds[2]:
+                return np.array(x_dat), np.array(y_dat), np.array(z_dat), np.array(t_dat), np.array(xi_dat), np.array(gam_dat)
+            if (zn < bounds[0] or zn > bounds[1] or rn > bounds[2]):
                 print("Tracking quit due to coordinates out of range")
-                return np.array(x_dat), np.array(y_dat), np.array(z_dat), np.array(t_dat), np.array(E_dat), np.array(xi_dat)
-        return np.array(x_dat), np.array(y_dat), np.array(z_dat), np.array(t_dat), np.array(E_dat), np.array(xi_dat)
+                return np.array(x_dat), np.array(y_dat), np.array(z_dat), np.array(t_dat), np.array(xi_dat), np.array(gam_dat)
+        return np.array(x_dat), np.array(y_dat), np.array(z_dat), np.array(t_dat), np.array(xi_dat), np.array(gam_dat)
 
     if len(sys.argv) == 2:
         input_fname = str(sys.argv[1])
@@ -225,8 +238,17 @@ def main():
         return
 
 # Simulate trajectory and create n-length array of data for plotting
-    x_dat, y_dat, z_dat, t_dat, E_dat, xi_dat = GetTrajectory(x_0, y_0, z_0, px_0, py_0, pz_0, t0, iter, bounds)
+    x_dat, y_dat, z_dat, t_dat, xi_dat, gam_dat = GetTrajectory(x_0, y_0, z_0, px_0, py_0, pz_0, t0, iter, bounds)
 # Plot data points
-    plot3DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat)
 
+    avgGam = sum(gam_dat)/len(gam_dat)
+    kbeta = W_P/(C * math.sqrt(2 * avgGam))
+    print("Average Gamma over one oscillation = ", avgGam)
+    print("Betatron Wave No (Normalized) = ", kbeta)
+    wavel = (2 * math.pi / kbeta) #* W_P/C
+    print("Lambda = ", wavel)
+
+    #plotGamma.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, gam_dat)
+    plot3DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
+    plot2DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
 main()
