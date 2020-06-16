@@ -11,10 +11,11 @@ def plot(x,y,z,t,xi,sim_name):
     ax = plt.axes()
 
     ax.set_ylabel("x ($c/\omega_p$)")
-    ax.set_xlabel("$\\xi$ ($c/\omega_p$)")
+    ax.set_xlabel("z ($c/\omega_p$)")
+    #ax.set_xlabel("$\\xi$ ($c/\omega_p$)")
     ax.set_title("Project Trajectory in X")
 
-    ax.plot(xi, x, label = sim_name)
+    ax.plot(z, x, label = sim_name)
     ax.legend()
     #slope, intercept = np.polyfit(x, xi, 1)
     #print(slope)
@@ -26,7 +27,7 @@ def plot(x,y,z,t,xi,sim_name):
     ax2.set_ylabel("y ($c/\omega_p$)")
     ax2.set_xlabel("$\\xi$ ($c/\omega_p$)")
     ax2.set_title("Project Trajectory in Y")
-    #plt.ylim(-0.005,0.005)
+    plt.ylim(-0.005,0.005)
 
     ax2.plot(xi, y, 'r', label = sim_name)
     ax2.legend()

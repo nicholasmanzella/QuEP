@@ -31,6 +31,7 @@ import time
 
 # Include file imports
 import include.plot3DTracks as plot3DTracks
+import include.plot2DTracks as plot2DTracks
 
 def main():
 
@@ -227,6 +228,6 @@ def main():
 # Simulate trajectory and create n-length array of data for plotting
     x_dat, y_dat, z_dat, t_dat, E_dat, xi_dat = GetTrajectory(x_0, y_0, z_0, px_0, py_0, pz_0, t0, iter, bounds)
 # Plot data points
-    plot3DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat)
-
+    plot3DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
+    plot2DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
 main()
