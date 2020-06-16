@@ -244,11 +244,11 @@ def main():
     avgGam = sum(gam_dat)/len(gam_dat)
     kbeta = W_P/(C * math.sqrt(2 * avgGam))
     print("Average Gamma over one oscillation = ", avgGam)
-    print("Betatron Wave No (Normalized) = ", kbeta)
+    print("Betatron Wave No = ", kbeta)
     wavel = (2 * math.pi / kbeta) #* W_P/C
     print("Lambda = ", wavel)
 
     #plotGamma.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, gam_dat)
     plot3DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
-    plot2DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
+    #plot2DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
 main()
