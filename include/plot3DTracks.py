@@ -19,7 +19,9 @@ def plot(x,y,z,t,xi,sim_name):
     ax.set_title("Electron Probe Trajectory in $\\xi$")
     ax.plot3D(x, xi, y, 'k', label = sim_name) # Want vertical axis as y
     ax.legend()
+    ax.set_zlim3d(-0.005,0.005)
     fig.show()
+
 
     fig2 = plt.figure(2)
     ax2 = plt.axes(projection='3d')
@@ -28,6 +30,7 @@ def plot(x,y,z,t,xi,sim_name):
     ax2.set_zlabel("y ($c/\omega_p$)")
     ax2.set_title("Electron Probe Trajectory in z")
     ax2.plot3D(x, z, y, 'k',label = sim_name) # Want vertical axis as y
+    ax2.set_zlim3d(-0.005,0.005)
     ax2.legend()
 
     fn = "/Users/Marisa/Documents/Research/PWFA-eTracks/plots/eProbe.png"

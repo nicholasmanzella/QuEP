@@ -116,11 +116,10 @@ def main():
         vr = math.sqrt(vx**2 + vy**2)
         #pdb.set_trace()
         vr = sortVelocity(x, y, vx, vy, vr)
-        vphi = vr/r
-        #if (r > 0):
-        #    vphi = vr/r
-        #else:
-        #    vphi = 0
+        if (r > 0):
+            vphi = vr/r
+        else:
+            vphi = 0
 
         Fx = -1.0 * (sim.EField(2, x, y, z, r, vx, vy, vz, vr, vphi) + sim.BForce(2, x, y, z, r, vx, vy, vz, vr, vphi))
         Fy = -1.0 * (sim.EField(3, x, y, z, r, vx, vy, vz, vr, vphi) + sim.BForce(3, x, y, z, r, vx, vy, vz, vr, vphi))
@@ -203,6 +202,7 @@ def main():
 
         t0 = sim.getTime()
         z_0 = xi_0 + t0
+        print("z0 = ", z_0)
         bounds = sim.getBoundCond()
 
     elif len(sys.argv) == 1:
@@ -220,6 +220,7 @@ def main():
             import include.useQuasi3D as sim
         t0 = sim.getTime() # Get normalized time units
         z_0 = xi_0 + t0
+        print("z0 = ", z_0)
         bounds = sim.getBoundCond()
     else:
         print("Improper number of arguments. Expected 'python3 eProbe.py' or 'python3 eProbe.py <fname>'")
