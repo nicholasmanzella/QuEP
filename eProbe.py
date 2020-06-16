@@ -215,6 +215,7 @@ def main():
 
         t0 = sim.getTime()
         z_0 = xi_0 + t0
+        print("z0 = ", z_0)
         bounds = sim.getBoundCond()
 
     elif len(sys.argv) == 1:
@@ -249,6 +250,6 @@ def main():
     print("Lambda = ", wavel)
 
     #plotGamma.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, gam_dat)
-    plot3DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
-    #plot2DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
+    #plot3DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
+    plot2DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
 main()

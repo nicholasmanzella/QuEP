@@ -91,11 +91,11 @@ def plot(x,y,z,t,xi,sim_name):
     cbar.set_label('Electric Field ($m_e c\omega_p / e$)')
 
     print((time.time() - start_time)/60, " min")
-    ax.legend()
+    #ax.legend()
     #slope, intercept = np.polyfit(x, z, 1)
     #print(slope)
-    #plt.savefig("fields.png",transparent=True)
-    fig.show()
+    plt.savefig("fields.png",transparent=True)
+    #fig.show()
 
     # fig2 = plt.figure(2)
     # ax2 = plt.axes()
