@@ -37,7 +37,7 @@ def get_xir(track):
     get_data('data/TRACKS_data_Max_X2.txt')
   else:
     get_data('data/TRACKS_data_Med_X2.txt')
-    
+
   return xi,r
 
 def animate(i, x, y, line, text):
@@ -64,7 +64,7 @@ def plot_E_v_r():
   plt.title("Radial Electric Field of Simulated Tracks")
   line, = ax.plot([0],[0],label="Simulated Data")
   text = ax.text(.75,.95,"",transform=ax.transAxes, ha="left",va="center")
-  
+
   #plot theoretical curve
   x = np.linspace(.001,2,100)
   ax.plot(x,-1.0/4.0* x, 'k--',label="Theory")
@@ -74,4 +74,3 @@ def plot_E_v_r():
 
 #  ani = animation.FuncAnimation(fig,animateEvr,frames=int(len(r)/10.0),interval=1,repeat=True)
 #  plt.show()
-
