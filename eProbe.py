@@ -114,7 +114,7 @@ def main():
                 else:
                     return vr
 
-    def Momentum(x,y,z,dt,px,py,pz):
+    def Momentum(x,y,xi,dt,px,py,pz):
     # Returns the new momentum after dt, in units of c in the axis direction
         p = math.sqrt(px**2 + py**2 + pz**2)
         vx = Velocity(px, p)
@@ -125,15 +125,14 @@ def main():
         vr = math.sqrt(vx**2 + vy**2)
         #pdb.set_trace()
         vr = sortVelocity(x, y, vx, vy, vr)
-        vphi = vr/r
-        #if (r > 0):
-        #    vphi = vr/r
-        #else:
-        #    vphi = 0
+        if (r > 0):
+           vphi = vr/r
+        else:
+           vphi = 0
 
-        Fx = -1.0 * (sim.EField(2, x, y, z, r, vx, vy, vz, vr, vphi) + sim.BForce(2, x, y, z, r, vx, vy, vz, vr, vphi))
-        Fy = -1.0 * (sim.EField(3, x, y, z, r, vx, vy, vz, vr, vphi) + sim.BForce(3, x, y, z, r, vx, vy, vz, vr, vphi))
-        Fz = -1.0 * (sim.EField(1, x, y, z, r, vx, vy, vz, vr, vphi) + sim.BForce(1, x, y, z, r, vx, vy, vz, vr, vphi))
+        Fx = -1.0 * (sim.EField(2, x, y, xi, r, vx, vy, vz, vr, vphi) + sim.BForce(2, x, y, xi, r, vx, vy, vz, vr, vphi))
+        Fy = -1.0 * (sim.EField(3, x, y, xi, r, vx, vy, vz, vr, vphi) + sim.BForce(3, x, y, xi, r, vx, vy, vz, vr, vphi))
+        Fz = -1.0 * (sim.EField(1, x, y, xi, r, vx, vy, vz, vr, vphi) + sim.BForce(1, x, y, xi, r, vx, vy, vz, vr, vphi))
 
         px = px + Fx * dt
         py = py + Fy * dt
@@ -191,7 +190,7 @@ def main():
             if (i > iter):
                 print("Tracking quit due to more than ", iter, " iterations")
                 return np.array(x_dat), np.array(y_dat), np.array(z_dat), np.array(t_dat), np.array(xi_dat), np.array(gam_dat)
-            if (zn < bounds[0] or zn > bounds[1] or rn > bounds[2]):
+            if (xin < bounds[0] or xin > bounds[1] or rn > bounds[2]):
                 print("Tracking quit due to coordinates out of range")
                 return np.array(x_dat), np.array(y_dat), np.array(z_dat), np.array(t_dat), np.array(xi_dat), np.array(gam_dat)
         return np.array(x_dat), np.array(y_dat), np.array(z_dat), np.array(t_dat), np.array(xi_dat), np.array(gam_dat)
@@ -246,10 +245,11 @@ def main():
     kbeta = W_P/(C * math.sqrt(2 * avgGam))
     print("Average Gamma over one oscillation = ", avgGam)
     print("Betatron Wave No = ", kbeta)
-    wavel = (2 * math.pi / kbeta) #* W_P/C
+    wavel = (2 * math.pi / kbeta) # Normalized
     print("Lambda = ", wavel)
 
-    #plotGamma.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, gam_dat)
     #plot3DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
     plot2DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
+    plotGamma.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, gam_dat)
+
 main()

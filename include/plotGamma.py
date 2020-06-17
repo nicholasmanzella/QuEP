@@ -12,10 +12,12 @@ def plot(x,y,z,t,xi,gam):
 
     ax.set_ylabel("$\\gamma$")
     ax.set_xlabel("t (1/w_p)")
-    plt.ylim(0.995,1.005)
+    #plt.ylim(0.995,1.005)
 
     ax.set_title("Gamma Over One Oscillation")
 
     ax.plot(t, gam, label = 'Gamma') # Want vertical axis as y
 
     plt.show()
+
+    input()
