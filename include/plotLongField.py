@@ -15,7 +15,7 @@ def plot():
   a1_bounds = f['AXIS']['AXIS1']#.astype(float)
   a2_bounds = f['AXIS']['AXIS2']#.astype(float)
 
-  t0 = 858.95 
+  t0 = 858.95
   xi = np.linspace(a1_bounds[0] - t0,a1_bounds[1] - t0,len(E[0]))
   r = np.linspace(a2_bounds[0],a2_bounds[1],len(E))
   plt.style.use('seaborn-poster')
@@ -23,7 +23,7 @@ def plot():
   fig, ax = plt.subplots()
   #Make color axis of electric field
   colors = ax.pcolormesh(xi ,r,E,norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-E.max(),vmax=E.max()),cmap="RdBu_r")
-    
+
   cbar = fig.colorbar(colors,ax=ax)
   cbar.set_label('Electric Field ($m_e c\omega_p / e$)')
   ax.set_xlabel("$\\xi$ ($c/\omega_p$)")

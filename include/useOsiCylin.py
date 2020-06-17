@@ -55,7 +55,6 @@ def getPhi(x,y):
     return math.atan2(y,x) # From -pi to pi
 
 def find_nearest_index(array,value):
-    pdb.set_trace()
     idx = np.searchsorted(array, value, side="left")
     if idx > 0 and (idx == len(array) or math.fabs(value - array[idx-1]) < math.fabs(value - array[idx])):
         return idx-1
@@ -63,35 +62,36 @@ def find_nearest_index(array,value):
         return idx
 
 def EField(axis,x,y,z,r=-1,vx=-1,vy=-1,vz=-1,vr=-1,vphi=-1):
-# axis = 1 refers to x-axis field
-# axis = 2 refers to y-axis field
-# axis = 3 refers to z-axis field
+# axis = 2 refers to x-axis field
+# axis = 3 refers to y-axis field
+# axis = 1 refers to z-axis field
 # axis = 4 refers to r-axis field
     phi = getPhi(x, y)
     zDex = find_nearest_index(xi_sim, z)
     rDex = find_nearest_index(r_sim, r)
-    if axis == 1:
+    if axis == 2:
         return Er_sim[rDex, zDex] * math.cos(phi)
-    elif axis == 2:
-        return Er_sim[rDex, zDex] * math.sin(phi)
     elif axis == 3:
+        return Er_sim[rDex, zDex] * math.sin(phi)
+    elif axis == 1:
         return Ez_sim[rDex, zDex]
     elif axis == 4:
         return -1.0*Er_sim[rDex, zDex]
 
-def BField(axis,x,y,z,r=-1,vx=-1,vy=-1,vz=-1,vr=-1,vphi=-1):
-# axis = 1 refers to x-axis field
-# axis = 2 refers to y-axis field
-# axis = 3 refers to z-axis field
+def BForce(axis,x,y,z,r=-1,vx=-1,vy=-1,vz=-1,vr=-1,vphi=-1):
+# axis = 2 refers to x-axis field
+# axis = 3 refers to y-axis field
+# axis = 1 refers to z-axis field
     phi = getPhi(x, y)
     zDex = find_nearest_index(xi_sim, z)
     rDex = find_nearest_index(r_sim, r)
-    if axis == 1:
+    if axis == 2:
         return -1.0 * vz * Bphi_sim[rDex, zDex] * math.cos(phi)
-    elif axis == 2:
-        return -1.0 * vz * Bphi_sim[rDex, zDex] * math.sin(phi)
     elif axis == 3:
+        return -1.0 * vz * Bphi_sim[rDex, zDex] * math.sin(phi)
+    elif axis == 1:
         return vx * Bphi_sim[rDex, zDex] * math.cos(phi) + vy * Bphi_sim[rDex, zDex] * math.sin(phi)
 
 def getBoundCond():
-    return [858, 866, 6]
+    t0 = getTime()
+    return [858 - t0, 868 - t0, 6]
