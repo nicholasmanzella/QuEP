@@ -6,6 +6,10 @@ import matplotlib.cm as cm
 import matplotlib.ticker as ticker
 import pdb
 
+# For Unit Testing:
+#import include.plotOsiExample as plotOsiExample
+#track='med'
+
 def plot(x,y,z,t,xi,sim_name):
 
     fig = plt.figure(1)
@@ -13,6 +17,8 @@ def plot(x,y,z,t,xi,sim_name):
     ax.set(xlabel='$\\xi$ ($c/\omega_p$)', ylabel='x ($c/\omega_p$)')
     ax.set_title("Projected X-$\\xi$ Trajectory")
     ax.plot(xi, x, label=sim_name)
+    #xi_OSIRIS, r_OSIRIS = plotOsiExample.get_xir(track)
+    #ax.plot(xi_OSIRIS, r_OSIRIS, 'r--', label="Unit Test")
     ax.legend()
 
 

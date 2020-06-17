@@ -35,12 +35,12 @@ import include.plotGamma as plotGamma
 import include.plot2DTracks as plot2DTracks
 
 # Definition of Constants
-M_E = 9.109e-31                  #electron rest mass in kg
-EC = 1.60217662e-19              #electron charge in C
+M_E = 9.109e-31                      #electron rest mass in kg
+EC = 1.60217662e-19                  #electron charge in C
 EP_0 = 8.854187817e-12               #vacuum permittivity in C/(V m) (not e-12?)
-C = 299892458                    #speed of light in vacuum in m/s
-N = 1e15                         #electron number density in 1/m^3
-W_P = math.sqrt(N*EC**2/(M_E*EP_0))   #plasma frequency in 1/s
+C = 299892458                        #speed of light in vacuum in m/s
+N = 1e15                             #electron number density in 1/m^3
+W_P = math.sqrt(N*EC**2/(M_E*EP_0))  #plasma frequency in 1/s
 
 def main():
 
@@ -239,17 +239,10 @@ def main():
 
 # Simulate trajectory and create n-length array of data for plotting
     x_dat, y_dat, z_dat, t_dat, xi_dat, gam_dat = GetTrajectory(x_0, y_0, z_0, px_0, py_0, pz_0, t0, iter, bounds)
+
 # Plot data points
-
-    avgGam = sum(gam_dat)/len(gam_dat)
-    kbeta = W_P/(C * math.sqrt(2 * avgGam))
-    print("Average Gamma over one oscillation = ", avgGam)
-    print("Betatron Wave No = ", kbeta)
-    wavel = (2 * math.pi / kbeta) # Normalized
-    print("Lambda = ", wavel)
-
     #plot3DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
     plot2DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
-    plotGamma.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, gam_dat)
+    #plotGamma.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, gam_dat)
 
 main()
