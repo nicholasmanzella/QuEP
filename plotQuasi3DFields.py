@@ -42,7 +42,7 @@ def main():
 
     fig, axs = plt.subplots(2, 3)
     plt.subplots_adjust(left=0.05, bottom=0.1, right=0.8, top=0.9)
-    fig.suptitle("Quasi3D Fields for $\\phi = 0$ (M=0 Only)")
+    fig.suptitle("Quasi3D Fields for $\\phi = 0$")
 
     axs[0, 0].set_title('Ex')
     axs[0, 1].set_title('Ey')
