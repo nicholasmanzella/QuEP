@@ -8,4 +8,4 @@ px_0 = 0
 py_0 = 0
 pz_0 = 0
 iterations = 100000#5000
-simulation_name = 'OSIRIS_CylinSymm'#'QUASI3D'
+simulation_name = 'QUASI3D'
