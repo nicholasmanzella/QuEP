@@ -29,10 +29,10 @@ import matplotlib.colors as col
 import pdb
 import time
 
-# Include file imports
-import include.plot3DTracks as plot3DTracks
-import include.plotGamma as plotGamma
-import include.plot2DTracks as plot2DTracks
+# Include macro imports
+import include.macros.plot3DTracks as plot3DTracks
+import include.macros.plotGamma as plotGamma
+import include.macros.plot2DTracks as plot2DTracks
 
 # Definition of Constants
 M_E = 9.109e-31                      #electron rest mass in kg
@@ -52,7 +52,7 @@ def main():
         return px / Gamma(ptot)
 
     def sortVelocity(x,y,vx,vy,vr):
-    # Would prefer a shorter way to do this
+    # Obtain proper sign of velocity based on quadrant
         if (x >= 0 and y >= 0):                  # Quadrant 1
             if (vx >= 0 and vy >= 0):
                 return vr
@@ -120,10 +120,8 @@ def main():
         vx = Velocity(px, p)
         vy = Velocity(py, p)
         vz = Velocity(pz, p)
-
         r = math.sqrt(x**2 + y**2)
         vr = math.sqrt(vx**2 + vy**2)
-        #pdb.set_trace()
         vr = sortVelocity(x, y, vx, vy, vr)
         if (r > 0):
            vphi = vr/r
@@ -145,7 +143,7 @@ def main():
     # Returns array of x, y, z, t
         x_dat, y_dat, z_dat, t_dat, xi_dat, gam_dat = [],[],[],[],[],[]
 
-        t = t0            # Start time in 1/w_p
+        t = t0                       # Start time in 1/w_p
         dt = 0.005                   # Time step in 1/w_p
         xn = x_0                     # Positions in c/w_p
         yn = y_0
@@ -157,11 +155,9 @@ def main():
 
         xin = zn - t0
 
-    # Iterate through position and time using a linear approximation until (?)
-        i = 0
-
-        while i < iter:
-    # Determine new momentum and velocity from this position
+    # Iterate through position and time using a linear approximation
+        for i in range(0, iter)
+        # Determine new momentum and velocity from this position
             #print("Iter = ", i)
             px, py, pz, p, gam = Momentum(xn, yn, xin, dt, px, py, pz)
 
@@ -170,12 +166,12 @@ def main():
             vzn = Velocity(pz, p)
 
     # Add former data points to lists
-            x_dat.append(xn)
-            y_dat.append(yn)
-            z_dat.append(zn)
-            xi_dat.append(xin)
-            gam_dat.append(gam)
-            t_dat.append(t)
+            # x_dat.append(xn)
+            # y_dat.append(yn)
+            # z_dat.append(zn)
+            # xi_dat.append(xin)
+            # gam_dat.append(gam)
+            # t_dat.append(t)
 
             xn += vxn * dt
             yn += vyn * dt
@@ -183,67 +179,72 @@ def main():
             rn = math.sqrt(xn**2 + yn**2)
 
             t += dt
-            i += 1
-
             xin = zn - t
 
-            if (i > iter):
-                print("Tracking quit due to more than ", iter, " iterations")
-                return np.array(x_dat), np.array(y_dat), np.array(z_dat), np.array(t_dat), np.array(xi_dat), np.array(gam_dat)
             if (xin < bounds[0] or xin > bounds[1] or rn > bounds[2]):
                 print("Tracking quit due to coordinates out of range")
                 return np.array(x_dat), np.array(y_dat), np.array(z_dat), np.array(t_dat), np.array(xi_dat), np.array(gam_dat)
+
+        print("Tracking quit due to more than ", iter, " iterations")
         return np.array(x_dat), np.array(y_dat), np.array(z_dat), np.array(t_dat), np.array(xi_dat), np.array(gam_dat)
 
+    # Start of main()
+
     if len(sys.argv) == 2:
+    # Initialize probe
         input_fname = str(sys.argv[1])
         print("Using initial conditions from ", input_fname)
         init = importlib.import_module(input_fname)
-        x_0 = init.x_0
-        y_0 = init.y_0
-        xi_0 = init.xi_0
+        sim_name = init.simulation_name
+        shape = init.shape
+        den = init.density
+        iter = init.iterations
+        x_c = init.x_c
+        y_c = init.y_c
+        xi_c = init.xi_c
         px_0 = init.px_0
         py_0 = init.py_0
         pz_0 = init.pz_0
-        iter = init.iterations
-        sim_name = init.simulation_name
+        x_s = init.x_s
+        s1 = init.s1
+        s2 = init.s2
+
         if (sim_name.upper() == 'OSIRIS_CYLINSYMM'):
-            import include.useOsiCylin as sim
+            import include.simulations.useOsiCylin as sim
         elif (sim_name.upper() == 'QUASI3D'):
-            import include.useQuasi3D as sim
+            import include.simulations.useQuasi3D as sim
+        else:
+            print("Simulation name unrecognized. Quitting...")
 
         t0 = sim.getTime()
-        z_0 = xi_0 + t0
-        print("z0 = ", z_0)
+        z_c = xi_c + t0
+        #print("z0 = ", z_0)
         bounds = sim.getBoundCond()
 
-    elif len(sys.argv) == 1:
-# Get initial position and momentum from user input
-        x_0 = float(input("Initial x position (c/w_p): "))
-        y_0 = float(input("Initial y position (c/w_p): "))
-        xi_0 = float(input("Initial z position (c/w_p): "))
-        px_0 = float(input("Initial x momentum (m_e c): "))
-        py_0 = float(input("Initial y momentum (m_e c): "))
-        pz_0 = float(input("Initial z momentum (m_e c): "))
-        sim = str(input("Simulation Type: "))
-        if (sim_name.upper() == 'OSIRIS_CYLINSYMM'):
-            import include.useOsiCylin as sim
-        elif (sim_name.upper() == 'QUASI3D'):
-            import include.useQuasi3D as sim
-        t0 = sim.getTime() # Get normalized time units
-        z_0 = xi_0 + t0
-        print("z0 = ", z_0)
-        bounds = sim.getBoundCond()
+        if (shape.upper() == 'RIBBON'):
+            import include.ribbon as shape
+        else:
+            print("Electron probe shape unrecognized. Quitting...")
+
+    # Get arrays of initial coordinates in shape of probe
+        x0, y0, xi0 = shape.initProbe(x_c, y_c, xi_c, s1, s2, den)
+        noElec = len(x0) # Number of electrons to track
+
     else:
-        print("Improper number of arguments. Expected 'python3 eProbe.py' or 'python3 eProbe.py <fname>'")
+        print("Improper number of arguments. Expected 'python3 eProbe.py <fname>'")
         return
 
-# Simulate trajectory and create n-length array of data for plotting
-    x_dat, y_dat, z_dat, t_dat, xi_dat, gam_dat = GetTrajectory(x_0, y_0, z_0, px_0, py_0, pz_0, t0, iter, bounds)
+    x_f, y_f, xi_f = [],[],[] # Final positions of electrons
+
+    for i in range (0, noElec)
+        x, y, xi = GetTrajectory(x_0, y_0, z_0, px_0, py_0, pz_0, t0, iter, bounds)
+        x_f.append(x)
+        y_f.append(y)
+        xi_f.append(xi)
 
 # Plot data points
     #plot3DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
-    plot2DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
+    #plot2DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
     #plotGamma.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, gam_dat)
 
 main()

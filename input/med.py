@@ -1,11 +1,24 @@
-# Here is where the initial conditions of the electron are defined
+# Here is where the initial conditions of the electron probe are defined
 # This filename is the input parameter of the eProbe.py file
 
-x_0 = 0.767132
-y_0 = 0
-xi_0 = 7.16644
-px_0 = 0
+simulation_name = 'QUASI3D'
+shape = 'ribbon'
+density =
+iterations = 100
+
+# Probe centered at the following initial coordinates:
+x_c = 0.5
+y_c = 0
+xi_c = -23
+
+# Initial momentum
+px_0 = -100
 py_0 = 0
 pz_0 = 0
-iterations = 100000#5000
-simulation_name = 'QUASI3D'
+
+# Screen Parameters (Assume infinite in y and z)
+x_s = -40
+
+# Shape Parameters (Radius or Side Length)
+s1 = 0.25
+s2 = 0.25
