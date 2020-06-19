@@ -17,9 +17,9 @@ def getFieldArrays():
     Ex = np.empty((riter,xiiter),dtype=float)
     Ey = np.empty((riter,xiiter),dtype=float)
     Ez = np.empty((riter,xiiter),dtype=float)
-    Bx = np.empty((riter,xiiter),dtype=float)
-    By = np.empty((riter,xiiter),dtype=float)
-    Bz = np.empty((riter,xiiter),dtype=float)
+    Bx = np.zeros((riter,xiiter),dtype=float)
+    By = np.zeros((riter,xiiter),dtype=float)
+    Bz = np.zeros((riter,xiiter),dtype=float)
 
     for ir in range(riter):
         print(ir)
