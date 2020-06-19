@@ -64,7 +64,7 @@ def axes():
 xiaxis_1, xiaxis_2, raxis_1, raxis_2 = axes() # Evenly spaced axes data
 
 def getBoundCond():
-# Define when the electron leaves the plasma
+# Define when the electron leaves the plasma cell
     f = h5.File('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-000130.h5',"r")#('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-000130.h5',"r")
     datasetNames = [n for n in f.keys()] # Three Datasets: AXIS, SIMULATION, Field data
     field = datasetNames[-1]

@@ -7,14 +7,14 @@ import pdb
 PI = math.pi
 
 def initProbe(x_c,y_c,xi_c,r1,r2,density):
-    x, y, xi = [],[],[]
+    x_0, y_0, xi_0 = [],[],[]
     step = (2 * PI) / density
     theta = 0
 
-    while (theta <= PI):
-        x.append(x_c)
-        xi.append(xi_c + r*math.cos(theta))
-        y.append(y_c + r*math.sin(theta))
+    while (theta <= 2*PI):
+        x_0.append(x_c)
+        xi_0.append(xi_c + r1*math.cos(theta))
+        y_0.append(y_c + r1*math.sin(theta))
         theta += step
 
-    return x, y, xi
+    return x_0, y_0, xi_0

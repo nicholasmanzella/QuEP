@@ -3,8 +3,8 @@
 
 simulation_name = 'QUASI3D'
 shape = 'ribbon'
-density =
-iterations = 100
+density = 100
+iterations = 10000
 
 # Probe centered at the following initial coordinates:
 x_c = 0.5
@@ -12,7 +12,7 @@ y_c = 0
 xi_c = -23
 
 # Initial momentum
-px_0 = -100
+px_0 = -20
 py_0 = 0
 pz_0 = 0
 

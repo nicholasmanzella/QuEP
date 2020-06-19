@@ -29,10 +29,8 @@ import matplotlib.colors as col
 import pdb
 import time
 
-# Include macro imports
-import include.macros.plot3DTracks as plot3DTracks
-import include.macros.plotGamma as plotGamma
-import include.macros.plot2DTracks as plot2DTracks
+# Include file imports
+import include.plot3DProbe as plot3DProbe
 
 # Definition of Constants
 M_E = 9.109e-31                      #electron rest mass in kg
@@ -139,24 +137,22 @@ def main():
         gam = Gamma(p)
         return px, py, pz, p, gam
 
-    def GetTrajectory(x_0,y_0,z_0,px_0,py_0,pz_0,t0,iter,bounds):
+    def GetTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,x_s):
     # Returns array of x, y, z, t
-        x_dat, y_dat, z_dat, t_dat, xi_dat, gam_dat = [],[],[],[],[],[]
 
         t = t0                       # Start time in 1/w_p
         dt = 0.005                   # Time step in 1/w_p
         xn = x_0                     # Positions in c/w_p
         yn = y_0
-        zn = z_0
+        xin = xi_0
+        zn = xin + t0
 
         px = px_0                    # Momenta in m_e c
         py = py_0
         pz = pz_0
 
-        xin = zn - t0
-
     # Iterate through position and time using a linear approximation
-        for i in range(0, iter)
+        for i in range(0, iter):
         # Determine new momentum and velocity from this position
             #print("Iter = ", i)
             px, py, pz, p, gam = Momentum(xn, yn, xin, dt, px, py, pz)
@@ -164,14 +160,6 @@ def main():
             vxn = Velocity(px, p)
             vyn = Velocity(py, p)
             vzn = Velocity(pz, p)
-
-    # Add former data points to lists
-            # x_dat.append(xn)
-            # y_dat.append(yn)
-            # z_dat.append(zn)
-            # xi_dat.append(xin)
-            # gam_dat.append(gam)
-            # t_dat.append(t)
 
             xn += vxn * dt
             yn += vyn * dt
@@ -181,12 +169,12 @@ def main():
             t += dt
             xin = zn - t
 
-            if (xin < bounds[0] or xin > bounds[1] or rn > bounds[2]):
-                print("Tracking quit due to coordinates out of range")
-                return np.array(x_dat), np.array(y_dat), np.array(z_dat), np.array(t_dat), np.array(xi_dat), np.array(gam_dat)
+            # If electron leaves cell, switch to ballistic trajectory
+            if (xin < plasma_bnds[0] or xin > plasma_bnds[1] or rn > plasma_bnds[2]):
+                return xn, yn, xin, zn
 
         print("Tracking quit due to more than ", iter, " iterations")
-        return np.array(x_dat), np.array(y_dat), np.array(z_dat), np.array(t_dat), np.array(xi_dat), np.array(gam_dat)
+        return xn, yn, xin, zn
 
     # Start of main()
 
@@ -217,9 +205,7 @@ def main():
             print("Simulation name unrecognized. Quitting...")
 
         t0 = sim.getTime()
-        z_c = xi_c + t0
-        #print("z0 = ", z_0)
-        bounds = sim.getBoundCond()
+        plasma_bnds = sim.getBoundCond()
 
         if (shape.upper() == 'RIBBON'):
             import include.ribbon as shape
@@ -227,23 +213,24 @@ def main():
             print("Electron probe shape unrecognized. Quitting...")
 
     # Get arrays of initial coordinates in shape of probe
-        x0, y0, xi0 = shape.initProbe(x_c, y_c, xi_c, s1, s2, den)
-        noElec = len(x0) # Number of electrons to track
+        x_0, y_0, xi_0 = shape.initProbe(x_c, y_c, xi_c, s1, s2, den)
+        noElec = len(x_0) # Number of electrons to track
 
     else:
         print("Improper number of arguments. Expected 'python3 eProbe.py <fname>'")
         return
 
-    x_f, y_f, xi_f = [],[],[] # Final positions of electrons
+    x_f, y_f, xi_f, z_f = [],[],[],[] # Final positions of electrons
 
-    for i in range (0, noElec)
-        x, y, xi = GetTrajectory(x_0, y_0, z_0, px_0, py_0, pz_0, t0, iter, bounds)
+    for i in range (0, noElec):
+        x, y, xi, z = GetTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, x_s)
         x_f.append(x)
         y_f.append(y)
         xi_f.append(xi)
+        z_f.append(z)
 
 # Plot data points
-    #plot3DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
+    plot3DProbe.plot(x_f, y_f, xi_f, z_f, sim_name)
     #plot2DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
     #plotGamma.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, gam_dat)
 
