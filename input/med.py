@@ -7,9 +7,9 @@ density = 100
 iterations = 10000
 
 # Probe centered at the following initial coordinates:
-x_c = 0.5
+x_c = 0
 y_c = 0
-xi_c = -23
+xi_c = -10
 
 # Initial momentum
 px_0 = -20

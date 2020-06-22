@@ -31,6 +31,7 @@ import time
 
 # Include file imports
 import include.plot3DProbe as plot3DProbe
+import include.plot2DProbe as plot2DProbe
 
 # Definition of Constants
 M_E = 9.109e-31                      #electron rest mass in kg
@@ -184,7 +185,7 @@ def main():
         print("Using initial conditions from ", input_fname)
         init = importlib.import_module(input_fname)
         sim_name = init.simulation_name
-        shape = init.shape
+        shape_name = init.shape
         den = init.density
         iter = init.iterations
         x_c = init.x_c
@@ -207,7 +208,7 @@ def main():
         t0 = sim.getTime()
         plasma_bnds = sim.getBoundCond()
 
-        if (shape.upper() == 'RIBBON'):
+        if (shape_name.upper() == 'RIBBON'):
             import include.ribbon as shape
         else:
             print("Electron probe shape unrecognized. Quitting...")
@@ -230,8 +231,7 @@ def main():
         z_f.append(z)
 
 # Plot data points
-    plot3DProbe.plot(x_f, y_f, xi_f, z_f, sim_name)
-    #plot2DTracks.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, sim_name)
-    #plotGamma.plot(x_dat, y_dat, z_dat, t_dat, xi_dat, gam_dat)
+    plot3DProbe.plot(x_f, y_f, xi_f, z_f, sim_name, shape_name)
+    plot2DProbe.plot(x_f, y_f, xi_f, z_f, sim_name, shape_name)
 
 main()
