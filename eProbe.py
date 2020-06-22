@@ -155,7 +155,6 @@ def main():
     # Iterate through position and time using a linear approximation
         for i in range(0, iter):
         # Determine new momentum and velocity from this position
-            #print("Iter = ", i)
             px, py, pz, p, gam = Momentum(xn, yn, xin, dt, px, py, pz)
 
             vxn = Velocity(px, p)
@@ -169,17 +168,29 @@ def main():
 
             t += dt
             xin = zn - t
-
             # If electron leaves cell, switch to ballistic trajectory
             if (xin < plasma_bnds[0] or xin > plasma_bnds[1] or rn > plasma_bnds[2]):
+                j = i
+                for j in range(j, iter):
+                    xn += vxn * dt
+                    yn += vyn * dt
+                    zn += vzn * dt
+                    t += dt
+                    xin = zn - t
+                    # Stop when electron passes screen
+                    if (abs(xn) > abs(x_s)):
+                        return xn, yn, xin, zn
+
+                print("Tracking quit due to more than ", iter - j, " iterations outside plasma")
+                #print("xn = ", xn, " yn = ", yn, " zn = ", zn)
                 return xn, yn, xin, zn
 
-        print("Tracking quit due to more than ", iter, " iterations")
+        print("Tracking quit due to more than ", iter, " iterations in plasma")
         return xn, yn, xin, zn
 
     # Start of main()
 
-    if len(sys.argv) == 2:
+    if (len(sys.argv) == 2):
     # Initialize probe
         input_fname = str(sys.argv[1])
         print("Using initial conditions from ", input_fname)
@@ -231,7 +242,7 @@ def main():
         z_f.append(z)
 
 # Plot data points
-    plot3DProbe.plot(x_f, y_f, xi_f, z_f, sim_name, shape_name)
-    plot2DProbe.plot(x_f, y_f, xi_f, z_f, sim_name, shape_name)
+    #plot3DProbe.plot(x_f, y_f, xi_f, z_f, sim_name, shape_name, x_s)
+    plot2DProbe.plot(x_f, y_f, xi_f, z_f, sim_name, shape_name, x_s, s1, s2)
 
 main()
