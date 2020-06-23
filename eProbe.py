@@ -38,7 +38,7 @@ M_E = 9.109e-31                      #electron rest mass in kg
 EC = 1.60217662e-19                  #electron charge in C
 EP_0 = 8.854187817e-12               #vacuum permittivity in C/(V m) (not e-12?)
 C = 299892458                        #speed of light in vacuum in m/s
-N = 1e15                             #electron number density in 1/m^3
+N = 1e15                             #electron number density in 1/cm^3
 W_P = math.sqrt(N*EC**2/(M_E*EP_0))  #plasma frequency in 1/s
 
 def main():
@@ -221,11 +221,13 @@ def main():
 
         if (shape_name.upper() == 'RIBBON'):
             import include.ribbon as shape
+        if (shape_name.upper() == 'RECTANGLE'):
+            import include.rectangle as shape
         else:
             print("Electron probe shape unrecognized. Quitting...")
 
     # Get arrays of initial coordinates in shape of probe
-        x_0, y_0, xi_0 = shape.initProbe(x_c, y_c, xi_c, s1, s2, den)
+        x_0, y_0, xi_0, z_0 = shape.initProbe(x_c, y_c, xi_c, t0, s1, s2, den)
         noElec = len(x_0) # Number of electrons to track
 
     else:
@@ -242,7 +244,7 @@ def main():
         z_f.append(z)
 
 # Plot data points
-    #plot3DProbe.plot(x_f, y_f, xi_f, z_f, sim_name, shape_name, x_s)
+    #plot3DProbe.plot(x_0, y_0, xi_0, z_0, sim_name, shape_name, x_s)
     plot2DProbe.plot(x_f, y_f, xi_f, z_f, sim_name, shape_name, x_s, s1, s2)
 
 main()
