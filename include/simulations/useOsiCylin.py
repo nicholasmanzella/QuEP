@@ -37,6 +37,9 @@ def axes():
 def getTime():
     return 858.95 # Time at which field data was simulated, constant for all fields
 
+def getPlasDensity():
+    return 1e23
+    
 def transE():
   return getField('data/OSIRIS/CylinSymm/EField_r.h5')
 

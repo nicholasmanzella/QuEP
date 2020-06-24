@@ -38,8 +38,10 @@ M_E = 9.109e-31                      #electron rest mass in kg
 EC = 1.60217662e-19                  #electron charge in C
 EP_0 = 8.854187817e-12               #vacuum permittivity in C/(V m) (not e-12?)
 C = 299892458                        #speed of light in vacuum in m/s
-N = 1e21                             #electron number density in 1/cm^3
-W_P = math.sqrt(N*EC**2/(M_E*EP_0))  #plasma frequency in 1/s
+#N = 1e21                             #electron number density in 1/cm^3            HARDCODED FROM QUASI3D
+#W_P = math.sqrt(N*EC**2/(M_E*EP_0))  #plasma frequency in 1/s
+
+useMatrix = False # Use standard [x,x'] = [(1,d),(0,1)][x,x'] matrix for ballistic portion of trajectory
 
 def main():
 
@@ -170,16 +172,24 @@ def main():
             xin = zn - t
             # If electron leaves cell, switch to ballistic trajectory
             if (xin < plasma_bnds[0] or xin > plasma_bnds[1] or rn > plasma_bnds[2]):
-                j = i
-                for j in range(j, iter):
-                    xn += vxn * dt
-                    yn += vyn * dt
-                    zn += vzn * dt
-                    t += dt
-                    xin = zn - t
-                    # Stop when electron passes screen
-                    if (abs(xn) > abs(x_s)):
-                        return xn, yn, xin, zn
+                if (useMatrix == True):
+                    d = x_s - xn
+                    xn = x_s
+                    zn = zn + d * (pz/px)
+                    yn = yn + d * (py/px)
+                    xin = xin + d * (pz/px)
+                    return xn, yn, xin, zn
+                else:
+                    j = i
+                    for j in range(j, iter):
+                        xn += vxn * dt
+                        yn += vyn * dt
+                        zn += vzn * dt
+                        t += dt
+                        xin = zn - t
+                        # Stop when electron passes screen
+                        if (abs(xn) > abs(x_s)):
+                            return xn, yn, xin, zn
 
                 print("Tracking quit due to more than ", iter - j, " iterations outside plasma")
                 #print("xn = ", xn, " yn = ", yn, " zn = ", zn)
@@ -189,6 +199,8 @@ def main():
         return xn, yn, xin, zn
 
     # Start of main()
+
+    start_time = time.time()
 
     if (len(sys.argv) == 2):
     # Initialize probe
@@ -243,6 +255,7 @@ def main():
         xi_f.append(xi)
         z_f.append(z)
 
+    print((time.time() - start_time)/60, " min")
 # Plot data points
     #plot3DProbe.plot(x_0, y_0, xi_0, z_0, sim_name, shape_name, x_s)
     plot2DProbe.plot(x_f, y_f, xi_f, z_f, sim_name, shape_name, x_s, s1, s2)

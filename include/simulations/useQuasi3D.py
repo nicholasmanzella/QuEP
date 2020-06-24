@@ -36,6 +36,9 @@ def getTime():
     t0 = t0[0]
     return t0
 
+def getPlasDensity():
+    return 1e21
+    
 def axes():
 # Retrieve axes boundaries under staggered mesh
     f = h5.File('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-000130.h5',"r")#('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-000130.h5',"r")
