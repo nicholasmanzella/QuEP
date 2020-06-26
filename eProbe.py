@@ -228,16 +228,18 @@ def main():
             import include.simulations.useQuasi3D as sim
         else:
             print("Simulation name unrecognized. Quitting...")
+            exit()
 
         t0 = sim.getTime()
         plasma_bnds = sim.getBoundCond()
 
         if (shape_name.upper() == 'RIBBON'):
             import include.ribbon as shape
-        if (shape_name.upper() == 'RECTANGLE'):
+        elif (shape_name.upper() == 'RECTANGLE'):
             import include.rectangle as shape
         else:
             print("Electron probe shape unrecognized. Quitting...")
+            exit()
 
     # Get arrays of initial coordinates in shape of probe
         x_0, y_0, xi_0, z_0 = shape.initProbe(x_c, y_c, xi_c, t0, s1, s2, den)

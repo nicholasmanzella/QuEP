@@ -2,14 +2,14 @@
 # This filename is the input parameter of the eProbe.py file
 
 simulation_name = 'QUASI3D'
-shape = 'ribbon'
-density = 1000
+shape = 'rectangle'
+density = 100
 iterations = 10000
 
 # Probe centered at the following initial coordinates:
 x_c = -2.4 # Start within region of field
 y_c = 0.25
-xi_c = -12
+xi_c = -18.3
 
 # Initial momentum
 px_0 = 100 # Make sure it goes towards the screen!
@@ -20,5 +20,5 @@ pz_0 = 0
 x_s = 40
 
 # Shape Parameters (Radius or Side Length)
-s1 = 10 # In y
-s2 = 10 # In xi
+s1 = 0.01 # In y
+s2 = 2 # In xi

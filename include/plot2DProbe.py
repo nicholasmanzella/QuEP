@@ -24,7 +24,7 @@ def plot(x_0,y_0,xi_0,z_0,x_f,y_f,xi_f,z_f,sim_name,shape_name,x_s,s1,s2):
     ax.plot(xi_0, y_0, 'k')
     ax.scatter(xi_0, y_0, color= init_colors, label= "Initial Probe Shape", zorder= 2 )
     ax.plot(xi_0, y_0, 'k', zorder= 1)
-    ax.legend(loc= 'upper right')
+    #ax.legend(loc= 'upper right')
 
     fig2 = plt.figure(2)
     ax2 = plt.axes()
@@ -33,7 +33,7 @@ def plot(x_0,y_0,xi_0,z_0,x_f,y_f,xi_f,z_f,sim_name,shape_name,x_s,s1,s2):
     ax2.scatter(z_f, y_f, color= fin_colors, label= "Final Probe on Screen at x = " + str(x_s) + " $c/\omega_p$")
     ax2.scatter(z_0, y_0, color= init_colors, label= "Initial Probe Shape", zorder= 2)
     ax2.plot(z_0, y_0, 'k', zorder= 1)
-    ax2.legend(loc= 'upper right')
+    #ax2.legend(loc= 'upper right')
 
     fig.show()
     fig2.show()
