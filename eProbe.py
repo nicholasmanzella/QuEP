@@ -41,7 +41,7 @@ C = 299892458                        #speed of light in vacuum in m/s
 #N = 1e21                             #electron number density in 1/cm^3            HARDCODED FROM QUASI3D
 #W_P = math.sqrt(N*EC**2/(M_E*EP_0))  #plasma frequency in 1/s
 
-useMatrix = False # Use standard [x,x'] = [(1,d),(0,1)][x,x'] matrix for ballistic portion of trajectory
+useMatrix = True # Use standard [x,x'] = [(1,d),(0,1)][x,x'] matrix for ballistic portion of trajectory
 
 def main():
 
@@ -258,6 +258,6 @@ def main():
     print((time.time() - start_time)/60, " min")
 # Plot data points
     #plot3DProbe.plot(x_0, y_0, xi_0, z_0, sim_name, shape_name, x_s)
-    plot2DProbe.plot(x_f, y_f, xi_f, z_f, sim_name, shape_name, x_s, s1, s2)
+    plot2DProbe.plot(x_0, y_0, xi_0, z_0, x_f, y_f, xi_f, z_f, sim_name, shape_name, x_s, s1, s2)
 
 main()
