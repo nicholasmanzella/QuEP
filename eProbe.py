@@ -233,7 +233,7 @@ def main():
 
         if (shape_name.upper() == 'RIBBON'):
             import include.ribbon as shape
-        if (shape_name.upper() == 'RECTANGLE'):
+        elif (shape_name.upper() == 'RECTANGLE'):
             import include.rectangle as shape
         else:
             print("Electron probe shape unrecognized. Quitting...")
