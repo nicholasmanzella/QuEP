@@ -32,6 +32,7 @@ import time
 # Include file imports
 import include.plot3DProbe as plot3DProbe
 import include.plot2DProbe as plot2DProbe
+import include.findDeflection as findDeflection
 
 # Definition of Constants
 M_E = 9.109e-31                      #electron rest mass in kg
@@ -178,7 +179,7 @@ def main():
                     zn = zn + d * (pz/px)
                     yn = yn + d * (py/px)
                     xin = xin + d * (pz/px)
-                    return xn, yn, xin, zn
+                    return xn, yn, xin, zn, px, py, pz
                 else:
                     j = i
                     for j in range(j, iter):
@@ -189,14 +190,14 @@ def main():
                         xin = zn - t
                         # Stop when electron passes screen
                         if (abs(xn) > abs(x_s)):
-                            return xn, yn, xin, zn
+                            return xn, yn, xin, zn, px, py, pz
 
                 print("Tracking quit due to more than ", iter - j, " iterations outside plasma")
                 #print("xn = ", xn, " yn = ", yn, " zn = ", zn)
-                return xn, yn, xin, zn
+                return xn, yn, xin, zn, px, py, pz
 
         print("Tracking quit due to more than ", iter, " iterations in plasma")
-        return xn, yn, xin, zn
+        return xn, yn, xin, zn, px, py, pz
 
     # Start of main()
 
@@ -246,17 +247,21 @@ def main():
         print("Improper number of arguments. Expected 'python3 eProbe.py <fname>'")
         return
 
-    x_f, y_f, xi_f, z_f = [],[],[],[] # Final positions of electrons
+    x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = [],[],[],[],[],[],[] # Final positions of electrons
 
     for i in range (0, noElec):
-        x, y, xi, z = GetTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, x_s)
+        x, y, xi, z, px, py, pz = GetTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, x_s)
         x_f.append(x)
         y_f.append(y)
         xi_f.append(xi)
         z_f.append(z)
+        px_f.append(px)
+        py_f.append(py)
+        pz_f.append(pz)
 
     print((time.time() - start_time)/60, " min")
 # Plot data points
+    findDeflection.calculate(x_0, y_0, xi_0, z_0, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, s1, s2)
     #plot3DProbe.plot(x_0, y_0, xi_0, z_0, sim_name, shape_name, x_s)
     plot2DProbe.plot(x_0, y_0, xi_0, z_0, x_f, y_f, xi_f, z_f, sim_name, shape_name, x_s, s1, s2)
 
