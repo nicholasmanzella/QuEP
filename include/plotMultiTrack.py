@@ -36,11 +36,19 @@ def plot(x_dat,y_dat,z_dat,xi_dat,sim_name,shape_name,s1,s2,noElec):
     fig3 = plt.figure(3)
     ax3 = plt.axes()
     ax3.set_xlabel("x ($c/\omega_p$)")
-    ax3.set_ylabel("z ($c/\omega_p$)")
+    ax3.set_ylabel("xi ($c/\omega_p$)")
     for i in range(0, noElec-1):
-        ax3.plot(x_dat[i,:], y_dat[i,:], 'k') # Want vertical axis as y
+        ax3.plot(x_dat[i,:], xi_dat[i,:], 'k') # Want vertical axis as y
+
+    fig4 = plt.figure(4)
+    ax4 = plt.axes()
+    ax4.set_xlabel("x ($c/\omega_p$)")
+    ax4.set_ylabel("y ($c/\omega_p$)")
+    for i in range(0, noElec-1):
+        ax4.plot(x_dat[i,:], y_dat[i,:], 'k') # Want vertical axis as y
 
     fig.show()
     fig2.show()
     fig3.show()
+    fig4.show()
     input()

@@ -172,6 +172,10 @@ def main():
 
             t += dt
             xin = zn - t
+
+            if (abs(xn) > abs(x_s)):
+                return x_dat, y_dat, z_dat, xi_dat
+
             # If electron leaves cell, switch to ballistic trajectory
             if (xin < plasma_bnds[0] or xin > plasma_bnds[1] or rn > plasma_bnds[2]):
                 if (useMatrix == True):
@@ -237,6 +241,16 @@ def main():
             z_dat.append(zn)
             xi_dat.append(xin)
 
+            if (abs(xn) > abs(x_s)):
+                k = i + 1
+                # Fill rest of array with the final position
+                for k in range(k, iter):
+                    x_dat.append(xn)
+                    y_dat.append(yn)
+                    z_dat.append(zn)
+                    xi_dat.append(xin)
+                return x_dat, y_dat, z_dat, xi_dat
+
             # If electron leaves cell, switch to ballistic trajectory
             if (xin < plasma_bnds[0] or xin > plasma_bnds[1] or rn > plasma_bnds[2]):
                 j = i + 1
@@ -250,19 +264,17 @@ def main():
                     y_dat.append(yn)
                     z_dat.append(zn)
                     xi_dat.append(xin)
-                # Stop when electron passes screen
-                if (abs(xn) > abs(x_s)):
-                    k = j + 1
-                    print("Passed screen")
-                    return x_dat, y_dat, z_dat, xi_dat
-                    # Fill rest of array with the final position
-                    # for k in range(k, iter):
-                    #     print("Trigger for condition")
-                    #     x_dat.append(xn)
-                    #     y_dat.append(yn)
-                    #     z_dat.append(zn)
-                    #     xi_dat.append(xin)
-                    #     return x_dat, y_dat, z_dat, xi_dat
+
+                    # Stop when electron passes screen
+                    if (abs(xn) > abs(x_s)):
+                        k = j + 1
+                        # Fill rest of array with the final position
+                        for k in range(k, iter):
+                            x_dat.append(xn)
+                            y_dat.append(yn)
+                            z_dat.append(zn)
+                            xi_dat.append(xin)
+                        return x_dat, y_dat, z_dat, xi_dat
 
                 print("Tracking quit due to more than ", iter - j, " iterations outside plasma")
                 #print("xn = ", xn, " yn = ", yn, " zn = ", zn)
