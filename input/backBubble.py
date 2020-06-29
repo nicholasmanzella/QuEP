@@ -3,7 +3,7 @@
 
 simulation_name = 'QUASI3D'
 shape = 'rectangle'
-density = 100
+density = 10
 iterations = 10000
 
 # Probe centered at the following initial coordinates:
@@ -17,8 +17,8 @@ py_0 = 0
 pz_0 = 0
 
 # Screen Parameters (Assume infinite in y and z)
-x_s = 40
+x_s = 3
 
 # Shape Parameters (Radius or Side Length)
 s1 = 0.01 # In y
-s2 = 2 # In xi
+s2 = 1 # In xi
