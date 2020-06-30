@@ -37,7 +37,7 @@ Aside from the electrons' initial momenta, the center of the probe, and the loca
 
 • iterations - Maximum number of steps before tracking is stopped
 
-• Shape Parameters - Define the dimensions of the shape (see initialization files under include for specifications)
+• Shape Parameters - Define the dimensions of the shape (see initialization files under include.shape for specifications)
 
 ### Requirements
 This simulation requires the python packages h5py, importlib, numpy, and matplotlib.
