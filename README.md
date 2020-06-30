@@ -6,14 +6,21 @@ The master branch contains the most up-to-date code.
 
 The code is presently compatible with the following simulations:
 
-Quasi3D
+• Quasi3D
+
 
 The code presently offers the following electron probe shapes:
-Circle
-Rectangle
-Vertical Line
-Horizontal Line
-Single Electron
+
+• Circle
+
+• Rectangle
+
+• Vertical Line
+
+• Horizontal Line
+
+• Single Electron
+
 
 The single-electron branch contains the most up-to-date code for tracking a single electron's trajectory.
 
@@ -24,10 +31,15 @@ python3 eProbe.py input.example
 ```
 
 Aside from the electrons' initial momenta, the center of the probe, and the location of the screen, the following parameters must be specified in the initialization file (case insensitive):
+
 • simulation_name - quasi3D
+
 • shape - circle, rectangle, vline, hline, or single
+
 • density - Number of electrons to be distributed throughout shape
+
 • iterations - Maximum number of steps before tracking is stopped
+
 • Shape Parameters - Define the dimensions of the shape (see initialization files under include for specifications)
 
 ### Requirements
