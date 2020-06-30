@@ -40,8 +40,8 @@ EP_0 = 8.854187817e-12               #vacuum permittivity in C/(V m) (not e-12?)
 C = 299892458                        #speed of light in vacuum in m/s
 
 # Plotting Scripts
-plot2DTracks = False
-plot3DTracks = False
+plot2DTracks = True
+plot3DTracks = True
 
 def main():
 
@@ -185,9 +185,7 @@ def main():
                     y_dat.append(yn)
                     z_dat.append(zn)
                     xi_dat.append(xin)
-                    Fx_dat.append(Fx)
-                    Fy_dat.append(Fy)
-                    Fz_dat.append(Fz)
+                    
                 return x_dat, y_dat, z_dat, xi_dat
 
             # If electron leaves cell, switch to ballistic trajectory
@@ -204,9 +202,6 @@ def main():
                     y_dat.append(yn)
                     z_dat.append(zn)
                     xi_dat.append(xin)
-                    Fx_dat.append(Fx)
-                    Fy_dat.append(Fy)
-                    Fz_dat.append(Fz)
 
                     # Stop when electron passes screen
                     if (abs(xn) > abs(x_s)):
@@ -217,9 +212,6 @@ def main():
                             y_dat.append(yn)
                             z_dat.append(zn)
                             xi_dat.append(xin)
-                            Fx_dat.append(Fx)
-                            Fy_dat.append(Fy)
-                            Fz_dat.append(Fz)
                         return x_dat, y_dat, z_dat, xi_dat
 
                 print("Tracking quit due to more than ", iter - j0, " iterations outside plasma")
@@ -313,8 +305,8 @@ def main():
 
 # Plot data points
     if (plot2DTracks):
-        plot2D.plot(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, sim_name, shape_name, s1, s2, noElec)
+        plot2D.plot(x_dat, y_dat, z_dat, xi_dat, sim_name, shape_name, s1, s2, noElec)
     if (plot3DTracks):
-        plot3D.plot(x_dat,y_dat,z_dat,xi_dat,sim_name,shape_name,s1,s2,noElec)
+        plot3D.plot(x_dat, y_dat, z_dat, xi_dat, sim_name, shape_name, s1, s2, noElec)
 
 main()
