@@ -3,7 +3,7 @@ import math
 import numpy as np
 import pdb
 
-# Initalizes probe as vertical line of electrons
+# Initalizes probe as vertical line of electrons with length 2*s1
 
 def initProbe(x_c,y_c,xi_c,t0,s1,s2,density):
 

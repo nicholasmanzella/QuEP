@@ -3,7 +3,7 @@ import math
 import numpy as np
 import pdb
 
-# Initalizes probe as horizontal line of electrons
+# Initalizes probe as horizontal line of electrons with length 2*s2
 
 def initProbe(x_c,y_c,xi_c,t0,s1,s2,density):
 

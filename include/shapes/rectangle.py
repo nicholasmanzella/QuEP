@@ -3,6 +3,8 @@ import math
 import numpy as np
 import pdb
 
+# Initializes probe as a rectangular outline of electrons with area 2*s1 * 2*s2
+
 def initProbe(x_c,y_c,xi_c,t0,s1,s2,density):
     x_0, y_0, xi_0, z_0 = [],[],[],[]
 
@@ -25,7 +27,7 @@ def initProbe(x_c,y_c,xi_c,t0,s1,s2,density):
         y_0.append(yn)
         xi_0.append(xin)
         z_0.append(zn)
-        
+
         if (xin < xiright and yn == ytop):
             yn = ytop
             xin += step
