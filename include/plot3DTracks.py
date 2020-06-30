@@ -1,4 +1,4 @@
-# Script for generating 3D plots of electron trajectories with option for plotting force
+# Script for generating 3D plots of electron trajectories
 
 import numpy as np
 import matplotlib.colors as col
