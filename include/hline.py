@@ -3,6 +3,8 @@ import math
 import numpy as np
 import pdb
 
+# Initalizes probe as horizontal line of electrons
+
 def initProbe(x_c,y_c,xi_c,t0,s1,s2,density):
 
     x_0, y_0, xi_0, z_0 = [],[],[],[]

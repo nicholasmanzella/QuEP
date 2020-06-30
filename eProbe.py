@@ -345,6 +345,8 @@ def main():
             import include.vline as shape
         elif (shape_name.upper() == 'HLINE'):
             import include.hline as shape
+        elif (shape_name.upper() == 'SINGLE'):
+            import include.single as shape
         else:
             print("Electron probe shape unrecognized. Quitting...")
             exit()

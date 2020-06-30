@@ -3,6 +3,8 @@ import math
 import numpy as np
 import pdb
 
+# Initalizes probe as circle of electrons
+
 # Constants
 PI = math.pi
 
