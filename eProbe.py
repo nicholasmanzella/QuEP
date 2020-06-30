@@ -32,6 +32,7 @@ import time
 # Include file imports
 import include.plot2DTracks as plot2D
 import include.plot3DTracks as plot3D
+import include.showProgression as showProg
 
 # Definition of Constants
 M_E = 9.109e-31                      #electron rest mass in kg
@@ -40,8 +41,9 @@ EP_0 = 8.854187817e-12               #vacuum permittivity in C/(V m)
 C = 299892458                        #speed of light in vacuum in m/s
 
 # Plotting Scripts
-plot2DTracks = True
-plot3DTracks = True
+plot2DTracks = False
+plot3DTracks = False
+showProgress = True
 
 def main():
 
@@ -304,5 +306,7 @@ def main():
         plot2D.plot(x_dat, y_dat, z_dat, xi_dat, sim_name, shape_name, s1, s2, noElec)
     if (plot3DTracks):
         plot3D.plot(x_dat, y_dat, z_dat, xi_dat, sim_name, shape_name, s1, s2, noElec)
+    if (showProgress):
+        showProg.plot(x_dat, y_dat, z_dat, xi_dat, sim_name, shape_name, s1, s2, noElec)
 
 main()
