@@ -5,6 +5,7 @@ This code was developed to simulate an electron probe's trajectory through a pla
 The master branch contains the most up-to-date code.
 
 The code is presently compatible with the following simulations:
+
 Quasi3D
 
 The code presently offers the following electron probe shapes:
@@ -13,6 +14,8 @@ Rectangle
 Vertical Line
 Horizontal Line
 Single Electron
+
+The single-electron branch contains the most up-to-date code for tracking a single electron's trajectory.
 
 ### Running the Simulation
 To run the simulation, add an initialization file in the `input` folder, such as the file `example.py`, which would be input to the simulation using
