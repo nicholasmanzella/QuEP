@@ -7,6 +7,7 @@ import pdb
 PI = math.pi
 
 def initProbe(x_c,y_c,xi_c,t0,r1,r2,density):
+
     x_0, y_0, xi_0, z_0 = [],[],[],[]
     step = (2 * PI) / density
     theta = 0

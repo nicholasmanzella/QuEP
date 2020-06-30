@@ -140,7 +140,7 @@ def main():
         pz = pz + Fz * dt
         p = math.sqrt(px**2 + py**2 + pz**2)
         gam = Gamma(p)
-        return px, py, pz, p, gam
+        return px, py, pz, p, gam, Fx, Fy, Fz
 
     def getTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,x_s):
     # Returns final positions and momenta of trajectories
@@ -159,7 +159,7 @@ def main():
     # Iterate through position and time using a linear approximation
         for i in range(0, iter):
         # Determine new momentum and velocity from this position
-            px, py, pz, p, gam = Momentum(xn, yn, xin, dt, px, py, pz)
+            px, py, pz, p, gam, Fx, Fy, Fz = Momentum(xn, yn, xin, dt, px, py, pz)
 
             vxn = Velocity(px, p)
             vyn = Velocity(py, p)
@@ -187,6 +187,7 @@ def main():
                     return xn, yn, xin, zn, px, py, pz
                 else:
                     j = i + 1
+                    j0 = j
                     for j in range(j, iter):
                         xn += vxn * dt
                         yn += vyn * dt
@@ -197,8 +198,7 @@ def main():
                         if (abs(xn) > abs(x_s)):
                             return xn, yn, xin, zn, px, py, pz
 
-                print("Tracking quit due to more than ", iter - j, " iterations outside plasma")
-                #print("xn = ", xn, " yn = ", yn, " zn = ", zn)
+                print("Tracking quit due to more than ", iter - j0, " iterations outside plasma")
                 return xn, yn, xin, zn, px, py, pz
 
         print("Tracking quit due to more than ", iter, " iterations in plasma")
@@ -206,7 +206,7 @@ def main():
 
     def getFullTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,x_s):
     # Returns array of x, y, z, xi
-        x_dat, y_dat, z_dat, xi_dat = [],[],[],[]
+        x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat = [],[],[],[],[],[],[]
 
         t = t0                       # Start time in 1/w_p
         dt = 0.005                   # Time step in 1/w_p
@@ -222,7 +222,7 @@ def main():
     # Iterate through position and time using a linear approximation
         for i in range(0, iter):
         # Determine new momentum and velocity from this position
-            px, py, pz, p, gam = Momentum(xn, yn, xin, dt, px, py, pz)
+            px, py, pz, p, gam, Fx, Fy, Fz = Momentum(xn, yn, xin, dt, px, py, pz)
 
             vxn = Velocity(px, p)
             vyn = Velocity(py, p)
@@ -240,6 +240,9 @@ def main():
             y_dat.append(yn)
             z_dat.append(zn)
             xi_dat.append(xin)
+            Fx_dat.append(Fx)
+            Fy_dat.append(Fy)
+            Fz_dat.append(Fz)
 
             if (abs(xn) > abs(x_s)):
                 k = i + 1
@@ -249,11 +252,15 @@ def main():
                     y_dat.append(yn)
                     z_dat.append(zn)
                     xi_dat.append(xin)
-                return x_dat, y_dat, z_dat, xi_dat
+                    Fx_dat.append(Fx)
+                    Fy_dat.append(Fy)
+                    Fz_dat.append(Fz)
+                return x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat
 
             # If electron leaves cell, switch to ballistic trajectory
             if (xin < plasma_bnds[0] or xin > plasma_bnds[1] or rn > plasma_bnds[2]):
                 j = i + 1
+                j0 = j
                 for j in range(j, iter):
                     xn += vxn * dt
                     yn += vyn * dt
@@ -264,6 +271,9 @@ def main():
                     y_dat.append(yn)
                     z_dat.append(zn)
                     xi_dat.append(xin)
+                    Fx_dat.append(Fx)
+                    Fy_dat.append(Fy)
+                    Fz_dat.append(Fz)
 
                     # Stop when electron passes screen
                     if (abs(xn) > abs(x_s)):
@@ -274,14 +284,17 @@ def main():
                             y_dat.append(yn)
                             z_dat.append(zn)
                             xi_dat.append(xin)
-                        return x_dat, y_dat, z_dat, xi_dat
+                            Fx_dat.append(Fx)
+                            Fy_dat.append(Fy)
+                            Fz_dat.append(Fz)
+                        return x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat
 
-                print("Tracking quit due to more than ", iter - j, " iterations outside plasma")
+                print("Tracking quit due to more than ", iter - j0, " iterations outside plasma")
                 #print("xn = ", xn, " yn = ", yn, " zn = ", zn)
-                return x_dat, y_dat, z_dat, xi_dat
+                return x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat
 
         print("Tracking quit due to more than ", iter, " iterations in plasma")
-        return x_dat, y_dat, z_dat, xi_dat
+        return x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat
 
     # Start of main()
 
@@ -321,6 +334,10 @@ def main():
             import include.ribbon as shape
         elif (shape_name.upper() == 'RECTANGLE'):
             import include.rectangle as shape
+        elif (shape_name.upper() == 'VLINE'):
+            import include.vline as shape
+        elif (shape_name.upper() == 'HLINE'):
+            import include.hline as shape
         else:
             print("Electron probe shape unrecognized. Quitting...")
             exit()
@@ -339,23 +356,26 @@ def main():
     y_dat = np.empty([den, iter])
     z_dat = np.empty([den, iter])
     xi_dat = np.empty([den, iter])
+    Fx_dat = np.empty([den, iter])
+    Fy_dat = np.empty([den, iter])
+    Fz_dat = np.empty([den, iter])
 
-    for i in range (0, noElec-1):
-        #x, y, xi, z, px, py, pz = getTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, x_s)
-        x_dat[i,:], y_dat[i,:], z_dat[i,:], xi_dat[i,:] = getFullTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, x_s)
-        # x_f.append(x)
-        # y_f.append(y)
-        # xi_f.append(xi)
-        # z_f.append(z)
-        # px_f.append(px)
-        # py_f.append(py)
-        # pz_f.append(pz)
+    for i in range (0, noElec):
+        x, y, xi, z, px, py, pz = getTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, x_s)
+        x_dat[i,:], y_dat[i,:], z_dat[i,:], xi_dat[i,:], Fx_dat[i,:], Fy_dat[i,:], Fz_dat[i,:] = getFullTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, x_s)
+        x_f.append(x)
+        y_f.append(y)
+        xi_f.append(xi)
+        z_f.append(z)
+        px_f.append(px)
+        py_f.append(py)
+        pz_f.append(pz)
 
     print((time.time() - start_time)/60, " min")
 # Plot data points
-    #findDeflection.calculate(x_0, y_0, xi_0, z_0, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, s1, s2)
+    findDeflection.calculate(x_0, y_0, xi_0, z_0, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, s1, s2)
     #plot3DProbe.plot(x_0, y_0, xi_0, z_0, sim_name, shape_name, x_s)
     #plot2DProbe.plot(x_0, y_0, xi_0, z_0, x_f, y_f, xi_f, z_f, sim_name, shape_name, x_s, s1, s2)
-    plotMulti.plot(x_dat, y_dat, z_dat, xi_dat, sim_name, shape_name, s1, s2, noElec)
+    plotMulti.plot(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, sim_name, shape_name, s1, s2, noElec)
 
 main()

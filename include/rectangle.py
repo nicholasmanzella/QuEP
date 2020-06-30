@@ -4,6 +4,7 @@ import numpy as np
 import pdb
 
 def initProbe(x_c,y_c,xi_c,t0,s1,s2,density):
+
     x_0, y_0, xi_0, z_0 = [],[],[],[]
 
     perim = 2 * s1 + 2 * s2
@@ -18,14 +19,13 @@ def initProbe(x_c,y_c,xi_c,t0,s1,s2,density):
 # Start in top left
     yn = ytop
     xin = xileft
-    zn = xileft + t0
 
     for i in range(0,density):
         x_0.append(x_c)
         y_0.append(yn)
         xi_0.append(xin)
-        z_0.append(zn)
-        
+        z_0.append(xin + t0)
+
         if (xin < xiright and yn == ytop):
             yn = ytop
             xin += step
@@ -38,6 +38,5 @@ def initProbe(x_c,y_c,xi_c,t0,s1,s2,density):
         elif (xin <= xileft and yn < ytop):
             xin == xileft
             yn += step
-        zn = xin + t0
 
     return x_0, y_0, xi_0, z_0

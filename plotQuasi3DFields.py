@@ -6,7 +6,7 @@ import matplotlib.cm as cm
 import matplotlib.ticker as ticker
 import pdb
 import time
-import include.useQuasi3D as sim
+import include.simulations.useQuasi3D as sim
 
 def getFieldArrays():
 
@@ -14,9 +14,9 @@ def getFieldArrays():
     xiiter = len(xiaxis_1)
     riter = len(raxis_1)
 
-    Ex = np.empty((riter,xiiter),dtype=float)
-    Ey = np.empty((riter,xiiter),dtype=float)
-    Ez = np.empty((riter,xiiter),dtype=float)
+    Ex = np.zeros((riter,xiiter),dtype=float)
+    Ey = np.zeros((riter,xiiter),dtype=float)
+    Ez = np.zeros((riter,xiiter),dtype=float)
     Bx = np.zeros((riter,xiiter),dtype=float)
     By = np.zeros((riter,xiiter),dtype=float)
     Bz = np.zeros((riter,xiiter),dtype=float)
@@ -25,9 +25,9 @@ def getFieldArrays():
         print(ir)
         for ixi in range(xiiter):
             #pdb.set_trace()
-            Ex[ir, ixi] = sim.EField(2, raxis_1[ir], 0, xiaxis_1[ixi], raxis_1[ir])
-            Ey[ir, ixi] = sim.EField(3, 0, raxis_1[ir], xiaxis_1[ixi], raxis_1[ir])
-            Ez[ir, ixi] = sim.EField(1, raxis_1[ir], 0, xiaxis_1[ixi], raxis_1[ir])
+            #Ex[ir, ixi] = sim.EField(2, raxis_1[ir], 0, xiaxis_1[ixi], raxis_1[ir])
+            #Ey[ir, ixi] = sim.EField(3, 0, raxis_1[ir], xiaxis_1[ixi], raxis_1[ir])
+            #Ez[ir, ixi] = sim.EField(1, raxis_1[ir], 0, xiaxis_1[ixi], raxis_1[ir])
             Bx[ir, ixi] = sim.BField(2, raxis_1[ir], 0, xiaxis_1[ixi], raxis_1[ir])
             By[ir, ixi] = sim.BField(3, 0, raxis_1[ir], xiaxis_1[ixi], raxis_1[ir])
             Bz[ir, ixi] = sim.BField(1, raxis_1[ir], 0, xiaxis_1[ixi], raxis_1[ir])
@@ -60,9 +60,9 @@ def main():
     Ex = axs[0, 0].pcolormesh(xiaxis, raxis, Ex, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-100,vmax=100),cmap="RdBu_r")
     Ey = axs[0, 1].pcolormesh(xiaxis, raxis, Ey, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-100,vmax=100),cmap="RdBu_r")
     Ez = axs[0, 2].pcolormesh(xiaxis, raxis, Ez, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-100,vmax=100),cmap="RdBu_r")
-    Bx = axs[1, 0].pcolormesh(xiaxis, raxis, Bx, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-100,vmax=100),cmap="RdBu_r")
-    By = axs[1, 1].pcolormesh(xiaxis, raxis, By, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-100,vmax=100),cmap="RdBu_r")
-    Bz = axs[1, 2].pcolormesh(xiaxis, raxis, Bz, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-100,vmax=100),cmap="RdBu_r")
+    Bx = axs[1, 0].pcolormesh(xiaxis, raxis, Bx, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-0.01,vmax=0.01),cmap="RdBu_r")
+    By = axs[1, 1].pcolormesh(xiaxis, raxis, By, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-0.01,vmax=0.01),cmap="RdBu_r")
+    Bz = axs[1, 2].pcolormesh(xiaxis, raxis, Bz, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-0.01,vmax=0.01),cmap="RdBu_r")
 
     cbar_ax = fig.add_axes([0.83, 0.05, 0.03, 0.9])
     cbar = fig.colorbar(Ex, cax=cbar_ax)
