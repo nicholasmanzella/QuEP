@@ -36,7 +36,7 @@ import include.plot3DTracks as plot3D
 # Definition of Constants
 M_E = 9.109e-31                      #electron rest mass in kg
 EC = 1.60217662e-19                  #electron charge in C
-EP_0 = 8.854187817e-12               #vacuum permittivity in C/(V m) (not e-12?)
+EP_0 = 8.854187817e-12               #vacuum permittivity in C/(V m)
 C = 299892458                        #speed of light in vacuum in m/s
 
 # Plotting Scripts
@@ -185,7 +185,7 @@ def main():
                     y_dat.append(yn)
                     z_dat.append(zn)
                     xi_dat.append(xin)
-                    
+
                 return x_dat, y_dat, z_dat, xi_dat
 
             # If electron leaves cell, switch to ballistic trajectory
@@ -259,8 +259,8 @@ def main():
         t0 = sim.getTime()
         plasma_bnds = sim.getBoundCond()
 
-        if (shape_name.upper() == 'RIBBON'):
-            import include.ribbon as shape
+        if (shape_name.upper() == 'CIRCLE'):
+            import include.CIRCLE as shape
         elif (shape_name.upper() == 'RECTANGLE'):
             if (fill):
                 import include.rectangle_fill as shape
