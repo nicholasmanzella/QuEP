@@ -4,7 +4,7 @@
 simulation_name = 'QUASI3D'
 shape = 'vline'
 fill = False
-density = 1
+density = 20
 iterations = 1000000
 
 # Probe centered at the following initial coordinates:
@@ -14,8 +14,8 @@ xi_c = -18.3
 
 # Initial momentum
 px_0 = 100 # Make sure it goes towards the screen!
-py_0 = 0.1
-pz_0 = 1000
+py_0 = 0
+pz_0 = 1000 # Large p_z0 needed so electron travels with wakefield in z
 
 # Screen Parameters (Assume infinite in y and z)
 x_s = 10

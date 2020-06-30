@@ -1,11 +1,7 @@
 # PWFA-eProbe
 
-This code was developed to simulate an electron probe's trajectory through a plasma wakefield accelerator. It does so by taking previously simulated fields and propagating an electron through these fields. This allows us to quickly estimate the trajectories of individual electrons without the repeated use of computationally expensive simulations.
-
-The code is presently compatible with the following simulations:
-Quasi3D
-
-The master branch contains the most up-to-date code for tracking single electron trajectories.
+The unit-test-blowout branch contains plotting macros for visualizing and confirming the behavior of electrons within the blowout regime of a plasma wakefield. Macros can be selected by setting
+the boolean variables at the top of the eProbe.py script.
 
 ### Running the Simulation
 To run without a pre-defined initial condition file use
