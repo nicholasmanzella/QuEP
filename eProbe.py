@@ -252,7 +252,6 @@ def main():
         shape_name = init.shape
         den = init.density
         iter = init.iterations
-        fill = init.fill
         x_c = init.x_c
         y_c = init.y_c
         xi_c = init.xi_c
@@ -277,10 +276,7 @@ def main():
         if (shape_name.upper() == 'RIBBON'):
             import include.ribbon as shape
         elif (shape_name.upper() == 'RECTANGLE'):
-            if (fill):
-                import include.rectangle_fill as shape
-            else:
-                import include.rectangle as shape
+            import include.rectangle as shape
         elif (shape_name.upper() == 'VLINE'):
             import include.vline as shape
         elif (shape_name.upper() == 'HLINE'):
