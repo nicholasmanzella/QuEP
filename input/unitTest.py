@@ -1,9 +1,7 @@
-# Here is where the initial conditions of the electron probe are defined
-# This filename is the input parameter of the eProbe.py file
+# Initial conditions for sending vertical line of electrons through blowout regime of Quasi3D simulation
 
 simulation_name = 'QUASI3D'
 shape = 'vline'
-fill = False
 density = 20
 iterations = 1000000
 
