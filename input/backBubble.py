@@ -3,7 +3,8 @@
 
 simulation_name = 'QUASI3D'
 shape = 'vline'
-density = 50
+fill = False
+density = 1
 iterations = 1000000
 
 # Probe centered at the following initial coordinates:
@@ -13,11 +14,11 @@ xi_c = -18.3
 
 # Initial momentum
 px_0 = 100 # Make sure it goes towards the screen!
-py_0 = 0
+py_0 = 0.1
 pz_0 = 1000
 
 # Screen Parameters (Assume infinite in y and z)
-x_s = 60
+x_s = 10
 
 # Shape Parameters (Radius or Side Length)
 s1 = 0.25 # In y

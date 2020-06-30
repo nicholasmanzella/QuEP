@@ -299,6 +299,9 @@ def main():
     # Start of main()
 
     start_time = time.time()
+    t = time.localtime()
+    curr_time = time.strftime("%H:%M:%S", t)
+    print("Start Time: ", curr_time)
 
     if (len(sys.argv) == 2):
     # Initialize probe
@@ -309,6 +312,7 @@ def main():
         shape_name = init.shape
         den = init.density
         iter = init.iterations
+        fill = init.fill
         x_c = init.x_c
         y_c = init.y_c
         xi_c = init.xi_c
@@ -333,7 +337,10 @@ def main():
         if (shape_name.upper() == 'RIBBON'):
             import include.ribbon as shape
         elif (shape_name.upper() == 'RECTANGLE'):
-            import include.rectangle as shape
+            if (fill):
+                import include.rectangle_fill as shape
+            else:
+                import include.rectangle as shape
         elif (shape_name.upper() == 'VLINE'):
             import include.vline as shape
         elif (shape_name.upper() == 'HLINE'):
@@ -361,19 +368,23 @@ def main():
     Fz_dat = np.empty([den, iter])
 
     for i in range (0, noElec):
-        x, y, xi, z, px, py, pz = getTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, x_s)
+        #x, y, xi, z, px, py, pz = getTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, x_s)
         x_dat[i,:], y_dat[i,:], z_dat[i,:], xi_dat[i,:], Fx_dat[i,:], Fy_dat[i,:], Fz_dat[i,:] = getFullTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, x_s)
-        x_f.append(x)
-        y_f.append(y)
-        xi_f.append(xi)
-        z_f.append(z)
-        px_f.append(px)
-        py_f.append(py)
-        pz_f.append(pz)
+        # x_f.append(x)
+        # y_f.append(y)
+        # xi_f.append(xi)
+        # z_f.append(z)
+        # px_f.append(px)
+        # py_f.append(py)
+        # pz_f.append(pz)
 
-    print((time.time() - start_time)/60, " min")
+    tf = time.localtime()
+    curr_time_f = time.strftime("%H:%M:%S", t)
+    print("End Time: ", curr_time_f)
+    print("Duration: ", (time.time() - start_time)/60, " min")
+
 # Plot data points
-    findDeflection.calculate(x_0, y_0, xi_0, z_0, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, s1, s2)
+    #findDeflection.calculate(x_0, y_0, xi_0, z_0, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, s1, s2)
     #plot3DProbe.plot(x_0, y_0, xi_0, z_0, sim_name, shape_name, x_s)
     #plot2DProbe.plot(x_0, y_0, xi_0, z_0, x_f, y_f, xi_f, z_f, sim_name, shape_name, x_s, s1, s2)
     plotMulti.plot(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, sim_name, shape_name, s1, s2, noElec)

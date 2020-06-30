@@ -57,19 +57,21 @@ def plot(x_dat,y_dat,z_dat,xi_dat,Fx_dat,Fy_dat,Fz_dat,sim_name,shape_name,s1,s2
 # 2D: Y-X with linear fit
     fig4 = plt.figure(4)
     ax4 = plt.axes()
-    ax4.set_xlabel("x ($c/\omega_p$)")
-    ax4.set_ylabel("y ($c/\omega_p$)")
+    ax4.set_xlabel("X ($c/\omega_p$)")
+    ax4.set_ylabel("Y ($c/\omega_p$)")
     ax4.tick_params(axis='y', labelcolor='k')
-    ax4.set_title("Y-X Trajectories")
+    ax4.set_title("Electron Trajectory through Blowout Regime")
 
-    # ax4_f = ax4.twinx()
-    # ax4_f.set_ylabel("Fy ($m_e c \omega_p$)")
-    # ax4_f.tick_params(axis='y', labelcolor='b')
+    ax4_f = ax4.twinx()
+    ax4_f.set_ylabel("$F_y$ ($m_e c \omega_p$)")
+    ax4_f.yaxis.label.set_color('C0')
+    ax4_f.tick_params(axis='y', labelcolor='C0', colors='C0')
 
     for i in range(0, noElec):
-        ax4.plot(x_dat[i,:], y_dat[i,:], 'k') # Want vertical axis as y
-        #ax4_f.plot(x_dat[i,:], Fy_dat[i,:], 'b')
+        ax4.plot(x_dat[i,:], y_dat[i,:], 'k', label='Y-X Trajectory') # Want vertical axis as y
+        ax4_f.plot(x_dat[i,:], Fy_dat[i,:], 'C0', label='Transverse Force')
 
+    fig4.legend(bbox_to_anchor=(0.88, 0.94), bbox_transform=plt.gcf().transFigure)
     #fig.show()
     #fig2.show()
     fig3.tight_layout()
