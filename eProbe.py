@@ -259,15 +259,15 @@ def main():
         plasma_bnds = sim.getBoundCond()
 
         if (shape_name.upper() == 'CIRCLE'):
-            import include.CIRCLE as shape
+            import include.shapes.circle as shape
         elif (shape_name.upper() == 'RECTANGLE'):
-            import include.rectangle as shape
+            import include.shapes.rectangle as shape
         elif (shape_name.upper() == 'VLINE'):
-            import include.vline as shape
+            import include.shapes.vline as shape
         elif (shape_name.upper() == 'HLINE'):
-            import include.hline as shape
+            import include.shapes.hline as shape
         elif (shape_name.upper() == 'SINGLE'):
-            import include.single as shape
+            import include.shapes.single as shape
         else:
             print("Electron probe shape unrecognized. Quitting...")
             exit()
