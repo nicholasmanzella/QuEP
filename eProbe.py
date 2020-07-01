@@ -273,8 +273,8 @@ def main():
         t0 = sim.getTime()
         plasma_bnds = sim.getBoundCond()
 
-        if (shape_name.upper() == 'RIBBON'):
-            import include.ribbon as shape
+        if (shape_name.upper() == 'CIRCLE'):
+            import include.circle as shape
         elif (shape_name.upper() == 'RECTANGLE'):
             import include.rectangle as shape
         elif (shape_name.upper() == 'VLINE'):
