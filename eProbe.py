@@ -284,10 +284,10 @@ def main():
 
     x_f, y_f, xi_f, z_f = [],[],[],[] # Final positions of electrons
     # Initialize whole trajectory arrays
-    x_dat = np.empty([den, iter])
-    y_dat = np.empty([den, iter])
-    z_dat = np.empty([den, iter])
-    xi_dat = np.empty([den, iter])
+    x_dat = np.empty([noElec, iter])
+    y_dat = np.empty([noElec, iter])
+    z_dat = np.empty([noElec, iter])
+    xi_dat = np.empty([noElec, iter])
 
     for i in range (0, noElec):
         x_dat[i,:], y_dat[i,:], z_dat[i,:], xi_dat[i,:] = getFullTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, x_s)
@@ -297,7 +297,7 @@ def main():
         z_f.append(z_dat[i,noElec])
 
     tf = time.localtime()
-    curr_time_f = time.strftime("%H:%M:%S", t)
+    curr_time_f = time.strftime("%H:%M:%S", tf)
     print("End Time: ", curr_time_f)
     print("Duration: ", (time.time() - start_time)/60, " min")
 
@@ -307,6 +307,6 @@ def main():
     if (plot3DTracks):
         plot3D.plot(x_dat, y_dat, z_dat, xi_dat, sim_name, shape_name, s1, s2, noElec)
     if (showProgress):
-        showProg.plot(x_dat, y_dat, z_dat, xi_dat, sim_name, shape_name, s1, s2, noElec)
+        showProg.plot(x_dat, y_dat, z_dat, xi_dat, sim_name, shape_name, x_s, noElec, iter)
 
 main()
