@@ -2,14 +2,14 @@
 # This filename is the input parameter of the eProbe.py file
 
 simulation_name = 'QUASI3D'
-shape = 'hline'
-density = 60
+shape = 'rectangle'
+density = 30
 fill = False
-iterations = 100000
+iterations = 50000
 
 # Probe centered at the following initial coordinates:
 x_c = -2.4 # Start within region of field
-y_c = 0.25
+y_c = 0
 xi_c = -15
 
 # Initial momentum
@@ -22,4 +22,4 @@ x_s = 40
 
 # Shape Parameters (Radius or Side Length)
 s1 = 0.5 # In y
-s2 = 10 # In xi
+s2 = 5 # In xi

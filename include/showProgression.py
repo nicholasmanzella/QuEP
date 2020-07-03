@@ -55,50 +55,47 @@ def plot(x_dat,y_dat,z_dat,xi_dat,sim_name,shape_name,x_s,noElec,iter):
             zslice[i, j] = z_dat[j, xIter]
             #print("(y,xi) = ", yslice[i, j], xislice[i,j])
 
-    fig5, axs = plt.subplots(3, sharex=True)
+    fig5, axs = plt.subplots(3, sharey=True)
     fig5.suptitle("Progression of " + shape_name + " EProbe")
 
     for i in range(0, 3):
         axs[i].set_title("Snapshot at X = " + str(xsnap[i]) + " c/$\omega_p$")
-        axs[i].scatter(xislice[i,:], yslice[i,:])
-        axs[i].set_ylim(-1,1)
+        #axs[i].hist2d(xislice[i,:], yslice[i,:], bins=(50,50), cmap=plt.cm.jet)
+        axs[i].scatter(xislice[i,:], yslice[i,:], c='C0', zorder=1)
+        axs[i].set_ylim(-2,2)
     for ax in axs.flat:
         ax.set(xlabel = '$\\xi$ ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
-    for ax in axs.flat:
-        ax.label_outer()
 
-    fig6, axs2 = plt.subplots(3, sharex=True)
+    fig6, axs2 = plt.subplots(3, sharex=True, sharey=True)
     fig6.suptitle("Progression of " + shape_name + " EProbe")
 
     for i in range(0, 3):
         axs2[i].set_title("Snapshot at X = " + str(xsnap[i+3]) + " c/$\omega_p$")
-        axs2[i].scatter(xislice[i+3,:], yslice[i+3,:], zorder=2)
-        axs2[i].plot(xislice[i+3,:], yslice[i+3,:], 'C3', zorder=1)
-        axs2[i].set_ylim(-1,1)
+        #axs2[i].hist2d(xislice[i+3,:], yslice[i+3,:], bins=(50,50), cmap=plt.cm.jet)
+        axs2[i].scatter(xislice[i+3,:], yslice[i+3,:], c='C0', zorder=1)
+        axs2[i].set_ylim(-2,2)
     for ax in axs2.flat:
         ax.set(xlabel = '$\\xi$ ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
-    for ax in axs2.flat:
-        ax.label_outer()
 
-    fig7, axs3 = plt.subplots(3, sharex=True)
+    fig7, axs3 = plt.subplots(3, sharey=True)
     fig7.suptitle("Progression of " + shape_name + " EProbe")
 
     for i in range(0, 3):
         axs3[i].set_title("Snapshot at X = " + str(xsnap[i]) + " c/$\omega_p$")
         axs3[i].scatter(zslice[i,:], yslice[i,:],zorder=2)
-        axs3[i].set_ylim(-1,1)
+        axs3[i].set_ylim(-2,2)
     for ax in axs3.flat:
         ax.set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
     for ax in axs3.flat:
         ax.label_outer()
 
-    fig8, axs4 = plt.subplots(3, sharex=True)
+    fig8, axs4 = plt.subplots(3, sharey=True)
     fig8.suptitle("Progression of " + shape_name + " EProbe")
 
     for i in range(0, 3):
         axs4[i].set_title("Snapshot at X = " + str(xsnap[i+3]) + " c/$\omega_p$")
         axs4[i].scatter(zslice[i+3,:], yslice[i+3,:])
-        axs4[i].set_ylim(-1,1)
+        axs4[i].set_ylim(-2,2)
     for ax in axs4.flat:
         ax.set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
     for ax in axs4.flat:
@@ -107,6 +104,6 @@ def plot(x_dat,y_dat,z_dat,xi_dat,sim_name,shape_name,x_s,noElec,iter):
     fig5.show()
     #fig.tight_layout()
     fig6.show()
-    #fig7.show()
-    #fig8.show()
+    fig7.show()
+    fig8.show()
     input()
