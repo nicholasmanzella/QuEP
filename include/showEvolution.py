@@ -89,11 +89,8 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
     for i in range(0, 3):
         axs3[i].set_title("Snapshot at X = " + str(x_s[i]) + " mm")
         axs3[i].scatter(zslice[i,:], yslice[i,:], zorder=2)
-        axs3[i].set_ylim(-2,2)
-    for ax in axs3.flat:
-        ax.set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
-    for ax in axs3.flat:
-        ax.label_outer()
+        #axs3[i].set_ylim(-2,2)
+    axs3[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
 
     fig8, axs4 = plt.subplots(3, sharey=True)
     fig8.suptitle("Progression of " + shape_name + " EProbe")
@@ -101,16 +98,14 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
     for i in range(0, 3):
         axs4[i].set_title("Snapshot at X = " + str(x_s[i+3]) + " mm")
         axs4[i].scatter(zslice[i+3,:], yslice[i+3,:])
-        axs4[i].set_ylim(-2,2)
-    for ax in axs4.flat:
-        ax.set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
-    for ax in axs4.flat:
-        ax.label_outer()
+        #axs4[i].set_ylim(-2,2)
+    axs4[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
+
 
     fig5.show()
     #fig.tight_layout()
     fig6.show()
-    #fig7.show()
-    #fig8.show()
+    fig7.show()
+    fig8.show()
 
     input()

@@ -14,7 +14,6 @@ def initProbe(x_c,y_c,xi_c,t0,s1,s2,density):
     theta = 0
 
     step_s1 = (2 * s1) / density # Reduce radius by this amount each circle
-    print(step_s1)
     ypos = y_c + s1
 
     while (ypos >= y_c):
