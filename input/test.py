@@ -2,7 +2,7 @@
 # This filename is the input parameter of the eProbe.py file
 
 simulation_name = 'QUASI3D'
-shape = 'rectangle'
+shape = 'disc'
 density = 7
 fill = False
 iterations = 15000

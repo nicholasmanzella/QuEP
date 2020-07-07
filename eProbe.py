@@ -44,8 +44,8 @@ C = 299892458                        # Speed of light in vacuum in m/s
 # Plotting Scripts
 plot2DTracks = False                 # View 2D projections of trajectories
 plot3DTracks = False                 # View 3D model of trajectories
-showEvolution = True                 # View evolution of probe after leaving plasma
-viewProbeShape = False               # View initial shape of probe separately
+showEvolution = False                 # View evolution of probe after leaving plasma
+viewProbeShape = True               # View initial shape of probe separately
 
 def main():
 
@@ -234,6 +234,8 @@ def main():
 
         if (shape_name.upper() == 'CIRCLE'):
             import include.shapes.circle as shape
+        elif (shape_name.upper() == 'DISC'):
+            import include.shapes.disc as shape
         elif (shape_name.upper() == 'RECTANGLE'):
             import include.shapes.rectangle as shape
         elif (shape_name.upper() == 'VLINE'):

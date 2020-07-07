@@ -16,7 +16,7 @@ def plot(x_dat,y_dat,xi_dat,z_dat,sim_name,shape_name,s1,s2,noElec):
     ax5.set_ylabel("Y ($c/\omega_p$)")
     ax5.set_title("Initial Electron Probe Shape")
 
-    for i in range(0,len(xi_dat)):
+    for i in range(0,noElec):
         ax5.scatter(xi_dat[i,0], y_dat[i,0], c='C1')
 
     fig5.show()
