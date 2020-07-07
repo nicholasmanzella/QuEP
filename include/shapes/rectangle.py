@@ -9,7 +9,7 @@ def initProbe(x_c,y_c,xi_c,t0,s1,s2,density):
     x_0, y_0, xi_0, z_0 = [],[],[],[]
 
     xistep = 2*s2/density
-    ystep = 2*s1/density
+    ystep = 2*s1/(density)
 
 # Define corners
     ytop = y_c + s1

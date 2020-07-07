@@ -16,12 +16,10 @@ import pdb
 # y   - Direction perpendicular to transverse probe
 
 # Definition of Constants
-M_E = 9.109e-31                       #electron rest mass in kg
-EC = 1.60217662e-19                   #electron charge in C
-EP_0 = 8.854187817                    #vacuum permittivity in C/(V m) (not e-12?)
-C = 299892458                         #speed of light in vacuum in m/s
-N = 1e21                              #electron number density in 1/m^3
-W_P = math.sqrt(N*EC**2/(M_E*EP_0))   #plasma frequency in 1/s
+M_E = 9.109e-31                       # Electron rest mass in kg
+EC = 1.60217662e-19                   # Electron charge in C
+EP_0 = 8.854187817e-12                    # Vacuum permittivity in C/(V m)
+C = 299892458                         # Speed of light in vacuum in m/s
 
 def getField(fpath):
     f = h5.File(fpath,"r")
@@ -38,7 +36,11 @@ def getTime():
 
 def getPlasDensity():
     return 1e21
-    
+
+def getPlasFreq():
+    N_0 = getPlasDensity()
+    return math.sqrt(EC**2 * N_0 / (M_E * EP_0))
+
 def axes():
 # Retrieve axes boundaries under staggered mesh
     f = h5.File('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-000130.h5',"r")#('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-000130.h5',"r")

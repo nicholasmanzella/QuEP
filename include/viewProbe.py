@@ -8,16 +8,16 @@ from mpl_toolkits.mplot3d import Axes3D
 import pdb
 import math
 
-def plot(x_dat,y_dat,z_dat,xi_dat,sim_name,shape_name,s1,s2,noElec):
+def plot(x_dat,y_dat,xi_dat,z_dat,sim_name,shape_name,s1,s2,noElec):
 
-    fig9 = plt.figure()
-    ax9 = plt.axes()
-    ax9.set_xlabel("$\\xi$ ($c/\omega_p$)")
-    ax9.set_ylabel("Y ($c/\omega_p$)")
-    ax9.set_title("Initial Electron Probe Shape")
+    fig5 = plt.figure()
+    ax5 = plt.axes()
+    ax5.set_xlabel("$\\xi$ ($c/\omega_p$)")
+    ax5.set_ylabel("Y ($c/\omega_p$)")
+    ax5.set_title("Initial Electron Probe Shape")
 
     for i in range(0,len(xi_dat)):
-        ax9.scatter(xi_dat[i,0], y_dat[i,0], c='C1')
+        ax5.scatter(xi_dat[i,0], y_dat[i,0], c='C1')
 
-    fig9.show()
+    fig5.show()
     input()
