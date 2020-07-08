@@ -9,7 +9,7 @@ import time
 import include.simulations.useQuasi3D as sim
 import math
 
-xicheck = -18.3
+xicheck = -18.0
 
 def getFieldArrays():
 
@@ -41,13 +41,13 @@ def main():
 
     fig = plt.figure()
     ax = plt.axes()
-    ax.set(xlabel = '$X$ ($c/\omega_p$)', ylabel = '$E_x$ ($m_e c \omega_p / e$)')
-    ax.set_title("$E_x$ as a Function of X")
-    ax.plot(raxis, Ex, 'r')
+    ax.set(xlabel = '$X$ ($c/\omega_p$)', ylabel = '$E_r$ ($m_e c \omega_p / e$)')
+    ax.set_title("Wakefield (M=0): $E_r$ as a Function of $r$")
+    ax.plot(raxis, Ex, c='C0')
 
 # Fit linear portion
-    x_start = 0.02
-    x_end = 0.4
+    x_start = 0.05
+    x_end = 0.15
     xDex_start = find_nearest_index(raxis, x_start)
     xDex_end = find_nearest_index(raxis, x_end)
 
