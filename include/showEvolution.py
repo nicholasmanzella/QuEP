@@ -15,12 +15,30 @@ EC = 1.60217662e-19                  # Electron charge in C
 EP_0 = 8.854187817e-12               # Vacuum permittivity in C/(V m)
 C = 299892458                        # Speed of light in vacuum in m/s
 
+def Gamma(p):
+    return math.sqrt(1.0 + p**2)
+
+def Velocity(px,ptot):
+# Returns relativistic velocity from momentum
+    return px / Gamma(ptot)
+
 def getBallisticTraj(x_0,y_0,xi_0,z_0,px,py,pz,x_s):
 # Use ballistic matrix to find positions on screens
     dx = x_s - x_0
     y_f = y_0 + dx * (py/px)
-    xi_f = xi_0 + dx * (pz/px)
     z_f = z_0 + dx * (pz/px)
+
+# Find time traveled to get proper xi
+    p = math.sqrt(px**2 + py**2 + pz**2)
+    vx = Velocity(px, p)
+    vy = Velocity(py, p)
+    vz = Velocity(pz, p)
+    vtot = math.sqrt(vx**2 + vy**2 + vz**2)
+    dtot = math.sqrt((x_s - x_0)**2 + (y_f - y_0)**2 + (z_f - z_0)**2)
+    t = dtot/vtot
+
+    xi_f = xi_0 + dx * (pz/px) + t
+
     return y_f, xi_f, z_f
 
 def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,x_s,noElec,iter):
@@ -52,10 +70,11 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
         zslice[0, i] = z_dat[i, 0]
 # Project positions at distances in x_s
     for i in range(1,slices+1):
+        print("xs_norm = ", xs_norm[i])
         for j in range(0,noElec):
             yslice[i, j], xislice[i, j], zslice[i, j] = getBallisticTraj(x_f[j], y_f[j], xi_f[j], z_f[j], px_f[j], py_f[j], pz_f[j], xs_norm[i-1])
 # Plot slices
-    fig5, axs = plt.subplots(3, sharey=True)
+    fig5, axs = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
     fig5.suptitle("Progression of " + shape_name + " EProbe")
 
     x_s = [x_dat[0,0] * W_P * 10**(-3) / C] + x_s
@@ -70,7 +89,7 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
         #ax.label_outer()
         axs[2].set(xlabel = '$\\xi$ ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
 
-    fig6, axs2 = plt.subplots(3, sharey=True)
+    fig6, axs2 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
     fig6.suptitle("Progression of " + shape_name + " EProbe")
 
     for i in range(0, 3):
@@ -83,7 +102,7 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
         #ax.label_outer()
         axs2[2].set(xlabel = '$\\xi$ ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
 
-    fig7, axs3 = plt.subplots(3, sharey=True)
+    fig7, axs3 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
     fig7.suptitle("Progression of " + shape_name + " EProbe")
 
     for i in range(0, 3):
@@ -92,7 +111,7 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
         #axs3[i].set_ylim(-2,2)
     axs3[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
 
-    fig8, axs4 = plt.subplots(3, sharey=True)
+    fig8, axs4 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
     fig8.suptitle("Progression of " + shape_name + " EProbe")
 
     for i in range(0, 3):

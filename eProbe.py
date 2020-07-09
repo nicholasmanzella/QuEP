@@ -119,7 +119,7 @@ def main():
                 else:
                     return vr
 
-    def Momentum(x,y,xi,dt,px,py,pz):
+    def Momentum(x,y,xi,dt,px,py,pz,mode):
     # Returns the new momentum after dt, in units of c in the axis direction
         p = math.sqrt(px**2 + py**2 + pz**2)
         vx = Velocity(px, p)
@@ -133,9 +133,9 @@ def main():
         else:
            vphi = 0
 
-        Fx = -1.0 * (sim.EField(2, x, y, xi, r, vx, vy, vz, vr, vphi) + sim.BForce(2, x, y, xi, r, vx, vy, vz, vr, vphi))
-        Fy = -1.0 * (sim.EField(3, x, y, xi, r, vx, vy, vz, vr, vphi) + sim.BForce(3, x, y, xi, r, vx, vy, vz, vr, vphi))
-        Fz = -1.0 * (sim.EField(1, x, y, xi, r, vx, vy, vz, vr, vphi) + sim.BForce(1, x, y, xi, r, vx, vy, vz, vr, vphi))
+        Fx = -1.0 * (sim.EField(2, x, y, xi, r, vx, vy, vz, vr, vphi, mode) + sim.BForce(2, x, y, xi, r, vx, vy, vz, vr, vphi, mode))
+        Fy = -1.0 * (sim.EField(3, x, y, xi, r, vx, vy, vz, vr, vphi, mode) + sim.BForce(3, x, y, xi, r, vx, vy, vz, vr, vphi, mode))
+        Fz = -1.0 * (sim.EField(1, x, y, xi, r, vx, vy, vz, vr, vphi, mode) + sim.BForce(1, x, y, xi, r, vx, vy, vz, vr, vphi, mode))
 
         px = px + Fx * dt
         py = py + Fy * dt
@@ -144,7 +144,7 @@ def main():
         gam = Gamma(p)
         return px, py, pz, p, gam, Fx, Fy, Fz
 
-    def getTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds):
+    def getTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,mode):
     # Returns array of x, y, xi, z, and final x, y, xi, z, px, py, pz
         x_dat, y_dat, xi_dat, z_dat = [],[],[],[]
 
@@ -167,7 +167,7 @@ def main():
             xi_dat.append(xin)
             z_dat.append(zn)
 
-            px, py, pz, p, gam, Fx, Fy, Fz = Momentum(xn, yn, xin, dt, px, py, pz)
+            px, py, pz, p, gam, Fx, Fy, Fz = Momentum(xn, yn, xin, dt, px, py, pz, mode)
 
             vxn = Velocity(px, p)
             vyn = Velocity(py, p)
@@ -211,6 +211,7 @@ def main():
         shape_name = init.shape
         den = init.density
         iter = init.iterations
+        mode = init.mode
         x_c = init.x_c
         y_c = init.y_c
         xi_c = init.xi_c
@@ -264,7 +265,7 @@ def main():
     z_dat = np.empty([noElec, iter])
 
     for i in range (0, noElec):
-        x_dat[i,:], y_dat[i,:], xi_dat[i,:], z_dat[i,:], xn, yn, xin, zn, pxn, pyn, pzn = getTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds)
+        x_dat[i,:], y_dat[i,:], xi_dat[i,:], z_dat[i,:], xn, yn, xin, zn, pxn, pyn, pzn = getTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode)
         x_f.append(xn)
         y_f.append(yn)
         xi_f.append(xin)

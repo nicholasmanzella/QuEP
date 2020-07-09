@@ -36,7 +36,7 @@ def main():
 
     ax.set(xlabel = '$\\xi$ ($c/\omega_p$)', ylabel = 'x ($c/\omega_p$)')
 
-    Ex = ax.pcolormesh(xiaxis, raxis, Ex, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-0.20,vmax=0.20),cmap="RdBu_r")
+    Ex = ax.pcolormesh(xiaxis, raxis, Ex, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-1,vmax=1),cmap="RdBu_r")
 
     cbar_ax = fig.add_axes([0.83, 0.05, 0.03, 0.9])
     cbar = fig.colorbar(Ex, cax=cbar_ax)

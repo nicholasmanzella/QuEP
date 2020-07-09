@@ -6,7 +6,7 @@ import matplotlib.cm as cm
 import matplotlib.ticker as ticker
 import pdb
 import time
-import include.useQuasi3D as sim
+import include.simulations.useQuasi3D as sim
 
 def getFieldArrays():
 
@@ -36,7 +36,7 @@ def main():
 
     ax.set(xlabel = '$\\xi$ ($c/\omega_p$)', ylabel = 'x ($c/\omega_p$)')
 
-    Ez = ax.pcolormesh(xiaxis, raxis, Ez, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-20,vmax=20),cmap="RdBu_r")
+    Ez = ax.pcolormesh(xiaxis, raxis, Ez, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-0.025,vmax=0.025),cmap="RdBu_r")
 
     cbar_ax = fig.add_axes([0.83, 0.05, 0.03, 0.9])
     cbar = fig.colorbar(Ez, cax=cbar_ax)
