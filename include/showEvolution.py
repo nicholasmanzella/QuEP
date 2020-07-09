@@ -70,9 +70,11 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
         zslice[0, i] = z_dat[i, 0]
 # Project positions at distances in x_s
     for i in range(1,slices+1):
-        print("xs_norm = ", xs_norm[i])
+        #print("xs_norm = ", xs_norm[i])
         for j in range(0,noElec):
-            yslice[i, j], xislice[i, j], zslice[i, j] = getBallisticTraj(x_f[j], y_f[j], xi_f[j], z_f[j], px_f[j], py_f[j], pz_f[j], xs_norm[i-1])
+            yslice[i, j], xislice[i, j], zslice[i, j] = getBallisticTraj(x_f[j], y_f[j], xi_f[j], z_f[j], px_f[j], py_f[j], pz_f[j], xs_norm[i])
+            #if (j == 0):
+                #print("zslice = ", zslice[i, j])
 # Plot slices
     fig5, axs = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
     fig5.suptitle("Progression of " + shape_name + " EProbe")
@@ -83,7 +85,7 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
         axs[i].set_title("Snapshot at X = " + str(x_s[i]) + " mm")
         #axs[i].hist2d(xislice[i,:], yslice[i,:], bins=(50,50), cmap=plt.cm.jet)
         axs[i].scatter(xislice[i,:], yslice[i,:], c='C0', zorder=1)
-        #axs[i].set_ylim(-2,2)
+        #axs[i].set_ylim(-1,1)
     #for ax in axs.flat:
         #ax.set(xlabel = '$\\xi$ ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
         #ax.label_outer()
@@ -108,7 +110,7 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
     for i in range(0, 3):
         axs3[i].set_title("Snapshot at X = " + str(x_s[i]) + " mm")
         axs3[i].scatter(zslice[i,:], yslice[i,:], zorder=2)
-        #axs3[i].set_ylim(-2,2)
+        #axs3[i].set_ylim(-1,1)
     axs3[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
 
     fig8, axs4 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
@@ -117,13 +119,13 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
     for i in range(0, 3):
         axs4[i].set_title("Snapshot at X = " + str(x_s[i+3]) + " mm")
         axs4[i].scatter(zslice[i+3,:], yslice[i+3,:])
-        #axs4[i].set_ylim(-2,2)
+        #axs4[i].set_ylim(-1,1)
     axs4[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
 
 
-    fig5.show()
+    #fig5.show()
     #fig.tight_layout()
-    fig6.show()
+    #fig6.show()
     fig7.show()
     fig8.show()
 
