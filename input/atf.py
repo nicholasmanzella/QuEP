@@ -13,14 +13,14 @@ y_c = 0
 xi_c = -10
 
 # Initial momentum
-px_0 = 100 # Make sure it goes towards the screen!
+px_0 = 110 # Make sure it goes towards the screen!
 py_0 = 0
-pz_0 = 1000
+pz_0 = 0
 
 # Screen Distances (from z-axis of plasma cell, in mm):
-#x_s = [100, 200, 300, 400, 500] # Only 5
-x_s = [10, 20, 100, 250, 500]
+#x_s = [10, 20, 100, 250, 500]
+x_s = [0, 1, 2, 3, 4, 5, 10, 20, 100, 500]
 
 # Shape Parameters (Radius or Side Length, in c/w_p):
-s1 = 0.5 # In y
+s1 = 2.18 # In y
 s2 = 10 # In xi

@@ -32,7 +32,8 @@ import time
 # Include file imports
 import include.plot2DTracks as plot2D
 import include.plot3DTracks as plot3D
-import include.showEvolution as showEvol
+import include.showEvolution as showEvol_Q
+import include.showFullEvolution_ as showEvol_F
 import include.viewProbe as viewProbe
 
 # Definition of Constants
@@ -44,8 +45,9 @@ C = 299892458                        # Speed of light in vacuum in m/s
 # Plotting Scripts
 plot2DTracks = False                 # View 2D projections of trajectories
 plot3DTracks = False                 # View 3D model of trajectories
-showEvolution = True                 # View evolution of probe after leaving plasma
 viewProbeShape = False               # View initial shape of probe separately
+showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s
+showFullEvolution = True             # View full evolution of probe at hardcoded locations
 
 def main():
 
@@ -284,8 +286,10 @@ def main():
         plot2D.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, s1, s2, noElec)
     if (plot3DTracks):
         plot3D.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, s1, s2, noElec)
-    if (showEvolution):
-        showEvol.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noElec, iter)
+    if (showQuickEvolution):
+        showEvol_Q.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noElec, iter)
+    if (showFullEvolution):
+        showEvol_F.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
     if (viewProbeShape):
         viewProbe.plot(x_dat, y_dat, xi_dat, z_dat, sim_name, shape_name, s1, s2, noElec)
 
