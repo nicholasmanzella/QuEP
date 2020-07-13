@@ -9,7 +9,7 @@ import matplotlib.ticker as ticker
 from mpl_toolkits.mplot3d import Axes3D
 import pdb
 
-def plot(x_dat,y_dat,z_dat,xi_dat,sim_name,shape_name,s1,s2,noElec):
+def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,s1,s2,noElec):
 
 # 3D: X, Xi, Y
     shape_name = shape_name.capitalize()
