@@ -55,7 +55,7 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
     shape_name = shape_name.capitalize()
     slices = len(x_s)
     xs_norm = []
-    xs_norm.append(x_dat[0, 0] * W_P * 10**(-3) / C)
+    xs_norm.append(x_dat[0, 0])
     for i in range(0,slices):
         xs_norm.append(x_s[i] * W_P * 10**(-3) / C) # Convert screen distances
 
@@ -79,7 +79,7 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
     fig5, axs = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
     fig5.suptitle("Progression of " + shape_name + " EProbe")
 
-    x_s = [x_dat[0,0] * W_P * 10**(-3) / C] + x_s
+    x_s = [x_dat[0,0] * C * 10**3 / W_P] + x_s
 
     for i in range(0, 3):
         axs[i].set_title("Snapshot at X = " + str(x_s[i]) + " mm")

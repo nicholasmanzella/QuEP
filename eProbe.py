@@ -32,8 +32,8 @@ import time
 # Include file imports
 import include.plot2DTracks as plot2D
 import include.plot3DTracks as plot3D
-import include.showEvolution as showEvol_Q
-import include.showFullEvolution_ as showEvol_F
+import include.showQuickEvolution as showEvol_Q
+import include.showFullEvolution as showEvol_F
 import include.viewProbe as viewProbe
 
 # Definition of Constants
@@ -46,8 +46,8 @@ C = 299892458                        # Speed of light in vacuum in m/s
 plot2DTracks = False                 # View 2D projections of trajectories
 plot3DTracks = False                 # View 3D model of trajectories
 viewProbeShape = False               # View initial shape of probe separately
-showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s
-showFullEvolution = True             # View full evolution of probe at hardcoded locations
+showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
+showFullEvolution = True             # View full evolution of probe at hardcoded locations in colored histograms
 
 def main():
 
