@@ -35,6 +35,7 @@ import include.plot3DTracks as plot3D
 import include.showQuickEvolution as showEvol_Q
 import include.showFullEvolution as showEvol_F
 import include.viewProbe as viewProbe
+import include.makeMovie as makeMovie
 
 # Definition of Constants
 M_E = 9.109e-31                      # Electron rest mass in kg
@@ -47,7 +48,8 @@ plot2DTracks = False                 # View 2D projections of trajectories
 plot3DTracks = False                 # View 3D model of trajectories
 viewProbeShape = False               # View initial shape of probe separately
 showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
-showFullEvolution = True             # View full evolution of probe at hardcoded locations in colored histograms
+showFullEvolution = False            # View full evolution of probe at hardcoded locations in colored histograms
+saveMovie = True                    # Save mp4 of probe evolution
 
 def main():
 
@@ -192,10 +194,10 @@ def main():
                     y_dat.append(yn)
                     xi_dat.append(xin)
                     z_dat.append(zn)
-                return x_dat, y_dat, xi_dat, z_dat, xn, yn, xin, zn, px, py, pz
+                return x_dat, y_dat, xi_dat, z_dat, xn, yn, xin, zn, px, py, pz, j0
 
         print("Tracking quit due to more than ", iter, " iterations in plasma")
-        return x_dat, y_dat, xi_dat, z_dat, xn, yn, xin, zn, px, py, pz
+        return x_dat, y_dat, xi_dat, z_dat, xn, yn, xin, zn, px, py, pz, j0
 
     # Start of main()
 
@@ -223,6 +225,7 @@ def main():
         x_s = init.x_s
         s1 = init.s1
         s2 = init.s2
+        s3 = init.s3
 
         if (sim_name.upper() == 'OSIRIS_CYLINSYMM'):
             import include.simulations.useOsiCylin as sim
@@ -252,14 +255,14 @@ def main():
             exit()
 
     # Get arrays of initial coordinates in shape of probe
-        x_0, y_0, xi_0, z_0 = shape.initProbe(x_c, y_c, xi_c, t0, s1, s2, den)
+        x_0, y_0, xi_0, z_0 = shape.initProbe(x_c, y_c, xi_c, t0, s1, s2, s3, den)
         noElec = len(x_0) # Number of electrons to track
 
     else:
         print("Improper number of arguments. Expected 'python3 eProbe.py <fname>'")
         return
 
-    x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = [],[],[],[],[],[],[] # Final positions and momenta of electrons
+    x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, imax = [],[],[],[],[],[],[],[] # Final positions and momenta of electrons
     # Initialize arrays of trajectory within plasma
     x_dat = np.empty([noElec, iter])
     y_dat = np.empty([noElec, iter])
@@ -267,7 +270,7 @@ def main():
     z_dat = np.empty([noElec, iter])
 
     for i in range (0, noElec):
-        x_dat[i,:], y_dat[i,:], xi_dat[i,:], z_dat[i,:], xn, yn, xin, zn, pxn, pyn, pzn = getTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode)
+        x_dat[i,:], y_dat[i,:], xi_dat[i,:], z_dat[i,:], xn, yn, xin, zn, pxn, pyn, pzn, j0 = getTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode)
         x_f.append(xn)
         y_f.append(yn)
         xi_f.append(xin)
@@ -275,6 +278,7 @@ def main():
         px_f.append(pxn)
         py_f.append(pyn)
         pz_f.append(pzn)
+        imax.append(j0-1)
 
     tf = time.localtime()
     curr_time_f = time.strftime("%H:%M:%S", tf)
@@ -292,5 +296,6 @@ def main():
         showEvol_F.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
     if (viewProbeShape):
         viewProbe.plot(x_dat, y_dat, xi_dat, z_dat, sim_name, shape_name, s1, s2, noElec)
-
+    if (saveMovie):
+        makeMovie.makeMovie(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter, imax)
 main()

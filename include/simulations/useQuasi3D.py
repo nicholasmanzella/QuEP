@@ -179,7 +179,7 @@ def EField(axis,x,y,xi,r,vx=-1,vy=-1,vz=-1,vr=-1,vphi=-1,mode=-1):
 # axis = 3 refers to y-axis field
 # mode = 0 refers to LWF effects only
 # mode = 1 refers to laser effects only
-# mode = -1 uses LWF + laser effects
+# mode = any other integer uses LWF + laser effects
     phi = getPhi(x,y)
     cos = math.cos(phi)
     sin = math.sin(phi)
