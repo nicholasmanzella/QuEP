@@ -3,7 +3,7 @@
 
 simulation_name = 'QUASI3D'
 shape = 'rectangle'
-density = 20
+density = 30
 iterations = 15000
 mode = -1
 
@@ -13,7 +13,7 @@ y_c = 0
 xi_c = -10
 
 # Initial momentum
-px_0 = 100 # Make sure it goes towards the screen!
+px_0 = 110 # Make sure it goes towards the screen!
 py_0 = 0
 pz_0 = 0
 

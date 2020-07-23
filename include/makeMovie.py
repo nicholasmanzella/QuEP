@@ -1,6 +1,6 @@
 import numpy as np
-import matplotlib
-matplotlib.use("Agg")
+import matplotlib as mpl
+mpl.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.animation as manimation
 import matplotlib.colors as col
@@ -48,7 +48,7 @@ def find_nearest_index(array,value):
     else:
         return idx
 
-def makeMovie(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter,imax):
+def makeMovie(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     if (sim_name.upper() == 'OSIRIS_CYLINSYMM'):
         import include.simulations.useOsiCylin as sim
     elif (sim_name.upper() == 'QUASI3D'):
@@ -66,6 +66,12 @@ def makeMovie(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter,im
     xn_mm = 0
     y_dat, z_dat = [],[]
 
+# # Histogram options
+#     binsizez = 50
+#     binsizey = 40
+#     norm = mpl.colors.Normalize(vmin=0, vmax=50)
+#     cmap = plt.cm.gist_gray
+
 # Set up FFMpeg and figure
     FFMpegWriter = manimation.writers['ffmpeg']
     metadata = dict(title='Movie Test', artist='Matplotlib',
@@ -74,8 +80,9 @@ def makeMovie(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter,im
     fig = plt.figure()
     ax = plt.axes()
     probe, = plt.plot([], [], 'C0o', markersize='2')
-    plt.ylim(-5, 5)
-    plt.xlim(25, 60)
+    #probe, = ax.hist2d(z_dat, y_dat, bins=(binsizez,binsizey), cmap=cmap, norm=norm)
+    plt.ylim(-10, 10)
+    plt.xlim(15, 65)
     plt.xlabel('Z ($c/\omega_p$)')
     plt.ylabel('Y ($c/\omega_p$)')
 

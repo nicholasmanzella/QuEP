@@ -2,8 +2,8 @@
 
 import numpy as np
 import matplotlib.colors as col
-import matplotlib.pyplot as plt
 import matplotlib as mpl
+import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import matplotlib.ticker as ticker
 import pdb
@@ -16,12 +16,12 @@ EP_0 = 8.854187817e-12               # Vacuum permittivity in C/(V m)
 C = 299892458                        # Speed of light in vacuum in m/s
 
 # Snapshot locations (12 total, in mm):
-x_s = [0, 1, 2, 3, 4, 5, 6, 10, 20, 100, 200, 500]
+x_s = [0, 1, 2, 3, 4, 5, 6, 10, 20, 100, 250, 500]
 #x_s = [200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300]
 
 # Color Scheme
-BW = True # Sequential
-Viridis = False # Sequential + Perceptually Uniform
+BW = False # Sequential
+Viridis = True # Sequential + Perceptually Uniform
 
 def Gamma(p):
     return math.sqrt(1.0 + p**2)
@@ -96,8 +96,8 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
                 zslice[i, j] = z_dat[j, xIter]
 
 # Plot slices
-    binsizez = 50
-    binsizey = 40
+    binsizez = 52
+    binsizey = 42#52#62
     if (BW):
         cmap = plt.cm.binary
     elif (Viridis):
@@ -110,9 +110,9 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
     fig5.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
         axs[i].set_title("Snapshot at X = " + str(x_s[i]) + " mm")
-        h = axs[i].hist2d(zslice[i,:], yslice[i,:], bins=(binsizez,binsizey), cmap=cmap, norm=norm)
-        #axs[i].scatter(zslice[i,:], yslice[i,:], c='C0', zorder=1)
-        axs[i].set_ylim(-5,5)
+        h = axs[i].hist2d(zslice[i,:], yslice[i,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
+        #axs[i].set_ylim(-5,5)
+        #axs[i].set_xlim(17.5,62.5)
         if (BW):
             axs[i].set_facecolor('white')
         elif (Viridis):
@@ -121,16 +121,16 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
             axs[i].set_facecolor('black')
 
     axs[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
-    cbar = plt.colorbar(h[3], ax=axs)
-    cbar.set_label('Electron Density')
+    #cbar = plt.colorbar(h[3], ax=axs)
+    #cbar.set_label('Electron Density')
 
     fig6, axs2 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
     fig6.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
         axs2[i].set_title("Snapshot at X = " + str(x_s[i+3]) + " mm")
-        h2 = axs2[i].hist2d(zslice[i+3,:], yslice[i+3,:], bins=(binsizez,binsizey), cmap=cmap, norm=norm)
-        #axs2[i].scatter(zslice[i+3,:], yslice[i+3,:], c='C0', zorder=1)
-        axs2[i].set_ylim(-5,5)
+        h2 = axs2[i].hist2d(zslice[i+3,:], yslice[i+3,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
+        #axs2[i].set_ylim(-5,5)
+        #axs2[i].set_xlim(17.5,62.5)
         if (BW):
             axs2[i].set_facecolor('white')
         elif (Viridis):
@@ -139,16 +139,16 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
             axs2[i].set_facecolor('black')
 
     axs2[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
-    cbar2 = plt.colorbar(h2[3], ax=axs2)
-    cbar2.set_label('Electron Density')
+    #cbar2 = plt.colorbar(h2[3], ax=axs2)
+    #cbar2.set_label('Electron Density')
 
     fig7, axs3 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
     fig7.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
         axs3[i].set_title("Snapshot at X = " + str(x_s[i+6]) + " mm")
-        h3 = axs3[i].hist2d(zslice[i+6,:], yslice[i+6,:], bins=(binsizez,binsizey), cmap=cmap, norm=norm)
-        #axs3[i].scatter(zslice[i+6,:], yslice[i+6,:], zorder=2)
-        axs3[i].set_ylim(-5,5)
+        h3 = axs3[i].hist2d(zslice[i+6,:], yslice[i+6,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
+        #axs3[i].set_ylim(-5,5)
+        #axs3[i].set_xlim(17.5,62.5)
         if (BW):
             axs3[i].set_facecolor('white')
         elif (Viridis):
@@ -157,16 +157,21 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
             axs3[i].set_facecolor('black')
 
     axs3[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
-    cbar3 = plt.colorbar(h3[3], ax=axs3)
-    cbar3.set_label('Electron Density')
+    #cbar3 = plt.colorbar(h3[3], ax=axs3)
+    #cbar3.set_label('Electron Density')
 
     fig8, axs4 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
     fig8.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
         axs4[i].set_title("Snapshot at X = " + str(x_s[i+9]) + " mm")
-        h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, norm=norm)
-        #axs4[i].scatter(zslice[i+9,:], yslice[i+9,:])
-        axs4[i].set_ylim(-6,6)
+        if (i < 2):
+            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(60,75), cmap=cmap)#, norm=norm)
+            #axs4[i].set_ylim(-6,6)
+            #axs4[i].set_xlim(15,65)
+        elif (i == 2):
+            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(72,75), cmap=cmap)#, norm=norm)
+            #axs4[i].set_ylim(-12,12)
+            #axs4[i].set_xlim(5,75)
         if (BW):
             axs4[i].set_facecolor('white')
         elif (Viridis):
@@ -175,8 +180,8 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
             axs4[i].set_facecolor('black')
 
     axs4[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
-    cbar4 = plt.colorbar(h4[3], ax=axs4)
-    cbar4.set_label('Electron Density')
+    #cbar4 = plt.colorbar(h4[3], ax=axs4)
+    #cbar4.set_label('Electron Density')
 
     fig5.show()
     fig6.show()

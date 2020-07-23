@@ -35,7 +35,7 @@ import include.plot3DTracks as plot3D
 import include.showQuickEvolution as showEvol_Q
 import include.showFullEvolution as showEvol_F
 import include.viewProbe as viewProbe
-import include.makeMovie as makeMovie
+#import include.makeMovie as makeMovie
 
 # Definition of Constants
 M_E = 9.109e-31                      # Electron rest mass in kg
@@ -48,8 +48,8 @@ plot2DTracks = False                 # View 2D projections of trajectories
 plot3DTracks = False                 # View 3D model of trajectories
 viewProbeShape = False               # View initial shape of probe separately
 showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
-showFullEvolution = False            # View full evolution of probe at hardcoded locations in colored histograms
-saveMovie = True                    # Save mp4 of probe evolution
+showFullEvolution = True            # View full evolution of probe at hardcoded locations in colored histograms
+saveMovie = False                    # Save mp4 of probe evolution
 
 def main():
 
@@ -194,10 +194,10 @@ def main():
                     y_dat.append(yn)
                     xi_dat.append(xin)
                     z_dat.append(zn)
-                return x_dat, y_dat, xi_dat, z_dat, xn, yn, xin, zn, px, py, pz, j0
+                return x_dat, y_dat, xi_dat, z_dat, xn, yn, xin, zn, px, py, pz
 
         print("Tracking quit due to more than ", iter, " iterations in plasma")
-        return x_dat, y_dat, xi_dat, z_dat, xn, yn, xin, zn, px, py, pz, j0
+        return x_dat, y_dat, xi_dat, z_dat, xn, yn, xin, zn, px, py, pz
 
     # Start of main()
 
@@ -262,7 +262,7 @@ def main():
         print("Improper number of arguments. Expected 'python3 eProbe.py <fname>'")
         return
 
-    x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, imax = [],[],[],[],[],[],[],[] # Final positions and momenta of electrons
+    x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = [],[],[],[],[],[],[] # Final positions and momenta of electrons
     # Initialize arrays of trajectory within plasma
     x_dat = np.empty([noElec, iter])
     y_dat = np.empty([noElec, iter])
@@ -270,7 +270,7 @@ def main():
     z_dat = np.empty([noElec, iter])
 
     for i in range (0, noElec):
-        x_dat[i,:], y_dat[i,:], xi_dat[i,:], z_dat[i,:], xn, yn, xin, zn, pxn, pyn, pzn, j0 = getTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode)
+        x_dat[i,:], y_dat[i,:], xi_dat[i,:], z_dat[i,:], xn, yn, xin, zn, pxn, pyn, pzn = getTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode)
         x_f.append(xn)
         y_f.append(yn)
         xi_f.append(xin)
@@ -278,7 +278,6 @@ def main():
         px_f.append(pxn)
         py_f.append(pyn)
         pz_f.append(pzn)
-        imax.append(j0-1)
 
     tf = time.localtime()
     curr_time_f = time.strftime("%H:%M:%S", tf)
@@ -297,5 +296,5 @@ def main():
     if (viewProbeShape):
         viewProbe.plot(x_dat, y_dat, xi_dat, z_dat, sim_name, shape_name, s1, s2, noElec)
     if (saveMovie):
-        makeMovie.makeMovie(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter, imax)
+        makeMovie.makeMovie(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
 main()

@@ -3,7 +3,7 @@
 
 simulation_name = 'QUASI3D'
 shape = 'rectangle'
-density = 30
+density = 170
 iterations = 15000
 mode = -1
 
@@ -21,6 +21,6 @@ pz_0 = 0
 x_s = [300, 400, 500, 600, 700]
 
 # Shape Parameters (Radius or Side Length, in c/w_p):
-s1 = 2.18#1.18#2.18 # In y
-s2 = 10 # In xi
+s1 = 2.65 # In y
+s2 = 13.6 # In xi
 s3 = 0
