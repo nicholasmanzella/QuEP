@@ -37,13 +37,13 @@ import include.plot3DTracks as plot3D
 # Definition of Constants
 M_E = 9.109e-31                      #electron rest mass in kg
 EC = 1.60217662e-19                  #electron charge in C
-EP_0 = 8.854187817e-12               #vacuum permittivity in C/(V m) (not e-12?)
+EP_0 = 8.854187817e-12               #vacuum permittivity in C/(V m)
 C = 299892458                        #speed of light in vacuum in m/s
 
 useMatrix = True # Use standard [x,x'] = [(1,d),(0,1)][x,x'] matrix for ballistic portion of trajectory
 
 # Plotting Scripts
-findFocal = True # Calculate Y focal length at end of script
+findFocal = False # Calculate Y focal length at end of script
 plot2DTracks = True
 plot3DTracks = False
 
@@ -146,10 +146,13 @@ def main():
 
     def getFullTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,x_s):
     # Returns array of x, y, z, xi
-        x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat = [],[],[],[],[],[],[]
+        checkTimeI = True
+        checkTimeF = True
+
+        x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat = [],[],[],[],[],[],[],[],[]
 
         t = t0                       # Start time in 1/w_p
-        dt = 0.005                   # Time step in 1/w_p
+        dt = 0.0025                   # Time step in 1/w_p
         xn = x_0                     # Positions in c/w_p
         yn = y_0
         xin = xi_0
@@ -183,6 +186,16 @@ def main():
             Fx_dat.append(Fx)
             Fy_dat.append(Fy)
             Fz_dat.append(Fz)
+            px_dat.append(px)
+            py_dat.append(py)
+
+            if (xn > -0.6 and checkTimeI):
+                print("Initial Time: ", t)
+                checkTimeI = False
+                #pdb.set_trace()
+            if (xn > 0.6 and checkTimeF):
+                print("Final Time: ", t)
+                checkTimeF = False
 
             if (abs(xn) > abs(x_s)):
                 k = i + 1
@@ -195,7 +208,9 @@ def main():
                     Fx_dat.append(Fx)
                     Fy_dat.append(Fy)
                     Fz_dat.append(Fz)
-                return x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px, py, pz
+                    px_dat.append(px)
+                    py_dat.append(py)
+                return x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat, px, py, pz
 
             # If electron leaves cell, switch to ballistic trajectory
             if (xin < plasma_bnds[0] or xin > plasma_bnds[1] or rn > plasma_bnds[2]):
@@ -214,6 +229,8 @@ def main():
                     Fx_dat.append(Fx)
                     Fy_dat.append(Fy)
                     Fz_dat.append(Fz)
+                    px_dat.append(px)
+                    py_dat.append(py)
 
                     # Stop when electron passes screen
                     if (abs(xn) > abs(x_s)):
@@ -227,14 +244,16 @@ def main():
                             Fx_dat.append(Fx)
                             Fy_dat.append(Fy)
                             Fz_dat.append(Fz)
-                        return x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px, py, pz
+                            px_dat.append(px)
+                            py_dat.append(py)
+                        return x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat, px, py, pz
 
                 print("Tracking quit due to more than ", iter - j0, " iterations outside plasma")
                 #print("xn = ", xn, " yn = ", yn, " zn = ", zn)
-                return x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px, py, pz
+                return x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat, px, py, pz
 
         print("Tracking quit due to more than ", iter, " iterations in plasma")
-        return x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px, py, pz
+        return x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat, px, py, pz
 
     # Start of main()
 
@@ -304,9 +323,11 @@ def main():
     Fx_dat = np.empty([den, iter])
     Fy_dat = np.empty([den, iter])
     Fz_dat = np.empty([den, iter])
+    px_dat = np.empty([den, iter])
+    py_dat = np.empty([den, iter])
 
     for i in range (0, noElec):
-        x_dat[i,:], y_dat[i,:], z_dat[i,:], xi_dat[i,:], Fx_dat[i,:], Fy_dat[i,:], Fz_dat[i,:], px, py, pz = getFullTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, x_s)
+        x_dat[i,:], y_dat[i,:], z_dat[i,:], xi_dat[i,:], Fx_dat[i,:], Fy_dat[i,:], Fz_dat[i,:], px_dat[i,:], py_dat[i,:], px, py, pz = getFullTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, x_s)
         x_f.append(x_dat[i,noElec])
         y_f.append(y_dat[i,noElec])
         xi_f.append(xi_dat[i,noElec])
@@ -324,7 +345,7 @@ def main():
     if (findFocal):
         findFocalY.calculate(x_0, y_0, xi_0, z_0, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, s1, s2)
     if (plot2DTracks):
-        plot2D.plot(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, sim_name, shape_name, s1, s2, noElec)
+        plot2D.plot(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat, sim_name, shape_name, s1, s2, noElec)
     if (plot3DTracks):
         plot3D.plot(x_dat,y_dat,z_dat,xi_dat,sim_name,shape_name,s1,s2,noElec)
 

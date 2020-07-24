@@ -9,7 +9,7 @@ import time
 import include.simulations.useQuasi3D as sim
 import math
 
-xicheck = -18.0
+xicheck = -8.2#-18.0
 
 def getFieldArrays():
 

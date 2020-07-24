@@ -38,7 +38,7 @@ def getTime():
 
 def getPlasDensity():
     return 1e21
-    
+
 def axes():
 # Retrieve axes boundaries under staggered mesh
     f = h5.File('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-000130.h5',"r")#('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-000130.h5',"r")
@@ -184,13 +184,13 @@ def EField(axis,x,y,xi,r,vx=-1,vy=-1,vz=-1,vr=-1,vphi=-1):
     rDex2 = find_nearest_index(raxis_2, r)
     # Return expanded EFields
     if axis == 1:
-        return E1_M0[rDex2, xiDex1] + E1_M1_Re[rDex2, xiDex1]*cos + E1_M1_Im[rDex2, xiDex1]*sin
+        return E1_M0[rDex2, xiDex1] #+ E1_M1_Re[rDex2, xiDex1]*cos + E1_M1_Im[rDex2, xiDex1]*sin
         #return E1_M1_Re[rDex2, xiDex1]*cos + E1_M1_Im[rDex2, xiDex1]*sin
     elif axis == 2:
-        return E2_M0[rDex1, xiDex2]*cos - E3_M0[rDex2, xiDex2]*sin + E2_M1_Re[rDex1, xiDex2]*cos**2 - E3_M1_Re[rDex2, xiDex2]*cos*sin + E2_M1_Im[rDex1, xiDex2]*cos*sin - E3_M1_Im[rDex2, xiDex2]*sin**2
+        return E2_M0[rDex1, xiDex2]*cos - E3_M0[rDex2, xiDex2]*sin #+ E2_M1_Re[rDex1, xiDex2]*cos**2 - E3_M1_Re[rDex2, xiDex2]*cos*sin + E2_M1_Im[rDex1, xiDex2]*cos*sin - E3_M1_Im[rDex2, xiDex2]*sin**2
         #return E2_M1_Re[rDex1, xiDex2]*cos**2 - E3_M1_Re[rDex2, xiDex2]*cos*sin + E2_M1_Im[rDex1, xiDex2]*cos*sin - E3_M1_Im[rDex2, xiDex2]*sin**2
     elif axis == 3:
-        return E3_M0[rDex2, xiDex2]*cos + E2_M0[rDex1, xiDex2]*sin + E3_M1_Re[rDex2, xiDex2]*cos**2 + E2_M1_Re[rDex1, xiDex2]*cos*sin + E3_M1_Im[rDex2, xiDex2]*cos*sin + E2_M1_Im[rDex1, xiDex2]*sin**2
+        return E3_M0[rDex2, xiDex2]*cos + E2_M0[rDex1, xiDex2]*sin #+ E3_M1_Re[rDex2, xiDex2]*cos**2 + E2_M1_Re[rDex1, xiDex2]*cos*sin + E3_M1_Im[rDex2, xiDex2]*cos*sin + E2_M1_Im[rDex1, xiDex2]*sin**2
         #return E3_M1_Re[rDex2, xiDex2]*cos**2 + E2_M1_Re[rDex1, xiDex2]*cos*sin + E3_M1_Im[rDex2, xiDex2]*cos*sin + E2_M1_Im[rDex1, xiDex2]*sin**2
 
 def BForce(axis,x,y,xi,r,vx=-1,vy=-1,vz=-1,vr=-1,vphi=-1):
@@ -205,9 +205,9 @@ def BForce(axis,x,y,xi,r,vx=-1,vy=-1,vz=-1,vr=-1,vphi=-1):
     rDex1 = find_nearest_index(raxis_1, r)
     rDex2 = find_nearest_index(raxis_2, r)
     # Calculate expanded BFields
-    Bz = B1_M0[rDex2, xiDex1] + B1_M1_Re[rDex2, xiDex1]*cos + B1_M1_Im[rDex2, xiDex1]*sin
-    Bx = B2_M0[rDex1, xiDex2]*cos - B3_M0[rDex2, xiDex2]*sin + B2_M1_Re[rDex1, xiDex2]*cos**2 - B3_M1_Re[rDex2, xiDex2]*cos*sin + B2_M1_Im[rDex1, xiDex2]*cos*sin - B3_M1_Im[rDex2, xiDex2]*sin**2
-    By = B3_M0[rDex2, xiDex2]*cos + B2_M0[rDex1, xiDex2]*sin + B3_M1_Re[rDex2, xiDex2]*cos**2 + B2_M1_Re[rDex1, xiDex2]*cos*sin + B3_M1_Im[rDex2, xiDex2]*cos*sin + B2_M1_Im[rDex1, xiDex2]*sin**2
+    Bz = 0#B1_M0[rDex2, xiDex1] + B1_M1_Re[rDex2, xiDex1]*cos + B1_M1_Im[rDex2, xiDex1]*sin
+    Bx = 0#B2_M0[rDex1, xiDex2]*cos - B3_M0[rDex2, xiDex2]*sin + B2_M1_Re[rDex1, xiDex2]*cos**2 - B3_M1_Re[rDex2, xiDex2]*cos*sin + B2_M1_Im[rDex1, xiDex2]*cos*sin - B3_M1_Im[rDex2, xiDex2]*sin**2
+    By = 0#B3_M0[rDex2, xiDex2]*cos + B2_M0[rDex1, xiDex2]*sin + B3_M1_Re[rDex2, xiDex2]*cos**2 + B2_M1_Re[rDex1, xiDex2]*cos*sin + B3_M1_Im[rDex2, xiDex2]*cos*sin + B2_M1_Im[rDex1, xiDex2]*sin**2
     # Cross-product velocities with BFields and return the BForce
     if axis == 1:
         return vx * By - vy * Bx
