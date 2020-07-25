@@ -3,7 +3,7 @@
 
 simulation_name = 'QUASI3D'
 shape = 'rectangle'
-density = 30
+density = 250
 iterations = 15000
 mode = -1
 

@@ -56,7 +56,7 @@ def find_nearest_index(array,value):
     else:
         return idx
 
-def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
+def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 # Plot evolution of probe after leaving plasma
     if (sim_name.upper() == 'OSIRIS_CYLINSYMM'):
         import include.simulations.useOsiCylin as sim
@@ -69,7 +69,6 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
     W_P = sim.getPlasFreq()
     plasma_bnds = sim.getBoundCond()
     shape_name = shape_name.capitalize()
-    xaxis = np.linspace(x_dat[0,0], x_dat[0,-1], len(x_dat[0]))
 
 # Normalize screen distances
     slices = len(x_s)
@@ -89,15 +88,14 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
             for j in range(0,noElec):
                 yslice[i, j], xislice[i, j], zslice[i, j] = getBallisticTraj(x_f[j], y_f[j], xi_f[j], z_f[j], px_f[j], py_f[j], pz_f[j], xs_norm[i])
         else:
-            xIter = find_nearest_index(xaxis, xs_norm[i]) # Find iteration number of current slice
             for j in range(0,noElec):
-                yslice[i, j] = y_dat[j, xIter]
-                xislice[i, j] = xi_dat[j, xIter]
-                zslice[i, j] = z_dat[j, xIter]
+                yslice[i, j] = y_f[j]
+                xislice[i, j] = xi_f[j]
+                zslice[i, j] = z_f[j]
 
 # Plot slices
-    binsizez = 52
-    binsizey = 42#52#62
+    binsizez = 2250#52
+    binsizey = 500#42#52#62
     if (BW):
         cmap = plt.cm.binary
     elif (Viridis):
@@ -111,8 +109,8 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
     for i in range(0, 3):
         axs[i].set_title("Snapshot at X = " + str(x_s[i]) + " mm")
         h = axs[i].hist2d(zslice[i,:], yslice[i,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
-        #axs[i].set_ylim(-5,5)
-        #axs[i].set_xlim(17.5,62.5)
+        axs[i].set_ylim(-5,5)
+        axs[i].set_xlim(17.5,62.5)
         if (BW):
             axs[i].set_facecolor('white')
         elif (Viridis):
@@ -129,8 +127,8 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
     for i in range(0, 3):
         axs2[i].set_title("Snapshot at X = " + str(x_s[i+3]) + " mm")
         h2 = axs2[i].hist2d(zslice[i+3,:], yslice[i+3,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
-        #axs2[i].set_ylim(-5,5)
-        #axs2[i].set_xlim(17.5,62.5)
+        axs2[i].set_ylim(-5,5)
+        axs2[i].set_xlim(17.5,62.5)
         if (BW):
             axs2[i].set_facecolor('white')
         elif (Viridis):
@@ -147,8 +145,8 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
     for i in range(0, 3):
         axs3[i].set_title("Snapshot at X = " + str(x_s[i+6]) + " mm")
         h3 = axs3[i].hist2d(zslice[i+6,:], yslice[i+6,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
-        #axs3[i].set_ylim(-5,5)
-        #axs3[i].set_xlim(17.5,62.5)
+        axs3[i].set_ylim(-5,5)
+        axs3[i].set_xlim(17.5,62.5)
         if (BW):
             axs3[i].set_facecolor('white')
         elif (Viridis):
@@ -165,13 +163,13 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
     for i in range(0, 3):
         axs4[i].set_title("Snapshot at X = " + str(x_s[i+9]) + " mm")
         if (i < 2):
-            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(60,75), cmap=cmap)#, norm=norm)
-            #axs4[i].set_ylim(-6,6)
-            #axs4[i].set_xlim(15,65)
+            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(2500,600), cmap=cmap)#, norm=norm)
+            axs4[i].set_ylim(-6,6)
+            axs4[i].set_xlim(15,65)
         elif (i == 2):
-            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(72,75), cmap=cmap)#, norm=norm)
-            #axs4[i].set_ylim(-12,12)
-            #axs4[i].set_xlim(5,75)
+            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(3500,1200), cmap=cmap)#, norm=norm)
+            axs4[i].set_ylim(-12,12)
+            axs4[i].set_xlim(5,75)
         if (BW):
             axs4[i].set_facecolor('white')
         elif (Viridis):
