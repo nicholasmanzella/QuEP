@@ -38,9 +38,9 @@ def main():
 
     Ex = ax.pcolormesh(xiaxis, raxis, Ex, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-1,vmax=1),cmap="RdBu_r")
 
+    tick_locations=[x*0.01 for x in range(2,10)]+ [x*0.01 for x in range(-10,-1)] + [x*0.1 for x in range(-10,10)] +[ x for x in range(-10,10)]
     cbar_ax = fig.add_axes([0.83, 0.05, 0.03, 0.9])
-    cbar = fig.colorbar(Ex, cax=cbar_ax)
-
+    cbar = fig.colorbar(Ex, cax=cbar_ax, ticks=tick_locations, format=ticker.LogFormatterMathtext())
     cbar.set_label('Electric Field ($m_e c \omega_p / e$)')
 
     print((time.time() - start_time)/60, " min")

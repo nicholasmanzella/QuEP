@@ -1,5 +1,4 @@
-# This file retrieves the fields from OSIRIS Quasi3D data files stored within the data/ folder.
-# Expresses EM fields in azimuthal harmonics up to the first order
+# This file retrieves the fields from OSIRIS data files stored within the data/ folder.
 
 import sys
 import h5py as h5
@@ -29,12 +28,12 @@ def getField(fpath):
     return Field_dat
 
 def getTime():
-    f = h5.File('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-000130.h5',"r")
+    f = h5.File('data/OSIRIS/2D/b1-000140.h5',"r")
     t0 = f.attrs['TIME']
     t0 = t0[0]
     return t0
 
-def getPlasDensity():
+def getPlasDensity(): # NOT UPDATED
     return 1e21
 
 def getPlasFreq():
@@ -42,43 +41,36 @@ def getPlasFreq():
     return math.sqrt(EC**2 * N_0 / (M_E * EP_0))
 
 def axes():
-# Retrieve axes boundaries under staggered mesh
-    f = h5.File('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-000130.h5',"r")#('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-000130.h5',"r")
+# Retrieve axes boundaries
+    f = h5.File('data/OSIRIS/2D/b1-000140.h5',"r")#('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-000130.h5',"r")
     datasetNames = [n for n in f.keys()] # Three Datasets: AXIS, SIMULATION, Field data
     field = datasetNames[-1]
     Field_dat = f[field][:].astype(float)
     a1_bounds = f['AXIS']['AXIS1'] # zmin and zmax
-    a2_bounds = f['AXIS']['AXIS2'] # rmin and rmax - dr/2
-    dz = 9.908e-4 # Width of each cell
-    dr = 6.59e-3
+    a2_bounds = f['AXIS']['AXIS2'] # -rmax and rmax
 # Account for specific definitions of bottom-left values for each field component
-    z_bounds_1 = [a1_bounds[0], a1_bounds[1]] # Used for E1, B1
-    z_bounds_2 = [a1_bounds[0] - dz/2, a1_bounds[1] + dz/2] # Used for E2, E3, B2, B3
-    r_bounds_1 = [a2_bounds[0], a2_bounds[1] + dr/2] # Used for E2, B2
-    r_bounds_2 = [a2_bounds[0] - dr/2, a2_bounds[1] + dr] # Used for E1, E3, B1, B3
+    z_bounds = [a1_bounds[0], a1_bounds[1]]
+    r_bounds = [a2_bounds[0], a2_bounds[1]]
     t0 = getTime()#f.attrs['TIME']
 
-# Field Shape is (433, 25231), where data is written as E(r,z)
-    xiaxis_1 = np.linspace(z_bounds_1[0] - t0, z_bounds_1[1] - t0, len(Field_dat[0])) # len = 25231
-    xiaxis_2 = np.linspace(z_bounds_2[0] - t0, z_bounds_2[1] - t0, len(Field_dat[0]))
-    raxis_1 = np.linspace(r_bounds_1[0], r_bounds_2[1], len(Field_dat)) # 433
-    raxis_2 = np.linspace(r_bounds_2[0], r_bounds_2[1], len(Field_dat))
+# Field Shape is (866, 25231), where data is written as E(r,z)
+    xiaxis = np.linspace(z_bounds[0] - t0, z_bounds[1] - t0, len(Field_dat[0]))
+    raxis = np.linspace(r_bounds[0], r_bounds[1], len(Field_dat))
 
-    return xiaxis_1, xiaxis_2, raxis_1, raxis_2
+    return xiaxis, raxis
 
-xiaxis_1, xiaxis_2, raxis_1, raxis_2 = axes() # Evenly spaced axes data
+xiaxis, raxis = axes() # Evenly spaced axes data
 
 def getBoundCond():
 # Define when the electron leaves the plasma cell
-    f = h5.File('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-000130.h5',"r")#('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-000130.h5',"r")
+    f = h5.File('data/OSIRIS/2D/b1-000140.h5',"r")#('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-000130.h5',"r")
     datasetNames = [n for n in f.keys()] # Three Datasets: AXIS, SIMULATION, Field data
     field = datasetNames[-1]
     Field_dat = f[field][:].astype(float)
     a1_bounds = f['AXIS']['AXIS1'] # ximin and ximax
-    a2_bounds = f['AXIS']['AXIS2'] # rmin and rmax - dr/2
-    dr = 6.59e-3
+    a2_bounds = f['AXIS']['AXIS2'] # rmin and rmax
     t0 = getTime()
-    return [a1_bounds[0] - t0, a1_bounds[1] - t0, a2_bounds[1] + dr/2] # zmin, zmax, rmax
+    return [a1_bounds[0] - t0, a1_bounds[1] - t0, a2_bounds[1]] # ximin, ximax, rmax
 
 # Return cylindrical Electric field components
 # E1 - z
