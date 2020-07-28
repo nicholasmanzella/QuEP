@@ -41,7 +41,7 @@ def getBallisticTraj(x_0,y_0,xi_0,z_0,px,py,pz,x_s):
 
     return y_f, xi_f, z_f
 
-def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,x_s,noElec,iter):
+def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,x_s,noElec,iter):
 # Plot evolution of probe after leaving plasma
     if (sim_name.upper() == 'OSIRIS_CYLINSYMM'):
         import include.simulations.useOsiCylin as sim
@@ -55,8 +55,9 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
     shape_name = shape_name.capitalize()
     slices = len(x_s)
     xs_norm = []
-    xs_norm.append(x_dat[0, 0])
+    xs_norm.append(x_f[0])
     for i in range(0,slices):
+        print("xs = ", x_s[i])
         xs_norm.append(x_s[i] * W_P * 10**(-3) / C) # Convert screen distances
 
 # Generate arrays of coordinates at origin + each screen
@@ -65,21 +66,19 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
     zslice = np.empty([slices+1, noElec])
 # Fill first position with initial probe shape
     for i in range(0, noElec):
-        yslice[0, i] = y_dat[i, 0]
-        xislice[0, i] = xi_dat[i, 0]
-        zslice[0, i] = z_dat[i, 0]
+        yslice[0, i] = y_f[i]
+        xislice[0, i] = xi_f[i]
+        zslice[0, i] = z_f[i]
 # Project positions at distances in x_s
     for i in range(1,slices+1):
-        #print("xs_norm = ", xs_norm[i])
         for j in range(0,noElec):
             yslice[i, j], xislice[i, j], zslice[i, j] = getBallisticTraj(x_f[j], y_f[j], xi_f[j], z_f[j], px_f[j], py_f[j], pz_f[j], xs_norm[i])
-            #if (j == 0):
-                #print("zslice = ", zslice[i, j])
+
+    x_s = [x_f[0] * C * 10**3 / W_P] + x_s
+
 # Plot slices
     fig5, axs = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
     fig5.suptitle("Progression of " + shape_name + " EProbe")
-
-    x_s = [x_dat[0,0] * C * 10**3 / W_P] + x_s
 
     for i in range(0, 3):
         axs[i].set_title("Snapshot at X = " + str(x_s[i]) + " mm")
@@ -110,22 +109,23 @@ def plot(x_dat,y_dat,xi_dat,z_dat,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape
     for i in range(0, 3):
         axs3[i].set_title("Snapshot at X = " + str(x_s[i]) + " mm")
         axs3[i].scatter(zslice[i,:], yslice[i,:], zorder=2)
-        #axs3[i].set_ylim(-1,1)
+        axs3[i].set_ylim(-1,1)
     axs3[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
 
     fig8, axs4 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
     fig8.suptitle("Progression of " + shape_name + " EProbe")
 
     for i in range(0, 3):
-        axs4[i].set_title("Snapshot at X = " + str(x_s[i+3]) + " mm")
+        axs4[i].set_title("M1 eProbe at X = " + str(x_s[i+3]) + " mm")
         axs4[i].scatter(zslice[i+3,:], yslice[i+3,:])
-        #axs4[i].set_ylim(-1,1)
+        axs4[i].set_ylim(-6,6)
+        axs4[i].set_xlim(27,52)
     axs4[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
 
 
-    fig5.show()
+    #fig5.show()
     #fig.tight_layout()
-    fig6.show()
+    #fig6.show()
     fig7.show()
     fig8.show()
 

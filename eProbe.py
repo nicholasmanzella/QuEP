@@ -43,11 +43,15 @@ EP_0 = 8.854187817e-12               # Vacuum permittivity in C/(V m)
 C = 299892458                        # Speed of light in vacuum in m/s
 
 # Plotting Scripts
-plot2DTracks = False                 # View 2D projections of trajectories
-plot3DTracks = False                 # View 3D model of trajectories
-viewProbeShape = False               # View initial shape of probe separately
+# plot2DTracks = False                 # View 2D projections of trajectories
+# plot3DTracks = False                 # View 3D model of trajectories
+# viewProbeShape = False               # View initial shape of probe separately
 showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
-showFullEvolution = True             # View full evolution of probe at hardcoded locations in colored histograms
+showFullEvolution = True            # View full evolution of probe at hardcoded locations in colored histograms
+# Set all others equal False if want animation saved (dependency issue)
+saveMovie = False                    # Save mp4 of probe evolution
+if (saveMovie):
+    import include.makeAnimation as makeAnimation
 
 def main():
 
@@ -148,7 +152,6 @@ def main():
 
     def getTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,mode):
     # Returns array of x, y, xi, z, and final x, y, xi, z, px, py, pz
-        x_dat, y_dat, xi_dat, z_dat = [],[],[],[]
 
         t = t0                       # Start time in 1/w_p
         dt = 0.005                   # Time step in 1/w_p
@@ -164,11 +167,6 @@ def main():
     # Iterate through position and time using a linear approximation
         for i in range(0, iter):
         # Determine new momentum and velocity from this position
-            x_dat.append(xn)
-            y_dat.append(yn)
-            xi_dat.append(xin)
-            z_dat.append(zn)
-
             px, py, pz, p, gam, Fx, Fy, Fz = Momentum(xn, yn, xin, dt, px, py, pz, mode)
 
             vxn = Velocity(px, p)
@@ -183,19 +181,12 @@ def main():
             t += dt
             xin = zn - t
 
-            # If electron leaves cell, switch to ballistic trajectory
+            # If electron leaves cell, quit tracking
             if (xin < plasma_bnds[0] or xin > plasma_bnds[1] or rn > plasma_bnds[2]):
-                j0 = i + 1
-                for j in range(j0,iter):
-                # Fill remainder of array
-                    x_dat.append(xn)
-                    y_dat.append(yn)
-                    xi_dat.append(xin)
-                    z_dat.append(zn)
-                return x_dat, y_dat, xi_dat, z_dat, xn, yn, xin, zn, px, py, pz
+                return xn, yn, xin, zn, px, py, pz
 
         print("Tracking quit due to more than ", iter, " iterations in plasma")
-        return x_dat, y_dat, xi_dat, z_dat, xn, yn, xin, zn, px, py, pz
+        return xn, yn, xin, zn, px, py, pz
 
     # Start of main()
 
@@ -223,6 +214,7 @@ def main():
         x_s = init.x_s
         s1 = init.s1
         s2 = init.s2
+        s3 = init.s3
 
         if (sim_name.upper() == 'OSIRIS_CYLINSYMM'):
             import include.simulations.useOsiCylin as sim
@@ -252,22 +244,28 @@ def main():
             exit()
 
     # Get arrays of initial coordinates in shape of probe
-        x_0, y_0, xi_0, z_0 = shape.initProbe(x_c, y_c, xi_c, t0, s1, s2, den)
+        x_0, y_0, xi_0, z_0 = shape.initProbe(x_c, y_c, xi_c, t0, s1, s2, s3, den)
+
         noElec = len(x_0) # Number of electrons to track
+        milestone = np.linspace(0, noElec, 11)
+        percent = np.linspace(0, 100, 11)
 
     else:
         print("Improper number of arguments. Expected 'python3 eProbe.py <fname>'")
         return
 
     x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = [],[],[],[],[],[],[] # Final positions and momenta of electrons
-    # Initialize arrays of trajectory within plasma
-    x_dat = np.empty([noElec, iter])
-    y_dat = np.empty([noElec, iter])
-    xi_dat = np.empty([noElec, iter])
-    z_dat = np.empty([noElec, iter])
 
+    j = 0
     for i in range (0, noElec):
-        x_dat[i,:], y_dat[i,:], xi_dat[i,:], z_dat[i,:], xn, yn, xin, zn, pxn, pyn, pzn = getTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode)
+        if (j == 10 and i == noElec-1):
+            print("Simulation " + str(percent[j]) + "% Complete")
+        elif (i == milestone[j]):
+            print("Simulation " + str(percent[j]) + "% Complete", end='\r' )
+            #print("i = ", i)
+            j += 1
+            #pdb.set_trace()
+        xn, yn, xin, zn, pxn, pyn, pzn = getTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode)
         x_f.append(xn)
         y_f.append(yn)
         xi_f.append(xin)
@@ -282,15 +280,16 @@ def main():
     print("Duration: ", (time.time() - start_time)/60, " min")
 
 # Plot data points
-    if (plot2DTracks):
-        plot2D.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, s1, s2, noElec)
-    if (plot3DTracks):
-        plot3D.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, s1, s2, noElec)
+    # if (plot2DTracks):
+    #     plot2D.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, s1, s2, noElec)
+    # if (plot3DTracks):
+    #     plot3D.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, s1, s2, noElec)
     if (showQuickEvolution):
-        showEvol_Q.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noElec, iter)
+        showEvol_Q.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noElec, iter)
     if (showFullEvolution):
-        showEvol_F.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
-    if (viewProbeShape):
-        viewProbe.plot(x_dat, y_dat, xi_dat, z_dat, sim_name, shape_name, s1, s2, noElec)
-
+        showEvol_F.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
+    # if (viewProbeShape):
+    #     viewProbe.plot(x_dat, y_dat, xi_dat, z_dat, sim_name, shape_name, s1, s2, noElec)
+    if (saveMovie):
+        makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
 main()
