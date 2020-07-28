@@ -46,7 +46,7 @@ C = 299892458                        # Speed of light in vacuum in m/s
 # plot2DTracks = False                 # View 2D projections of trajectories
 # plot3DTracks = False                 # View 3D model of trajectories
 # viewProbeShape = False               # View initial shape of probe separately
-# showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
+showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
 showFullEvolution = True            # View full evolution of probe at hardcoded locations in colored histograms
 # Set all others equal False if want animation saved (dependency issue)
 saveMovie = False                    # Save mp4 of probe evolution
@@ -245,7 +245,10 @@ def main():
 
     # Get arrays of initial coordinates in shape of probe
         x_0, y_0, xi_0, z_0 = shape.initProbe(x_c, y_c, xi_c, t0, s1, s2, s3, den)
+
         noElec = len(x_0) # Number of electrons to track
+        milestone = np.linspace(0, noElec, 11)
+        percent = np.linspace(0, 100, 11)
 
     else:
         print("Improper number of arguments. Expected 'python3 eProbe.py <fname>'")
@@ -253,7 +256,15 @@ def main():
 
     x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = [],[],[],[],[],[],[] # Final positions and momenta of electrons
 
+    j = 0
     for i in range (0, noElec):
+        if (j == 10 and i == noElec-1):
+            print("Simulation " + str(percent[j]) + "% Complete")
+        elif (i == milestone[j]):
+            print("Simulation " + str(percent[j]) + "% Complete", end='\r' )
+            #print("i = ", i)
+            j += 1
+            #pdb.set_trace()
         xn, yn, xin, zn, pxn, pyn, pzn = getTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode)
         x_f.append(xn)
         y_f.append(yn)
@@ -273,8 +284,8 @@ def main():
     #     plot2D.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, s1, s2, noElec)
     # if (plot3DTracks):
     #     plot3D.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, s1, s2, noElec)
-    # if (showQuickEvolution):
-    #     showEvol_Q.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noElec, iter)
+    if (showQuickEvolution):
+        showEvol_Q.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noElec, iter)
     if (showFullEvolution):
         showEvol_F.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
     # if (viewProbeShape):

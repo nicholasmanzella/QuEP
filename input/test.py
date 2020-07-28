@@ -3,9 +3,9 @@
 
 simulation_name = 'QUASI3D'
 shape = 'rectangle'
-density = 250
+density = 20
 iterations = 15000
-mode = -1
+mode = 1
 
 # Probe centered at the following initial coordinates (in c/w_p):
 x_c = -2.4 # Start within region of field
@@ -19,7 +19,7 @@ pz_0 = 0
 
 # Screen Distances (from z-axis of plasma cell, in mm):
 #x_s = [100, 200, 300, 400, 500] # Only 5
-x_s = [10, 20, 100, 250, 500]
+x_s = [10, 50, 100, 250, 500]
 
 # Shape Parameters (Radius or Side Length, in c/w_p):
 s1 = 0.5 # In y

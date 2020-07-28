@@ -34,9 +34,9 @@ def main():
 
     xiaxis, raxis, Er_full, Er_m0, Er_m1 = getFieldArrays()
 
-    fig1, ax1 = plt.subplots(figsize=(8,8))
-    fig2, ax2 = plt.subplots(figsize=(8,8))
-    fig3, ax3 = plt.subplots(figsize=(8,8))
+    fig1, ax1 = plt.subplots(figsize=(10,8))
+    fig2, ax2 = plt.subplots(figsize=(10,8))
+    fig3, ax3 = plt.subplots(figsize=(10,8))
 
     fig3.subplots_adjust(left=0.05, bottom=0.1, right=0.8, top=0.9)
     #fig.suptitle("Quasi3D Ex Field for $\\phi = 0$")
