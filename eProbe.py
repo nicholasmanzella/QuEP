@@ -43,8 +43,8 @@ C = 299892458                        #speed of light in vacuum in m/s
 useMatrix = True # Use standard [x,x'] = [(1,d),(0,1)][x,x'] matrix for ballistic portion of trajectory
 
 # Plotting Scripts
-findFocal = False # Calculate Y focal length at end of script
-plot2DTracks = True
+findFocal = True # Calculate Y focal length at end of script
+plot2DTracks = False
 plot3DTracks = False
 
 def main():
@@ -122,7 +122,7 @@ def main():
     def Momentum(x,y,xi,dt,px,py,pz):
     # Returns the new momentum after dt, in units of c in the axis direction
         p = math.sqrt(px**2 + py**2 + pz**2)
-        vx = Velocity(px, p)
+        vx = Velocity(px, p) 
         vy = Velocity(py, p)
         vz = Velocity(pz, p)
         r = math.sqrt(x**2 + y**2)
@@ -189,13 +189,13 @@ def main():
             px_dat.append(px)
             py_dat.append(py)
 
-            if (xn > -0.6 and checkTimeI):
-                print("Initial Time: ", t)
-                checkTimeI = False
-                #pdb.set_trace()
-            if (xn > 0.6 and checkTimeF):
-                print("Final Time: ", t)
-                checkTimeF = False
+            # if (xn > -0.6 and checkTimeI):
+            #     print("Initial Time: ", t)
+            #     checkTimeI = False
+            #     #pdb.set_trace()
+            # if (xn > 0.6 and checkTimeF):
+            #     print("Final Time: ", t)
+            #     checkTimeF = False
 
             if (abs(xn) > abs(x_s)):
                 k = i + 1

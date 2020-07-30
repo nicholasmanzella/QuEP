@@ -9,7 +9,7 @@ import matplotlib.ticker as ticker
 from mpl_toolkits.mplot3d import Axes3D
 import pdb
 
-plotYForce = True # Plot transverse force with trajectories, not useful for many trajectories
+plotYForce = False # Plot transverse force with trajectories, not useful for many trajectories
 plotZForce = False # Plot force along WF propagation
 
 def make_patch_spines_invisible(ax):

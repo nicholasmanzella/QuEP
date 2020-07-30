@@ -41,7 +41,7 @@ def main():
 
     fig = plt.figure()
     ax = plt.axes()
-    ax.set(xlabel = '$X$ ($c/\omega_p$)', ylabel = '$E_r$ ($m_e c \omega_p / e$)')
+    ax.set(xlabel = '$R$ ($c/\omega_p$)', ylabel = '$E_r$ ($m_e c \omega_p / e$)')
     ax.set_title("Wakefield (M=0): $E_r$ as a Function of $r$")
     ax.plot(raxis, Ex, c='C0')
 
