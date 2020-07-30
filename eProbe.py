@@ -43,8 +43,8 @@ C = 299892458                        #speed of light in vacuum in m/s
 useMatrix = True # Use standard [x,x'] = [(1,d),(0,1)][x,x'] matrix for ballistic portion of trajectory
 
 # Plotting Scripts
-findFocal = True # Calculate Y focal length at end of script
-plot2DTracks = False
+findFocal = False # Calculate Y focal length at end of script
+plot2DTracks = True
 plot3DTracks = False
 
 def main():
@@ -122,7 +122,7 @@ def main():
     def Momentum(x,y,xi,dt,px,py,pz):
     # Returns the new momentum after dt, in units of c in the axis direction
         p = math.sqrt(px**2 + py**2 + pz**2)
-        vx = Velocity(px, p) 
+        vx = Velocity(px, p)
         vy = Velocity(py, p)
         vz = Velocity(pz, p)
         r = math.sqrt(x**2 + y**2)
@@ -152,7 +152,7 @@ def main():
         x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat = [],[],[],[],[],[],[],[],[]
 
         t = t0                       # Start time in 1/w_p
-        dt = 0.0025                   # Time step in 1/w_p
+        dt = 0.005                   # Time step in 1/w_p
         xn = x_0                     # Positions in c/w_p
         yn = y_0
         xin = xi_0
@@ -216,6 +216,7 @@ def main():
             if (xin < plasma_bnds[0] or xin > plasma_bnds[1] or rn > plasma_bnds[2]):
                 j = i + 1
                 j0 = j
+                dt = 1
                 for j in range(j, iter):
                     xn += vxn * dt
                     yn += vyn * dt

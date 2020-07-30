@@ -4,7 +4,7 @@
 simulation_name = 'QUASI3D'
 shape = 'vline'
 density = 20
-iterations = 1000000
+iterations = 15000
 
 # Probe centered at the following initial coordinates:
 x_c = -2.4 # Start within region of field
@@ -17,7 +17,7 @@ py_0 = 0
 pz_0 = 0
 
 # Screen Parameters (Assume infinite in y and z)
-x_s = 10
+x_s = 500
 
 # Shape Parameters (Radius or Side Length)
 s1 = 0.25 # In y
