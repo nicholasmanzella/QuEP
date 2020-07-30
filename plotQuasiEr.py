@@ -38,7 +38,7 @@ def main():
     fig2, ax2 = plt.subplots(figsize=(10,8))
     fig3, ax3 = plt.subplots(figsize=(10,8))
 
-    fig3.subplots_adjust(left=0.05, bottom=0.1, right=0.8, top=0.9)
+    fig1.subplots_adjust(left=0.05, bottom=0.1, right=0.8, top=0.9)
     #fig.suptitle("Quasi3D Ex Field for $\\phi = 0$")
 
     #ax.set(xlabel = '$\\xi$ ($c/\omega_p$)', ylabel = 'x ($c/\omega_p$)')
@@ -50,11 +50,18 @@ def main():
     ax2.set_ylim(0,1.5)
     ax3.set_ylim(0,1.5)
 
-    tick_locations=[x*0.01 for x in range(2,10)]+ [x*0.01 for x in range(-10,-1)] + [x*0.1 for x in range(-10,10)] +[ x for x in range(-10,10)]
-    cbar_ax = fig3.add_axes([0.83, 0.05, 0.03, 0.9])
-    cbar = fig3.colorbar(Er_full, cax=cbar_ax, ticks=tick_locations, format=ticker.LogFormatterMathtext())
+    ax1.set(xlabel = '$\\xi$ ($c/\omega_p$)', ylabel = 'r ($c/\omega_p$)')
+    ax2.set(xlabel = '$\\xi$ ($c/\omega_p$)', ylabel = 'r ($c/\omega_p$)')
+    ax3.set(xlabel = '$\\xi$ ($c/\omega_p$)', ylabel = 'r ($c/\omega_p$)')
+    ax1.set_title('Transverse Electric Field, M0 Only')
+    ax2.set_title('Transverse Electric Field, M1 Only')
+    ax3.set_title('Transverse Electric Field, M0 + M1')
 
-    #cbar.set_label('Electric Field ($m_e c \omega_p / e$)')
+    tick_locations=[x*0.01 for x in range(2,10)]+ [x*0.01 for x in range(-10,-1)] + [x*0.1 for x in range(-10,10)] +[ x for x in range(-10,10)]
+    cbar_ax = fig1.add_axes([0.83, 0.05, 0.03, 0.9])
+    cbar = fig1.colorbar(Er_full, cax=cbar_ax, ticks=tick_locations, format=ticker.LogFormatterMathtext())
+
+    cbar.set_label('Electric Field ($m_e c \omega_p / e$)')
 
     print((time.time() - start_time)/60, " min")
 

@@ -16,9 +16,9 @@ EP_0 = 8.854187817e-12               # Vacuum permittivity in C/(V m)
 C = 299892458                        # Speed of light in vacuum in m/s
 
 # Snapshot locations (12 total, in mm):
-#x_s = [0, 1, 2, 3, 4, 5, 6, 10, 20, 100, 250, 500]
+x_s = [0, 1, 2, 3, 4, 5, 6, 10, 20, 100, 250, 500]
 #x_s = [200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300]
-x_s = [0, 5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500 ]
+#x_s = [0, 5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500 ]
 # Color Scheme
 BW = False # Sequential
 Viridis = True # Sequential + Perceptually Uniform
@@ -94,8 +94,8 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
                 zslice[i, j] = z_f[j]
 
 # Plot slices
-    binsizez = 100#52
-    binsizey = 48 #42#52#62
+    binsizez = 100#282#100
+    binsizey = 48#135#48
     if (BW):
         cmap = plt.cm.binary
     elif (Viridis):
@@ -163,11 +163,11 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     for i in range(0, 3):
         axs4[i].set_title("X = " + str(x_s[i+9]) + " mm")
         if (i < 2):
-            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(100,48), cmap=cmap)#, norm=norm)
+            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
             axs4[i].set_ylim(-3,3)
             axs4[i].set_xlim(27,52)
         elif (i == 2):
-            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(100,48), cmap=cmap)#, norm=norm)
+            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
             axs4[i].set_ylim(-3,3)
             axs4[i].set_xlim(27,52)
         if (BW):

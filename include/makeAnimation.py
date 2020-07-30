@@ -82,9 +82,9 @@ def animate(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     FFMpegWriter = manimation.writers['ffmpeg']
     metadata = dict(title='Movie Test', artist='Matplotlib',
                     comment='Movie support!')
-    writer = FFMpegWriter(fps=10, metadata=metadata)
+    writer = FFMpegWriter(fps=15, metadata=metadata)
     fig, ax = plt.subplots()
-    fig.subplots_adjust(bottom=-0.1)
+    #fig.subplots_adjust(bottom=-0.1)
 
     probe, = plt.plot([], [], 'C0o', markersize='2')
     #probe, = ax.hist2d(xi_dat, y_dat, bins=(binsizez,binsizey), cmap=cmap, norm=norm)
@@ -93,12 +93,9 @@ def animate(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     plt.xlabel('Z ($c/\omega_p$)')
     plt.ylabel('Y ($c/\omega_p$)')
 
-    xi_ax = ax.twiny()
-    #xi_ax.spines["bottom"].set_position(("axes",0))
-    #make_patch_spines_invisible(xi_ax)
-    #xi_ax.spines["bottom"].set_visible(True)
-    xi_ax.set_xlabel("$\\xi$ ($c/\omega_p$)")
-    xi_ax.set_xlim(-37,13)
+    #xi_ax = ax.twiny()
+    #xi_ax.set_xlabel("$\\xi$ ($c/\omega_p$)")
+    #xi_ax.set_xlim(-37,13)
 
 # Generate movie
     with writer.saving(fig, "C:/Users/Marisa/Documents/Research/plots/eProbe.mp4", dpi=400):
