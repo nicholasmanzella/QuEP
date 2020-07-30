@@ -49,13 +49,6 @@ def getBallisticTraj(x_0,y_0,xi_0,z_0,px,py,pz,x_s):
 
     return y_f, xi_f, z_f
 
-def find_nearest_index(array,value):
-    idx = np.searchsorted(array, value, side="right")
-    if idx > 0 and (idx == len(array) or math.fabs(value - array[idx-1]) < math.fabs(value - array[idx])):
-        return idx-1
-    else:
-        return idx
-
 def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 # Plot evolution of probe after leaving plasma
     if (sim_name.upper() == 'OSIRIS_CYLINSYMM'):
