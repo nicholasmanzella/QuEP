@@ -34,6 +34,7 @@ import include.plot2DTracks as plot2D
 import include.plot3DTracks as plot3D
 import include.showProgression as showProg
 import include.viewProbe as viewProbe
+import include.plotBetatron as plotBeta
 
 # Definition of Constants
 M_E = 9.109e-31                      #electron rest mass in kg
@@ -44,8 +45,9 @@ C = 299892458                        #speed of light in vacuum in m/s
 # Plotting Scripts
 plot2DTracks = False
 plot3DTracks = False
-showProgress = True
+showProgress = False
 viewProbeShape = False
+plotBetatron = True
 
 def main():
 
@@ -149,7 +151,7 @@ def main():
         x_dat, y_dat, z_dat, xi_dat = [],[],[],[]
 
         t = t0                       # Start time in 1/w_p
-        dt = 0.01                   # Time step in 1/w_p
+        dt = 0.005                   # Time step in 1/w_p
         xn = x_0                     # Positions in c/w_p
         yn = y_0
         xin = xi_0
@@ -312,5 +314,7 @@ def main():
         showProg.plot(x_dat, y_dat, z_dat, xi_dat, sim_name, shape_name, x_s, noElec, iter)
     if (viewProbeShape):
         viewProbe.plot(x_dat, y_dat, z_dat, xi_dat, sim_name, shape_name, s1, s2, noElec)
+    if (plotBetatron):
+        plotBeta.plot(x_dat, y_dat, z_dat, xi_dat, sim_name, shape_name, s1, s2, noElec)
 
 main()
