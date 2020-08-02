@@ -2,18 +2,18 @@
 # This filename is the input parameter of the eProbe.py file
 
 simulation_name = 'QUASI3D'
-shape = 'rectangle'
-density = 100
+shape = 'single'
+density = 1
 iterations = 15000
 mode = -1
 
 # Probe centered at the following initial coordinates (in c/w_p):
-x_c = -2.4 # Start within region of field
+x_c = 0.15 # Start within region of field
 y_c = 0
-xi_c = -10
+xi_c = -11
 
 # Initial momentum
-px_0 = 110 # Make sure it goes towards the screen!
+px_0 = 20 # Make sure it goes towards the screen!
 py_0 = 0
 pz_0 = 0
 

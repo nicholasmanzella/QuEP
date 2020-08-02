@@ -20,8 +20,8 @@ x_s = [0, 1, 2, 3, 4, 5, 6, 10, 20, 100, 250, 500]
 #x_s = [200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300]
 #x_s = [0, 5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500 ]
 # Color Scheme
-BW = False # Sequential
-Viridis = True # Sequential + Perceptually Uniform
+WB = False # Sequential
+Viridis = False # Sequential + Perceptually Uniform
 
 def Gamma(p):
     return math.sqrt(1.0 + p**2)
@@ -87,9 +87,14 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
                 zslice[i, j] = z_f[j]
 
 # Plot slices
-    binsizez = 100#282#100
+# Limits: (27, 52), Bins: (100,48) - Centers on plots
+# Limits: (15, 65), Bins: (200,48) - Comparison to UCLA
+    binsizez = 200#282#100
     binsizey = 48#135#48
-    if (BW):
+
+    xlim = 15 #27
+    ylim = 65 #52
+    if (WB):
         cmap = plt.cm.binary
     elif (Viridis):
         cmap = plt.cm.viridis
@@ -103,8 +108,8 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         axs[i].set_title("X = " + str(x_s[i]) + " mm")
         h = axs[i].hist2d(zslice[i,:], yslice[i,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
         axs[i].set_ylim(-3,3)
-        axs[i].set_xlim(27,52)
-        if (BW):
+        axs[i].set_xlim(xlim,ylim)
+        if (WB):
             axs[i].set_facecolor('white')
         elif (Viridis):
             axs[i].set_facecolor('#30013b')
@@ -121,8 +126,8 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         axs2[i].set_title("X = " + str(x_s[i+3]) + " mm")
         h2 = axs2[i].hist2d(zslice[i+3,:], yslice[i+3,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
         axs2[i].set_ylim(-3,3)
-        axs2[i].set_xlim(27,52)
-        if (BW):
+        axs2[i].set_xlim(xlim,ylim)
+        if (WB):
             axs2[i].set_facecolor('white')
         elif (Viridis):
             axs2[i].set_facecolor('#30013b')
@@ -139,8 +144,8 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         axs3[i].set_title("X = " + str(x_s[i+6]) + " mm")
         h3 = axs3[i].hist2d(zslice[i+6,:], yslice[i+6,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
         axs3[i].set_ylim(-3,3)
-        axs3[i].set_xlim(27,52)
-        if (BW):
+        axs3[i].set_xlim(xlim,ylim)
+        if (WB):
             axs3[i].set_facecolor('white')
         elif (Viridis):
             axs3[i].set_facecolor('#30013b')
@@ -158,12 +163,12 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         if (i < 2):
             h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
             axs4[i].set_ylim(-3,3)
-            axs4[i].set_xlim(27,52)
+            axs4[i].set_xlim(xlim,ylim)
         elif (i == 2):
             h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
             axs4[i].set_ylim(-3,3)
-            axs4[i].set_xlim(27,52)
-        if (BW):
+            axs4[i].set_xlim(xlim,ylim)
+        if (WB):
             axs4[i].set_facecolor('white')
         elif (Viridis):
             axs4[i].set_facecolor('#30013b')

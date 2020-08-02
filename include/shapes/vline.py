@@ -21,4 +21,3 @@ def initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,density):
         yin += step
 
     return x_0, y_0, xi_0, z_0
-© 2020 GitHub, Inc.
