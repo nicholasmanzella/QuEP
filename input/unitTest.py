@@ -1,5 +1,5 @@
-# Here is where the initial conditions of the electron probe are defined
-# This filename is the input parameter of the eProbe.py file
+# Initial conditions for sending a single electron through the back blowout regime of Quasi3D simulation
+# useQuasi3D.py has only Mode 0 for EFields and BFields for optimal oscillation
 
 simulation_name = 'QUASI3D'
 shape = 'single'
