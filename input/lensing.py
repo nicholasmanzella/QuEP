@@ -5,7 +5,7 @@ simulation_name = 'QUASI3D'
 shape = 'vline'
 density = 10
 iterations = 15000
-mode = -1
+mode = 0
 
 # Probe centered at the following initial coordinates (in c/w_p):
 x_c = -2.4 # Start within region of field
