@@ -184,7 +184,7 @@ def EField(axis,x,y,xi,r,vx=-1,vy=-1,vz=-1,vr=-1,vphi=-1):
     rDex2 = find_nearest_index(raxis_2, r)
     # Return expanded EFields
     if axis == 1:
-        return E1_M0[rDex2, xiDex1] + E1_M1_Re[rDex2, xiDex1]*cos #+ E1_M1_Im[rDex2, xiDex1]*sin
+        return E1_M0[rDex2, xiDex1] #+ E1_M1_Re[rDex2, xiDex1]*cos + E1_M1_Im[rDex2, xiDex1]*sin
         #return E1_M1_Re[rDex2, xiDex1]*cos + E1_M1_Im[rDex2, xiDex1]*sin
     elif axis == 2:
         return E2_M0[rDex1, xiDex2]*cos - E3_M0[rDex2, xiDex2]*sin #+ E2_M1_Re[rDex1, xiDex2]*cos**2 - E3_M1_Re[rDex2, xiDex2]*cos*sin + E2_M1_Im[rDex1, xiDex2]*cos*sin - E3_M1_Im[rDex2, xiDex2]*sin**2
