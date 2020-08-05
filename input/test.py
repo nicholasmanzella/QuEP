@@ -18,7 +18,7 @@ py_0 = 0
 pz_0 = 1000
 
 # Screen Parameters (Assume infinite in y and z)
-x_s = 5
+x_s = 50
 
 # Shape Parameters (Radius or Side Length)
 s1 = 0.04# In y
