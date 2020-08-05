@@ -43,11 +43,11 @@ EP_0 = 8.854187817e-12               # Vacuum permittivity in C/(V m)
 C = 299892458                        # Speed of light in vacuum in m/s
 
 # Plotting Scripts
-plot2DTracks = True                 # View 2D projections of trajectories
+plot2DTracks = False                 # View 2D projections of trajectories
 # plot3DTracks = False                 # View 3D model of trajectories
 # viewProbeShape = False               # View initial shape of probe separately
 showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
-showFullEvolution = False            # View full evolution of probe at hardcoded locations in colored histograms
+showFullEvolution = True            # View full evolution of probe at hardcoded locations in colored histograms
 # Set all others equal False if want animation saved (dependency issue)
 saveMovie = False                    # Save mp4 of probe evolution
 if (saveMovie):

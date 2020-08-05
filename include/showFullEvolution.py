@@ -21,7 +21,7 @@ x_s = [0, 1, 2, 3, 4, 5, 6, 10, 20, 100, 250, 500]
 #x_s = [0, 5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500 ]
 # Color Scheme
 WB = False # Sequential
-Viridis = False # Sequential + Perceptually Uniform
+Viridis = True # Sequential + Perceptually Uniform
 
 def Gamma(p):
     return math.sqrt(1.0 + p**2)
@@ -89,11 +89,11 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 # Plot slices
 # Limits: (27, 52), Bins: (100,48) - Centers on plots
 # Limits: (15, 65), Bins: (200,48) - Comparison to UCLA
-    binsizez = 200#282#100
-    binsizey = 48#135#48
+    binsizez = 100
+    binsizey = 48
 
-    xlim = 15 #27
-    ylim = 65 #52
+    xlim = 27
+    ylim = 52
     if (WB):
         cmap = plt.cm.binary
     elif (Viridis):
@@ -179,9 +179,14 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     #cbar4 = plt.colorbar(h4[3], ax=axs4)
     #cbar4.set_label('Electron Density')
 
-    fig5.show()
-    fig6.show()
-    fig7.show()
-    fig8.show()
+    # fig5.show()
+    # fig6.show()
+    # fig7.show()
+    # fig8.show()
+
+    fig5.savefig('prog1.png',dpi=200,transparent=True)
+    fig6.savefig('prog2.png',dpi=200,transparent=True)
+    fig7.savefig('prog3.png',dpi=200,transparent=True)
+    fig8.savefig('prog4.png',dpi=200,transparent=True)
 
     input()
