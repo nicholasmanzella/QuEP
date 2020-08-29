@@ -27,15 +27,17 @@ To run the simulation, add an initialization file in the `input` folder, such as
 python3 eProbe.py input.example
 ```
 
-Aside from the electrons' initial momenta, the center of the probe, and the location of the screen, the following parameters must be specified in the initialization file (case insensitive):
+Aside from the electrons' initial momenta, the center of the probe, and the location(s) of the screen, the following parameters must be specified in the initialization file (case insensitive):
 
 • simulation_name - quasi3D
 
-• shape - circle, rectangle, vline, hline, or single
+• shape - circle, disc, hline, vline, single, or rectangle
 
 • density - Number of electrons to be distributed throughout shape
 
-• iterations - Maximum number of steps before tracking is stopped
+• iterations - Maximum number of steps before tracking in plasma is stopped
+
+• mode - Extra simulation specific flag
 
 • Shape Parameters - Define the dimensions of the shape (see initialization files under include.shape for specifications)
 
