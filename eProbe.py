@@ -43,7 +43,7 @@ EP_0 = 8.854187817e-12               # Vacuum permittivity in C/(V m)
 C = 299892458                        # Speed of light in vacuum in m/s
 
 # Plotting Scripts
-# plot2DTracks = False                 # View 2D projections of trajectories
+plot2DTracks = False                 # View 2D projections of trajectories
 # plot3DTracks = False                 # View 3D model of trajectories
 # viewProbeShape = False               # View initial shape of probe separately
 showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
@@ -259,7 +259,7 @@ def main():
     j = 0
     for i in range (0, noElec):
         if (j == 10 and i == noElec-1):
-            print("Simulation " + str(percent[j]) + "% Complete")
+            print("Simulation " + str(percent[j]) + "% Complete", end='\n')
         elif (i == milestone[j]):
             print("Simulation " + str(percent[j]) + "% Complete", end='\r' )
             #print("i = ", i)
@@ -280,8 +280,8 @@ def main():
     print("Duration: ", (time.time() - start_time)/60, " min")
 
 # Plot data points
-    # if (plot2DTracks):
-    #     plot2D.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, s1, s2, noElec)
+    if (plot2DTracks):
+        plot2D.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noElec)
     # if (plot3DTracks):
     #     plot3D.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, s1, s2, noElec)
     if (showQuickEvolution):

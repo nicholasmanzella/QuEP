@@ -16,11 +16,11 @@ EP_0 = 8.854187817e-12               # Vacuum permittivity in C/(V m)
 C = 299892458                        # Speed of light in vacuum in m/s
 
 # Snapshot locations (12 total, in mm):
-#x_s = [0, 1, 2, 3, 4, 5, 6, 10, 20, 100, 250, 500]
+x_s = [0, 1, 2, 3, 4, 5, 6, 10, 20, 100, 250, 500]
 #x_s = [200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300]
-x_s = [0, 5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500 ]
+#x_s = [0, 5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500 ]
 # Color Scheme
-BW = False # Sequential
+WB = False # Sequential
 Viridis = True # Sequential + Perceptually Uniform
 
 def Gamma(p):
@@ -48,13 +48,6 @@ def getBallisticTraj(x_0,y_0,xi_0,z_0,px,py,pz,x_s):
     xi_f = xi_0 + dx * (pz/px) + t
 
     return y_f, xi_f, z_f
-
-def find_nearest_index(array,value):
-    idx = np.searchsorted(array, value, side="right")
-    if idx > 0 and (idx == len(array) or math.fabs(value - array[idx-1]) < math.fabs(value - array[idx])):
-        return idx-1
-    else:
-        return idx
 
 def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 # Plot evolution of probe after leaving plasma
@@ -94,9 +87,14 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
                 zslice[i, j] = z_f[j]
 
 # Plot slices
-    binsizez = 100#52
-    binsizey = 48 #42#52#62
-    if (BW):
+# Limits: (27, 52), Bins: (100,48) - Centers on plots
+# Limits: (15, 65), Bins: (200,48) - Comparison to UCLA
+    binsizez = 100
+    binsizey = 48
+
+    xlim = 27
+    ylim = 52
+    if (WB):
         cmap = plt.cm.binary
     elif (Viridis):
         cmap = plt.cm.viridis
@@ -110,8 +108,8 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         axs[i].set_title("X = " + str(x_s[i]) + " mm")
         h = axs[i].hist2d(zslice[i,:], yslice[i,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
         axs[i].set_ylim(-3,3)
-        axs[i].set_xlim(27,52)
-        if (BW):
+        axs[i].set_xlim(xlim,ylim)
+        if (WB):
             axs[i].set_facecolor('white')
         elif (Viridis):
             axs[i].set_facecolor('#30013b')
@@ -128,8 +126,8 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         axs2[i].set_title("X = " + str(x_s[i+3]) + " mm")
         h2 = axs2[i].hist2d(zslice[i+3,:], yslice[i+3,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
         axs2[i].set_ylim(-3,3)
-        axs2[i].set_xlim(27,52)
-        if (BW):
+        axs2[i].set_xlim(xlim,ylim)
+        if (WB):
             axs2[i].set_facecolor('white')
         elif (Viridis):
             axs2[i].set_facecolor('#30013b')
@@ -146,8 +144,8 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         axs3[i].set_title("X = " + str(x_s[i+6]) + " mm")
         h3 = axs3[i].hist2d(zslice[i+6,:], yslice[i+6,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
         axs3[i].set_ylim(-3,3)
-        axs3[i].set_xlim(27,52)
-        if (BW):
+        axs3[i].set_xlim(xlim,ylim)
+        if (WB):
             axs3[i].set_facecolor('white')
         elif (Viridis):
             axs3[i].set_facecolor('#30013b')
@@ -163,14 +161,14 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     for i in range(0, 3):
         axs4[i].set_title("X = " + str(x_s[i+9]) + " mm")
         if (i < 2):
-            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(100,48), cmap=cmap)#, norm=norm)
+            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
             axs4[i].set_ylim(-3,3)
-            axs4[i].set_xlim(27,52)
+            axs4[i].set_xlim(xlim,ylim)
         elif (i == 2):
-            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(100,48), cmap=cmap)#, norm=norm)
+            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
             axs4[i].set_ylim(-3,3)
-            axs4[i].set_xlim(27,52)
-        if (BW):
+            axs4[i].set_xlim(xlim,ylim)
+        if (WB):
             axs4[i].set_facecolor('white')
         elif (Viridis):
             axs4[i].set_facecolor('#30013b')
@@ -181,9 +179,14 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     #cbar4 = plt.colorbar(h4[3], ax=axs4)
     #cbar4.set_label('Electron Density')
 
-    fig5.show()
-    fig6.show()
-    fig7.show()
-    fig8.show()
+    # fig5.show()
+    # fig6.show()
+    # fig7.show()
+    # fig8.show()
+
+    fig5.savefig('prog1.png',dpi=200,transparent=True)
+    fig6.savefig('prog2.png',dpi=200,transparent=True)
+    fig7.savefig('prog3.png',dpi=200,transparent=True)
+    fig8.savefig('prog4.png',dpi=200,transparent=True)
 
     input()

@@ -31,8 +31,10 @@ def getFieldArrays():
 def main():
 
     start_time = time.time()
+    t0 = sim.getTime()
 
     xiaxis, raxis, Er_full, Er_m0, Er_m1 = getFieldArrays()
+    zaxis = [xi + t0 for xi in xiaxis]
 
     fig1, ax1 = plt.subplots(figsize=(10,8))
     fig2, ax2 = plt.subplots(figsize=(10,8))
@@ -43,18 +45,25 @@ def main():
 
     #ax.set(xlabel = '$\\xi$ ($c/\omega_p$)', ylabel = 'x ($c/\omega_p$)')
 
-    Er_m0 = ax1.pcolormesh(xiaxis, raxis, Er_m0, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
-    Er_m1 = ax2.pcolormesh(xiaxis, raxis, Er_m1, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
-    Er_full = ax3.pcolormesh(xiaxis, raxis, Er_full, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
+    Er_m0 = ax1.pcolormesh(zaxis, raxis, Er_m0, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
+    Er_m1 = ax2.pcolormesh(zaxis, raxis, Er_m1, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
+    Er_full = ax3.pcolormesh(zaxis, raxis, Er_full, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
     ax1.set_ylim(0,1.5)
     ax2.set_ylim(0,1.5)
     ax3.set_ylim(0,1.5)
+
+    ax1.set(xlabel = 'z ($c/\omega_p$)', ylabel = 'r ($c/\omega_p$)')
+    ax2.set(xlabel = 'z ($c/\omega_p$)', ylabel = 'r ($c/\omega_p$)')
+    ax3.set(xlabel = 'z ($c/\omega_p$)', ylabel = 'r ($c/\omega_p$)')
+    ax1.set_title('Transverse Electric Field, M0 Only')
+    ax2.set_title('Transverse Electric Field, M1 Only')
+    ax3.set_title('Transverse Electric Field, M0 + M1')
 
     tick_locations=[x*0.01 for x in range(2,10)]+ [x*0.01 for x in range(-10,-1)] + [x*0.1 for x in range(-10,10)] +[ x for x in range(-10,10)]
     cbar_ax = fig3.add_axes([0.83, 0.05, 0.03, 0.9])
     cbar = fig3.colorbar(Er_full, cax=cbar_ax, ticks=tick_locations, format=ticker.LogFormatterMathtext())
 
-    #cbar.set_label('Electric Field ($m_e c \omega_p / e$)')
+    cbar.set_label('Electric Field ($m_e c \omega_p / e$)')
 
     print((time.time() - start_time)/60, " min")
 
