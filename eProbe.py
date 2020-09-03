@@ -46,7 +46,7 @@ C = 299892458                        # Speed of light in vacuum in m/s
 plot2DTracks = False                 # View 2D projections of trajectories
 # plot3DTracks = False                 # View 3D model of trajectories
 # viewProbeShape = False               # View initial shape of probe separately
-showQuickEvolution = True           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
+showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
 showFullEvolution = False            # View full evolution of probe at hardcoded locations in colored histograms
 # Set all others equal False if want animation saved (dependency issue)
 saveMovie = False                    # Save mp4 of probe evolution
@@ -205,6 +205,7 @@ def main():
         den = init.density
         iter = init.iterations
         mode = init.mode
+        fname = init.fname
         x_c = init.x_c
         y_c = init.y_c
         xi_c = init.xi_c
@@ -278,6 +279,8 @@ def main():
     curr_time_f = time.strftime("%H:%M:%S", tf)
     print("End Time: ", curr_time_f)
     print("Duration: ", (time.time() - start_time)/60, " min")
+
+    np.savez(fname, x_dat=x_f, y_dat=y_f, xi_dat=xi_f, z_dat=z_f, px_dat=px_f, py_dat=py_f, pz_dat=pz_f)
 
 # Plot data points
     if (plot2DTracks):

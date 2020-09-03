@@ -8,8 +8,8 @@ import pdb
 def initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,density):
     x_0, y_0, xi_0, z_0 = [],[],[],[]
 
-    ydensity = 500#density
-    xidensity = 2500#density 
+    ydensity = 250#density
+    xidensity = 250#density
 
     xistep = 0.002 #2*s2/density
     ystep = 0.002 #2*s1/density
