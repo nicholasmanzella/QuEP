@@ -54,11 +54,9 @@ if (saveMovie):
     import include.makeAnimation as makeAnimation
 
 if __name__ == '__main__':
-
+    # Start of main()
     # Initialize multiprocessing.Pool()
     pool = mp.Pool(mp.cpu_count())
-
-    # Start of main()
 
     start_time = time.time()
     t = time.localtime()
@@ -119,13 +117,11 @@ if __name__ == '__main__':
 
         noElec = len(x_0) # Number of electrons to track
 
-    else:
-        print("Improper number of arguments. Expected 'python3 eProbe.py <fname>'")
-
-    x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = [pool.apply(eProbe.getTrajectory, args=(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode, sim_name)) for i in range(0,noElec)]
-    pool.close()
-
     #x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = [],[],[],[],[],[],[] # Final positions and momenta of electrons
+
+        x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = zip(*pool.starmap(eProbe.getTrajectory, [(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode, sim_name) for i in range(0,noElec)]))
+
+        pool.close()
 
     # for i in range (0, noElec):
     #     xn, yn, xin, zn, pxn, pyn, pzn = getTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode)
@@ -137,25 +133,29 @@ if __name__ == '__main__':
     #     py_f.append(pyn)
     #     pz_f.append(pzn)
 
-    tf = time.localtime()
-    curr_time_f = time.strftime("%H:%M:%S", tf)
-    print("End Time: ", curr_time_f)
-    print("Duration: ", (time.time() - start_time)/60, " min")
+        tf = time.localtime()
+        curr_time_f = time.strftime("%H:%M:%S", tf)
+        print("End Time: ", curr_time_f)
+        print("Duration: ", (time.time() - start_time)/60, " min")
 
-    np.savez(fname, x_dat=x_f, y_dat=y_f, xi_dat=xi_f, z_dat=z_f, px_dat=px_f, py_dat=py_f, pz_dat=pz_f)
+        np.savez(fname, x_dat=x_f, y_dat=y_f, xi_dat=xi_f, z_dat=z_f, px_dat=px_f, py_dat=py_f, pz_dat=pz_f)
 
-# Plot data points
-    if (plot2DTracks):
-        plot2D.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noElec)
-    # if (plot3DTracks):
-    #     plot3D.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, s1, s2, noElec)
-    if (showQuickEvolution):
-        showEvol_Q.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noElec, iter)
-    if (showFullEvolution):
-        showEvol_F.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
-    # if (viewProbeShape):
-    #     viewProbe.plot(x_dat, y_dat, xi_dat, z_dat, sim_name, shape_name, s1, s2, noElec)
-    if (saveMovie):
-        makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
+    else:
+        print("Improper number of arguments. Expected 'python3 eProbe.py <fname>'")
+        exit()
+
+# # Plot data points
+#     if (plot2DTracks):
+#         plot2D.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noElec)
+#     # if (plot3DTracks):
+#     #     plot3D.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, s1, s2, noElec)
+#     if (showQuickEvolution):
+#         showEvol_Q.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noElec, iter)
+#     if (showFullEvolution):
+#         showEvol_F.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
+#     # if (viewProbeShape):
+#     #     viewProbe.plot(x_dat, y_dat, xi_dat, z_dat, sim_name, shape_name, s1, s2, noElec)
+#     if (saveMovie):
+#         makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
 
 #main()
