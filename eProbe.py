@@ -26,6 +26,7 @@ import h5py as h5
 import importlib
 import pdb
 import time
+import multiprocessing as mp
 
 # Include file imports
 import include.plot2DTracks as plot2D
@@ -51,7 +52,11 @@ saveMovie = False                    # Save mp4 of probe evolution
 if (saveMovie):
     import include.makeAnimation as makeAnimation
 
-def main():
+#def main():
+if __name__ == '__main__':
+
+    # Initialize multiprocessing.Pool()
+    pool = mp.Pool(mp.cpu_count())
 
     def Gamma(p):
         return math.sqrt(1.0 + p**2)
@@ -246,32 +251,24 @@ def main():
         x_0, y_0, xi_0, z_0 = shape.initProbe(x_c, y_c, xi_c, t0, s1, s2, s3, den)
 
         noElec = len(x_0) # Number of electrons to track
-        milestone = np.linspace(0, noElec, 11)
-        percent = np.linspace(0, 100, 11)
 
     else:
         print("Improper number of arguments. Expected 'python3 eProbe.py <fname>'")
-        return
 
-    x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = [],[],[],[],[],[],[] # Final positions and momenta of electrons
+    x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = [pool.apply(getTrajectory, args=(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode)) for i in range(0,noElec)]
+    pool.close()
 
-    j = 0
-    for i in range (0, noElec):
-        if (j == 10 and i == noElec-1):
-            print("Simulation " + str(percent[j]) + "% Complete", end='\n')
-        elif (i == milestone[j]):
-            print("Simulation " + str(percent[j]) + "% Complete", end='\r' )
-            #print("i = ", i)
-            j += 1
-            #pdb.set_trace()
-        xn, yn, xin, zn, pxn, pyn, pzn = getTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode)
-        x_f.append(xn)
-        y_f.append(yn)
-        xi_f.append(xin)
-        z_f.append(zn)
-        px_f.append(pxn)
-        py_f.append(pyn)
-        pz_f.append(pzn)
+    #x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = [],[],[],[],[],[],[] # Final positions and momenta of electrons
+
+    # for i in range (0, noElec):
+    #     xn, yn, xin, zn, pxn, pyn, pzn = getTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode)
+    #     x_f.append(xn)
+    #     y_f.append(yn)
+    #     xi_f.append(xin)
+    #     z_f.append(zn)
+    #     px_f.append(pxn)
+    #     py_f.append(pyn)
+    #     pz_f.append(pzn)
 
     tf = time.localtime()
     curr_time_f = time.strftime("%H:%M:%S", tf)
@@ -293,4 +290,5 @@ def main():
     #     viewProbe.plot(x_dat, y_dat, xi_dat, z_dat, sim_name, shape_name, s1, s2, noElec)
     if (saveMovie):
         makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
-main()
+
+#main()
