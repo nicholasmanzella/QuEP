@@ -1,3 +1,6 @@
+import math
+import numpy as np
+
 def Gamma(p):
     return math.sqrt(1.0 + p**2)
 

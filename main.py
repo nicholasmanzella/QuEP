@@ -29,6 +29,7 @@ import time
 import multiprocessing as mp
 
 # Include file imports
+import eProbe
 import include.plot2DTracks as plot2D
 import include.plot3DTracks as plot3D
 import include.showQuickEvolution as showEvol_Q
