@@ -122,7 +122,7 @@ if __name__ == '__main__':
     else:
         print("Improper number of arguments. Expected 'python3 eProbe.py <fname>'")
 
-    x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = [pool.apply(eProbe.getTrajectory, args=(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode)) for i in range(0,noElec)]
+    x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = [pool.apply(eProbe.getTrajectory, args=(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode, sim_name)) for i in range(0,noElec)]
     pool.close()
 
     #x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = [],[],[],[],[],[],[] # Final positions and momenta of electrons

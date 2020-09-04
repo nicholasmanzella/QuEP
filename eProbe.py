@@ -96,9 +96,17 @@ def Momentum(x,y,xi,dt,px,py,pz,mode):
     gam = Gamma(p)
     return px, py, pz, p, gam, Fx, Fy, Fz
 
-def getTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,mode):
+def getTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,mode,sim_name):
 # Returns array of x, y, xi, z, and final x, y, xi, z, px, py, pz
 
+    if (sim_name.upper() == 'OSIRIS_CYLINSYMM'):
+        import include.simulations.useOsiCylin as sim
+    elif (sim_name.upper() == 'QUASI3D'):
+        import include.simulations.useQuasi3D as sim
+    else:
+        print("Simulation name unrecognized. Quitting...")
+        exit()
+        
     t = t0                       # Start time in 1/w_p
     dt = 0.005                   # Time step in 1/w_p
     xn = x_0                     # Positions in c/w_p
