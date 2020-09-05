@@ -5,14 +5,11 @@ import pdb
 
 # Initializes probe as a rectangular outline of electrons with area 2*s2 * 2*s1
 
-def initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,density):
+def initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,ydensity,xidensity,resolution):
     x_0, y_0, xi_0, z_0 = [],[],[],[]
 
-    ydensity = 500#density
-    xidensity = 2500#density
-
-    xistep = 0.002 #2*s2/density
-    ystep = 0.002 #2*s1/density
+    xistep = resolution
+    ystep = resolution
     #xstep = s3/(density/20)
     #print("Xstep = ", xstep)
 

@@ -70,7 +70,9 @@ if __name__ == '__main__':
         init = importlib.import_module(input_fname)
         sim_name = init.simulation_name
         shape_name = init.shape
-        den = init.density
+        yden = init.ydensity
+        xiden = init.xidensity
+        res = init.resolution
         iter = init.iterations
         mode = init.mode
         fname = init.fname
@@ -113,7 +115,7 @@ if __name__ == '__main__':
             exit()
 
     # Get arrays of initial coordinates in shape of probe
-        x_0, y_0, xi_0, z_0 = shape.initProbe(x_c, y_c, xi_c, t0, s1, s2, s3, den)
+        x_0, y_0, xi_0, z_0 = shape.initProbe(x_c, y_c, xi_c, t0, s1, s2, s3, yden, xiden, res)
 
         noElec = len(x_0) # Number of electrons to track
 
