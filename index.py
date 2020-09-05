@@ -39,14 +39,14 @@ s1 = init.s1
 s2 = init.s2
 s3 = init.s3
 
-data = np.load('./arrays/M=-1/' + fname)
-x_f = data['x_f']
-y_f = data['y_f']
-xi_f = data['xi_f']
-z_f = data['z_f']
-px_f = data['px_f']
-py_f = data['py_f']
-pz_f = data['pz_f']
+data = np.load(fname)
+x_f = data['x_dat']
+y_f = data['y_dat']
+xi_f = data['xi_dat']
+z_f = data['z_dat']
+px_f = data['px_dat']
+py_f = data['py_dat']
+pz_f = data['pz_dat']
 
 noElec = len(x_f)
 
