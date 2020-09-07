@@ -24,7 +24,9 @@ print("Using initial conditions from ", input_fname)
 init = importlib.import_module(input_fname)
 sim_name = init.simulation_name
 shape_name = init.shape
-den = init.density
+yden = init.ydensity
+xiden = init.xidensity
+res = init.resolution
 iter = init.iterations
 mode = init.mode
 fname = init.fname
