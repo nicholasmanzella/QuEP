@@ -8,6 +8,7 @@ import matplotlib.cm as cm
 import matplotlib.ticker as ticker
 import pdb
 import math
+import copy
 
 # Definition of Constants
 M_E = 9.109e-31                      # Electron rest mass in kg
@@ -23,7 +24,8 @@ x_s = [0, 5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500 ]
 # Color Scheme
 WB = False # Sequential
 Viridis = False # Sequential + Perceptually Uniform
-Jet = True # 0 mapped to white, jet otherwise
+BuPu = False # Sequential
+Jet = True
 
 def Gamma(p):
     return math.sqrt(1.0 + p**2)
@@ -92,11 +94,11 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 # For binsize = 0.25 c/wp
 # Limits: (27, 52), Bins: (100,48) - Centers on plots
 # Limits: (15, 65), Bins: (200,48) - Comparison to UCLA
-# For binsize = 0.0088 c/wp
+# For binsize = 0.088 c/wp
 # Limits: (27,52), Bins: (284,48)
 
-    binsizez = 284
-    binsizey = 48
+    binsizez = 568#284
+    binsizey = 272#136#68
 
     xmin = 27
     xmax = 52
@@ -104,9 +106,11 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         cmap = plt.cm.binary
     elif (Viridis):
         cmap = plt.cm.viridis
+    elif (BuPu):
+        cmap = plt.cm.BuPu
     elif (Jet):
-        cmap = mpl.cm.get_cmap('jet')
-        cmap.set_bad(color='white')
+        cmap = copy.copy(plt.get_cmap('jet'))
+        cmap.set_under(color='white')
     else:
         cmap = plt.cm.gist_gray
     norm = mpl.colors.Normalize(vmin=0, vmax=50)
@@ -115,15 +119,17 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     fig5.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
         axs[i].set_title("X = " + str(x_s[i]) + " mm")
-        h = axs[i].hist2d(zslice[i,:], yslice[i,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
-        axs[i].set_ylim(-3,3)
+        h = axs[i].hist2d(zslice[i,:], yslice[i,:], bins=(binsizez,binsizey), cmap=cmap, vmin=5)#, norm=norm)
+        axs[i].set_ylim(-6,6)
         axs[i].set_xlim(xmin,xmax)
         if (WB):
             axs[i].set_facecolor('white')
         elif (Viridis):
             axs[i].set_facecolor('#30013b')
+        #elif (Jet):
+            #axs[i].set_facecolor('#000080')
         else:
-            axs[i].set_facecolor('black')
+            axs[i].set_facecolor('white')
 
     axs[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
     #cbar = plt.colorbar(h[3], ax=axs)
@@ -133,15 +139,17 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     fig6.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
         axs2[i].set_title("X = " + str(x_s[i+3]) + " mm")
-        h2 = axs2[i].hist2d(zslice[i+3,:], yslice[i+3,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
-        axs2[i].set_ylim(-3,3)
+        h2 = axs2[i].hist2d(zslice[i+3,:], yslice[i+3,:], bins=(binsizez,binsizey), cmap=cmap, vmin=5)#, norm=norm)
+        axs2[i].set_ylim(-6,6)
         axs2[i].set_xlim(xmin,xmax)
         if (WB):
             axs2[i].set_facecolor('white')
         elif (Viridis):
             axs2[i].set_facecolor('#30013b')
+        #elif (Jet):
+            #axs2[i].set_facecolor('#000080')
         else:
-            axs2[i].set_facecolor('black')
+            axs2[i].set_facecolor('white')
 
     axs2[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
     #cbar2 = plt.colorbar(h2[3], ax=axs2)
@@ -151,15 +159,17 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     fig7.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
         axs3[i].set_title("X = " + str(x_s[i+6]) + " mm")
-        h3 = axs3[i].hist2d(zslice[i+6,:], yslice[i+6,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
-        axs3[i].set_ylim(-3,3)
+        h3 = axs3[i].hist2d(zslice[i+6,:], yslice[i+6,:], bins=(binsizez,binsizey), cmap=cmap, vmin=5)#, norm=norm)
+        axs3[i].set_ylim(-6,6)
         axs3[i].set_xlim(xmin,xmax)
         if (WB):
             axs3[i].set_facecolor('white')
         elif (Viridis):
             axs3[i].set_facecolor('#30013b')
+        #elif (Jet):
+            #axs3[i].set_facecolor('#000080')
         else:
-            axs3[i].set_facecolor('black')
+            axs3[i].set_facecolor('white')
 
     axs3[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
     #cbar3 = plt.colorbar(h3[3], ax=axs3)
@@ -170,19 +180,21 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     for i in range(0, 3):
         axs4[i].set_title("X = " + str(x_s[i+9]) + " mm")
         if (i < 2):
-            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
-            axs4[i].set_ylim(-3,3)
+            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=5)#, norm=norm)
+            axs4[i].set_ylim(-6,6)
             axs4[i].set_xlim(xmin,xmax)
         elif (i == 2):
-            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap)#, norm=norm)
-            axs4[i].set_ylim(-3,3)
+            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=5)#, norm=norm)
+            axs4[i].set_ylim(-6,6)
             axs4[i].set_xlim(xmin,xmax)
         if (WB):
             axs4[i].set_facecolor('white')
         elif (Viridis):
             axs4[i].set_facecolor('#30013b')
+        #elif (Jet):
+            #axs4[i].set_facecolor('#000080')
         else:
-            axs4[i].set_facecolor('black')
+            axs4[i].set_facecolor('white')
 
     axs4[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
     #cbar4 = plt.colorbar(h4[3], ax=axs4)
@@ -193,9 +205,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     # fig7.show()
     # fig8.show()
 
-    fig5.savefig('prog1.png',dpi=200,transparent=True)
-    fig6.savefig('prog2.png',dpi=200,transparent=True)
-    fig7.savefig('prog3.png',dpi=200,transparent=True)
-    fig8.savefig('prog4.png',dpi=200,transparent=True)
-
-    input()
+    fig5.savefig('prog1.png',dpi=200,transparent=False)
+    fig6.savefig('prog2.png',dpi=200,transparent=False)
+    fig7.savefig('prog3.png',dpi=200,transparent=False)
+    fig8.savefig('prog4.png',dpi=200,transparent=False)
