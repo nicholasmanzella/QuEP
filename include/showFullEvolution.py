@@ -94,14 +94,19 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 # For binsize = 0.25 c/wp
 # Limits: (27, 52), Bins: (100,48) - Centers on plots
 # Limits: (15, 65), Bins: (200,48) - Comparison to UCLA
-# For binsize = 0.088 c/wp
-# Limits: (27,52), Bins: (284,48)
+# For binsize = 0.088 c/wp, (-6,6)
+# Limits: (27,52), Bins: (284,68)
+# For binsize = 0.044 c/wp, (-6,6)
+# Limits: (27,52), Bins: (568,136)
+# For binsize = 0.022 c/wp (-6,6)
+# Limits: (27,52), Bins: ( ,272)
 
-    binsizez = 568#95#568#284
-    binsizey = 272#136#68
+    binsizez = 226#95#568#284
+    binsizey = 45#272#136#68
 
-    xmin = 27
-    xmax = 52
+    xmin = 35#27
+    xmax = 40#52
+
     if (WB):
         cmap = plt.cm.binary
     elif (Viridis):
@@ -180,12 +185,12 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     for i in range(0, 3):
         axs4[i].set_title("X = " + str(x_s[i+9]) + " mm")
         if (i < 2):
-            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=5, norm=norm)
-            axs4[i].set_ylim(-6,6)
+            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=5)#, norm=norm)
+            axs4[i].set_ylim(-1,1)
             axs4[i].set_xlim(xmin,xmax)
         elif (i == 2):
             h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=5, norm=norm)
-            axs4[i].set_ylim(-6,6)
+            axs4[i].set_ylim(-1,1)
             axs4[i].set_xlim(xmin,xmax)
         if (WB):
             axs4[i].set_facecolor('white')
@@ -203,9 +208,9 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     # fig5.show()
     # fig6.show()
     # fig7.show()
-    # fig8.show()
+    #fig8.show()
 
-    fig5.savefig('prog1.png',dpi=200,transparent=False)
-    fig6.savefig('prog2.png',dpi=200,transparent=False)
-    fig7.savefig('prog3.png',dpi=200,transparent=False)
+    #fig5.savefig('prog1.png',dpi=200,transparent=False)
+    #fig6.savefig('prog2.png',dpi=200,transparent=False)
+    #fig7.savefig('prog3.png',dpi=200,transparent=False)
     fig8.savefig('prog4.png',dpi=200,transparent=False)
