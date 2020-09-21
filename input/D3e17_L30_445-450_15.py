@@ -6,7 +6,7 @@ shape = 'rectangle'
 # dt = 0.005, 150000
 iterations = 500000
 mode = -1
-fname = "D3e17_L30_445-450_1-5.npz"
+fname = "D3e17_L30_445-450_15.npz"
 
 # Probe centered at the following initial coordinates (in c/w_p):
 x_c = -5 # Start within region of field

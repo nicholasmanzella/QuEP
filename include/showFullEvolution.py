@@ -92,16 +92,17 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 
 # Plot slices
 # For bin size = 0.006
-# Limits: (27,52), (-6,6), Bins: (4167,2000)
+# Run 130 Limits: (27,52), (-6,6), Bins: (4167,2000)
 #         (35,40), (-1,1), Bins: (833,333)
 # For bin size = 0.03
-# Limits: (27,52), (-6,6), Bins: (833,400)
+# Run 130 Limits: (27,52), (-6,6), Bins: (833,400)
+# Run 232 Limits: (435,475), (0,6), Bins: (1333,200)
 
-    binsizez = 833
-    binsizey = 400
+    binsizez = 20#1333
+    binsizey = 10#200
 
-    xmin = 27
-    xmax = 52
+    xmin = 435
+    xmax = 475
 
     if (WB):
         cmap = plt.cm.binary
@@ -204,7 +205,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     # fig5.show()
     # fig6.show()
     # fig7.show()
-    #fig8.show()
+    # fig8.show()
 
     fig5.savefig('prog1.png',dpi=200,transparent=False)
     fig6.savefig('prog2.png',dpi=200,transparent=False)
