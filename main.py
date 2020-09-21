@@ -117,6 +117,7 @@ if __name__ == '__main__':
     # Get arrays of initial coordinates in shape of probe
         x_0, y_0, xi_0, z_0 = shape.initProbe(x_c, y_c, xi_c, t0, s1, s2, s3, yden, xiden, res)
 
+        print("Probe initialized")
         noElec = len(x_0) # Number of electrons to track
 
     #x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = [],[],[],[],[],[],[] # Final positions and momenta of electrons
