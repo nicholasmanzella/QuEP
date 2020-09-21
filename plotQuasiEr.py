@@ -48,9 +48,9 @@ def main():
     Er_m0 = ax1.pcolormesh(zaxis, raxis, Er_m0, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
     Er_m1 = ax2.pcolormesh(zaxis, raxis, Er_m1, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
     Er_full = ax3.pcolormesh(zaxis, raxis, Er_full, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
-    ax1.set_ylim(0,1.5)
-    ax2.set_ylim(0,1.5)
-    ax3.set_ylim(0,1.5)
+    #ax1.set_ylim(0,1.5)
+    #ax2.set_ylim(0,1.5)
+    #ax3.set_ylim(0,1.5)
 
     ax1.set(xlabel = 'z ($c/\omega_p$)', ylabel = 'r ($c/\omega_p$)')
     ax2.set(xlabel = 'z ($c/\omega_p$)', ylabel = 'r ($c/\omega_p$)')
