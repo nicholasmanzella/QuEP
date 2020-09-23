@@ -99,7 +99,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 # Run 232 Limits: (435,475), (0,6), Bins: (1333,200)
 
     binsizez = 2666#1333
-    binsizey = 333#200
+    binsizey = 666#200
 
     xmin = 420
     xmax = 500
@@ -122,7 +122,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     for i in range(0, 3):
         axs[i].set_title("X = " + str(x_s[i]) + " mm")
         h = axs[i].hist2d(zslice[i,:], yslice[i,:], bins=(binsizez,binsizey), cmap=cmap, vmin=5, norm=norm)
-        axs[i].set_ylim(0,10)
+        axs[i].set_ylim(-10,10)
         axs[i].set_xlim(xmin,xmax)
         if (WB):
             axs[i].set_facecolor('white')
@@ -142,7 +142,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     for i in range(0, 3):
         axs2[i].set_title("X = " + str(x_s[i+3]) + " mm")
         h2 = axs2[i].hist2d(zslice[i+3,:], yslice[i+3,:], bins=(binsizez,binsizey), cmap=cmap, vmin=5, norm=norm)
-        axs2[i].set_ylim(0,10)
+        axs2[i].set_ylim(-10,10)
         axs2[i].set_xlim(xmin,xmax)
         if (WB):
             axs2[i].set_facecolor('white')
@@ -162,7 +162,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     for i in range(0, 3):
         axs3[i].set_title("X = " + str(x_s[i+6]) + " mm")
         h3 = axs3[i].hist2d(zslice[i+6,:], yslice[i+6,:], bins=(binsizez,binsizey), cmap=cmap, vmin=5, norm=norm)
-        axs3[i].set_ylim(0,10)
+        axs3[i].set_ylim(-10,10)
         axs3[i].set_xlim(xmin,xmax)
         if (WB):
             axs3[i].set_facecolor('white')
@@ -183,11 +183,11 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         axs4[i].set_title("X = " + str(x_s[i+9]) + " mm")
         if (i < 2):
             h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=5, norm=norm)
-            axs4[i].set_ylim(0,10)
+            axs4[i].set_ylim(-10,10)
             axs4[i].set_xlim(xmin,xmax)
         elif (i == 2):
             h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=5, norm=norm)
-            axs4[i].set_ylim(0,10)
+            axs4[i].set_ylim(-10,10)
             axs4[i].set_xlim(xmin,xmax)
         if (WB):
             axs4[i].set_facecolor('white')
