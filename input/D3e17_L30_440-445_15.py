@@ -10,7 +10,7 @@ fname = "D3e17_L30_440-445_15.npz"
 
 # Probe centered at the following initial coordinates (in c/w_p):
 x_c = -5 # Start within region of field
-y_c = 1.5
+y_c = 0.5
 xi_c = -126.5 # (t0 = 569)
 
 # Initial momentum
@@ -23,11 +23,11 @@ pz_0 = 0
 x_s = [10, 50, 100, 250, 500]
 
 # Shape Parameters (Radius or Side Length, in c/w_p):
-s1 = 1.5 # In y
+s1 = 0.5 # In y
 s2 = 2.5 # In xi
 s3 = 1 # In x
 
 # Densities
-ydensity = 1500
+ydensity = 500
 xidensity = 2500
 resolution = 0.002
