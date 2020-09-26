@@ -6,12 +6,12 @@ shape = 'rectangle'
 # dt = 0.005, 150000
 iterations = 500000
 mode = -1
-fname = "D3e17_L30_445-450_15.npz"
+fname = "D3e17_L30_440-460_15.npz"
 
 # Probe centered at the following initial coordinates (in c/w_p):
 x_c = -5 # Start within region of field
-y_c = 0.5
-xi_c = -121.5 # (t0 = 569)
+y_c = 0
+xi_c = -119 # (t0 = 569)
 
 # Initial momentum
 px_0 = 110 # Make sure it goes towards the screen!
@@ -23,11 +23,11 @@ pz_0 = 0
 x_s = [10, 50, 100, 250, 500]
 
 # Shape Parameters (Radius or Side Length, in c/w_p):
-s1 = 0.5 # In y
-s2 = 2.5 # In xi
+s1 = 1.5 # In y
+s2 = 10 # In xi
 s3 = 1 # In x
 
 # Densities
-ydensity = 500
-xidensity = 2500
-resolution = 0.002
+ydensity = 50
+xidensity = 333
+resolution = 0.03
