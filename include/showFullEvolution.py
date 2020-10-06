@@ -17,9 +17,9 @@ EP_0 = 8.854187817e-12               # Vacuum permittivity in C/(V m)
 C = 299892458                        # Speed of light in vacuum in m/s
 
 # Snapshot locations (12 total, in mm):
-#x_s = [0, 1, 2, 3, 4, 5, 6, 10, 20, 100, 250, 500]
+x_s = [0, 1, 2, 3, 4, 5, 6, 10, 13, 16, 20, 25]
 #x_s = [200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300]
-x_s = [0, 5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500 ]
+#x_s = [0, 5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500 ]
 
 # Color Scheme
 WB = False # Sequential
@@ -101,8 +101,8 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     binsizez = 50#2666#1333
     binsizey = 20#666#200
 
-    xmin = 420
-    xmax = 500
+    xmin = 27#420
+    xmax = 52#480
 
     if (WB):
         cmap = plt.cm.binary
@@ -123,7 +123,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         axs[i].set_title("X = " + str(x_s[i]) + " mm")
         h = axs[i].hist2d(zslice[i,:], yslice[i,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
         #axs[i].set_ylim(-10,10)
-        #axs[i].set_xlim(xmin,xmax)
+        axs[i].set_xlim(xmin,xmax)
         if (WB):
             axs[i].set_facecolor('white')
         elif (Viridis):
@@ -143,7 +143,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         axs2[i].set_title("X = " + str(x_s[i+3]) + " mm")
         h2 = axs2[i].hist2d(zslice[i+3,:], yslice[i+3,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)# norm=norm)
         #axs2[i].set_ylim(-10,10)
-        #axs2[i].set_xlim(xmin,xmax)
+        axs2[i].set_xlim(xmin,xmax)
         if (WB):
             axs2[i].set_facecolor('white')
         elif (Viridis):
@@ -163,7 +163,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         axs3[i].set_title("X = " + str(x_s[i+6]) + " mm")
         h3 = axs3[i].hist2d(zslice[i+6,:], yslice[i+6,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
         #axs3[i].set_ylim(-10,10)
-        #axs3[i].set_xlim(xmin,xmax)
+        axs3[i].set_xlim(xmin,xmax)
         if (WB):
             axs3[i].set_facecolor('white')
         elif (Viridis):
@@ -184,11 +184,11 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         if (i < 2):
             h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
             #axs4[i].set_ylim(-10,10)
-            #axs4[i].set_xlim(xmin,xmax)
+            axs4[i].set_xlim(xmin,xmax)
         elif (i == 2):
             h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
             #axs4[i].set_ylim(-10,10)
-            #axs4[i].set_xlim(xmin,xmax)
+            axs4[i].set_xlim(xmin,xmax)
         if (WB):
             axs4[i].set_facecolor('white')
         elif (Viridis):

@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib as mpl
 mpl.use("Agg")
 import matplotlib.pyplot as plt
+plt.rcParams['animation.ffmpeg_path'] = '/usr/local/bin/ffmpeg'
 import matplotlib.animation as manimation
 import matplotlib.colors as col
 import matplotlib.cm as cm
@@ -89,7 +90,7 @@ def animate(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     probe, = plt.plot([], [], 'C0o', markersize='2')
     #probe, = ax.hist2d(xi_dat, y_dat, bins=(binsizez,binsizey), cmap=cmap, norm=norm)
     plt.ylim(-10, 10)
-    plt.xlim(15, 65)
+    plt.xlim(300,600)#(15, 65)
     plt.xlabel('Z ($c/\omega_p$)')
     plt.ylabel('Y ($c/\omega_p$)')
 
