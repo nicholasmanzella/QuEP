@@ -139,5 +139,5 @@ def getTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,mode,sim_name)
         if (xin < plasma_bnds[0] or xin > plasma_bnds[1] or rn > 10):#plasma_bnds[2]):
             return xn, yn, xin, zn, px, py, pz
 
-    #print("Tracking quit due to more than ", iter, " iterations in plasma")
+    print("Tracking quit due to more than ", iter, " iterations in plasma")
     return xn, yn, xin, zn, px, py, pz

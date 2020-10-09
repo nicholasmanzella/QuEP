@@ -17,9 +17,9 @@ EP_0 = 8.854187817e-12               # Vacuum permittivity in C/(V m)
 C = 299892458                        # Speed of light in vacuum in m/s
 
 # Snapshot locations (12 total, in mm):
-#x_s = [0, 1, 2, 3, 4, 5, 6, 10, 13, 16, 20, 25]
+x_s = [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 30]
 #x_s = [500, 750, 1000, 1250, 1500, 1750, 2000, 3000, 4000, 5000, 7500, 10000]
-x_s = [0, 5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500]
+#x_s = [0, 5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500]
 
 # Color Scheme
 WB = False # Sequential
@@ -98,11 +98,11 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 # Run 130 Limits: (27,52), (-6,6), Bins: (833,400)
 # Run 232 Limits: (435,475), (0,6), Bins: (1333,200)
 
-    binsizez = 833#2666#1333
-    binsizey = 333#666#200
+    binsizez = 1000#2666#1333
+    binsizey = 160#666#200
 
-    xmin = 35#420
-    xmax = 40#480
+    xmin = 400
+    xmax = 500
 
     if (WB):
         cmap = plt.cm.binary
@@ -122,7 +122,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     for i in range(0, 3):
         axs[i].set_title("X = " + str(x_s[i]) + " mm")
         h = axs[i].hist2d(zslice[i,:], yslice[i,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
-        axs[i].set_ylim(-1,1)
+        axs[i].set_ylim(-8,8)
         axs[i].set_xlim(xmin,xmax)
         if (WB):
             axs[i].set_facecolor('white')
@@ -142,7 +142,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     for i in range(0, 3):
         axs2[i].set_title("X = " + str(x_s[i+3]) + " mm")
         h2 = axs2[i].hist2d(zslice[i+3,:], yslice[i+3,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)# norm=norm)
-        axs2[i].set_ylim(-1,1)
+        axs2[i].set_ylim(-8,8)
         axs2[i].set_xlim(xmin,xmax)
         if (WB):
             axs2[i].set_facecolor('white')
@@ -162,7 +162,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     for i in range(0, 3):
         axs3[i].set_title("X = " + str(x_s[i+6]) + " mm")
         h3 = axs3[i].hist2d(zslice[i+6,:], yslice[i+6,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
-        axs3[i].set_ylim(-1,1)
+        axs3[i].set_ylim(-8,8)
         axs3[i].set_xlim(xmin,xmax)
         if (WB):
             axs3[i].set_facecolor('white')
@@ -183,11 +183,11 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         axs4[i].set_title("X = " + str(x_s[i+9]) + " mm")
         if (i < 2):
             h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
-            axs4[i].set_ylim(-1,1)
+            axs4[i].set_ylim(-8,8)
             axs4[i].set_xlim(xmin,xmax)
         elif (i == 2):
             h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
-            axs4[i].set_ylim(-1,1)
+            axs4[i].set_ylim(-8,8)
             axs4[i].set_xlim(xmin,xmax)
         if (WB):
             axs4[i].set_facecolor('white')

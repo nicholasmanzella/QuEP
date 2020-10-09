@@ -50,9 +50,9 @@ elif (mode == 1):
     data2 = np.load('./data/HighResProbe/L30_40-45_055_M1.npz')
     data3 = np.load('./data/HighResProbe/L30_45-50_055_M1.npz')
 else:
-    data = np.load('./data/HighResProbe/L30_35-40_08.npz')
-    data2 = np.load('./data/HighResProbe/L30_40-45_08.npz')
-    data3 = np.load('./data/HighResProbe/L30_45-50_08.npz')
+    data = np.load('./data/HighResProbe/D3e17_L30_420-440_15.npz')
+    data2 = np.load('./data/HighResProbe/D3e17_L30_440-460_15.npz')
+    data3 = np.load('./data/HighResProbe/D3e17_L30_460-480_15.npz')
 
 x_f_1 = data['x_dat']
 y_f_1 = data['y_dat']
