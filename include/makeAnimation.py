@@ -1,9 +1,10 @@
+import os
 import numpy as np
 import matplotlib as mpl
 mpl.use("Agg")
 import matplotlib.pyplot as plt
-plt.rcParams['animation.ffmpeg_path'] = '/usr/local/bin/ffmpeg'
-import matplotlib.animation as manimation
+import matplotlib.animation as animation
+plt.rcParams['animation.ffmpeg_path'] = '/ffmpeg/bin'
 import matplotlib.colors as col
 import matplotlib.cm as cm
 import pdb
@@ -80,17 +81,16 @@ def animate(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 #     cmap = plt.cm.gist_gray
 
 # Set up FFMpeg and figure
-    FFMpegWriter = manimation.writers['ffmpeg']
+    Writer = animation.FFMpegWriter(fps=30, codec='libx264')
     metadata = dict(title='Movie Test', artist='Matplotlib',
                     comment='Movie support!')
-    writer = FFMpegWriter(fps=15, metadata=metadata)
     fig, ax = plt.subplots()
     #fig.subplots_adjust(bottom=-0.1)
 
     probe, = plt.plot([], [], 'C0o', markersize='2')
     #probe, = ax.hist2d(xi_dat, y_dat, bins=(binsizez,binsizey), cmap=cmap, norm=norm)
-    plt.ylim(-10, 10)
-    plt.xlim(300,600)#(15, 65)
+    plt.ylim(-1, 1)
+    plt.xlim(35,40)#(15, 65)
     plt.xlabel('Z ($c/\omega_p$)')
     plt.ylabel('Y ($c/\omega_p$)')
 
@@ -99,7 +99,8 @@ def animate(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     #xi_ax.set_xlim(-37,13)
 
 # Generate movie
-    with writer.saving(fig, "C:/Users/Marisa/Documents/Research/plots/eProbe.mp4", dpi=400):
+    #pdb.set_trace()
+    with Writer.saving(fig,"eProbe.mp4", dpi=400):
     # Start with initial position at 0 mm
         for i in range(0,noElec):
             y_dat.append(y_f[i])
@@ -122,7 +123,7 @@ def animate(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
             writer.grab_frame()
     print("Movie saved!")
 # For movie inside plasma (probe should not change shape)
-    # with writer.saving(fig, "writer_test.mp4", dpi=400):
+    #with writer.saving(fig, "writer_test.mp4", dpi=400):
     #     for i in range(len(x_dat)):
     #         ax.set_title("X = " + str(x_dat[0,i]) + " c/$\omega_p$" )
     #         probe.set_data(xi_dat[:,i], y_dat[:,i])

@@ -49,7 +49,7 @@ plot2DTracks = False                 # View 2D projections of trajectories
 showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
 showFullEvolution = False            # View full evolution of probe at hardcoded locations in colored histograms
 # Set all others equal False if want animation saved (dependency issue)
-saveMovie = False                    # Save mp4 of probe evolution
+saveMovie = True                    # Save mp4 of probe evolution
 if (saveMovie):
     import include.makeAnimation as makeAnimation
 
@@ -158,7 +158,7 @@ if __name__ == '__main__':
 #         showEvol_F.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
 #     # if (viewProbeShape):
 #     #     viewProbe.plot(x_dat, y_dat, xi_dat, z_dat, sim_name, shape_name, s1, s2, noElec)
-#     if (saveMovie):
-#         makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
+#    if (saveMovie):
+#        makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
 
 #main()
