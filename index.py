@@ -5,7 +5,7 @@ import numpy as np
 import include.plot2DTracks as plot2D
 import include.plot3DTracks as plot3D
 import include.showQuickEvolution as showEvol_Q
-import include.showFullEvolution as showEvol_F
+import include.showFullEvolution_Ydir as showEvol_F
 import include.viewProbe as viewProbe
 
 # Plotting Scripts
@@ -13,9 +13,9 @@ plot2DTracks = False                 # View 2D projections of trajectories
 # plot3DTracks = False                 # View 3D model of trajectories
 # viewProbeShape = False               # View initial shape of probe separately
 showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
-showFullEvolution = False           # View full evolution of probe at hardcoded locations in colored histograms
+showFullEvolution = True           # View full evolution of probe at hardcoded locations in colored histograms
 # Set all others equal False if want animation saved (dependency issue)
-saveMovie = True                    # Save mp4 of probe evolution
+saveMovie = False                    # Save mp4 of probe evolution
 if (saveMovie):
     import include.makeAnimation as makeAnimation
 
@@ -41,7 +41,7 @@ s1 = init.s1
 s2 = init.s2
 s3 = init.s3
 
-data = np.load('./data/' + fname)
+data = np.load('./data/HighResProbe/' + fname)
 x_f = data['x_dat']
 y_f = data['y_dat']
 xi_f = data['xi_dat']

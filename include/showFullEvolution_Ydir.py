@@ -17,8 +17,8 @@ EP_0 = 8.854187817e-12               # Vacuum permittivity in C/(V m)
 C = 299892458                        # Speed of light in vacuum in m/s
 
 # Snapshot locations (12 total, in mm):
-#x_s = [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 30]
-#x_s = [500, 750, 1000, 1250, 1500, 1750, 2000, 3000, 4000, 5000, 7500, 10000]
+#y_s = [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 30]
+#y_s = [500, 750, 1000, 1250, 1500, 1750, 2000, 3000, 4000, 5000, 7500, 10000]
 y_s = [0, 5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500]
 
 # Color Scheme
@@ -46,7 +46,7 @@ def getBallisticTraj(x_0,y_0,xi_0,z_0,px,py,pz,y_s):
     vy = Velocity(py, p)
     vz = Velocity(pz, p)
     vtot = math.sqrt(vx**2 + vy**2 + vz**2)
-    dtot = math.sqrt((y_s - x_0)**2 + (y_f - y_0)**2 + (z_f - z_0)**2)
+    dtot = math.sqrt((y_s - x_0)**2 + (y_s - y_0)**2 + (z_f - z_0)**2)
     t = dtot/vtot
 
     xi_f = xi_0 + dy * (pz/py) + t
@@ -83,7 +83,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         # If y_s out of plasma, use ballistic trajectory
         if (abs(ys_norm[i]) > plasma_bnds[2]):
             for j in range(0,noElec):
-                xslice[i, j], xislice[i, j], zslice[i, j] = getBallisticTraj(x_f[j], y_f[j], xi_f[j], z_f[j], px_f[j], py_f[j], pz_f[j], xs_norm[i])
+                xslice[i, j], xislice[i, j], zslice[i, j] = getBallisticTraj(x_f[j], y_f[j], xi_f[j], z_f[j], px_f[j], py_f[j], pz_f[j], ys_norm[i])
         else:
             for j in range(0,noElec):
                 xslice[i, j] = x_f[j]
@@ -100,8 +100,8 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 # For bin size = 0.1
 # Run 232 Limits: (400,500), (-6,6), Bins: (1000,160)
 
-    binsizez = 833
-    binsizey = 400
+    binsizez = 4167#833
+    binsizey = 2000#400
 
     xmin = 27
     xmax = 52
@@ -122,7 +122,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     fig5, axs = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
     fig5.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
-        axs[i].set_title("Y = " + str(x_s[i]) + " mm")
+        axs[i].set_title("Y = " + str(y_s[i]) + " mm")
         h = axs[i].hist2d(zslice[i,:], xslice[i,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
         axs[i].set_ylim(-6,6)
         axs[i].set_xlim(xmin,xmax)
@@ -142,7 +142,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     fig6, axs2 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
     fig6.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
-        axs2[i].set_title("Y = " + str(x_s[i+3]) + " mm")
+        axs2[i].set_title("Y = " + str(y_s[i+3]) + " mm")
         h2 = axs2[i].hist2d(zslice[i+3,:], xslice[i+3,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)# norm=norm)
         axs2[i].set_ylim(-6,6)
         axs2[i].set_xlim(xmin,xmax)
@@ -162,7 +162,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     fig7, axs3 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
     fig7.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
-        axs3[i].set_title("Y = " + str(x_s[i+6]) + " mm")
+        axs3[i].set_title("Y = " + str(y_s[i+6]) + " mm")
         h3 = axs3[i].hist2d(zslice[i+6,:], xslice[i+6,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
         axs3[i].set_ylim(-6,6)
         axs3[i].set_xlim(xmin,xmax)
@@ -182,7 +182,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     fig8, axs4 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
     fig8.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
-        axs4[i].set_title("Y = " + str(x_s[i+9]) + " mm")
+        axs4[i].set_title("Y = " + str(y_s[i+9]) + " mm")
         if (i < 2):
             h4 = axs4[i].hist2d(zslice[i+9,:], xslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
             axs4[i].set_ylim(-6,6)
