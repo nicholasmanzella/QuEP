@@ -19,7 +19,7 @@ C = 299892458                        # Speed of light in vacuum in m/s
 # Snapshot locations (12 total, in mm):
 #x_s = [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 30]
 #x_s = [500, 750, 1000, 1250, 1500, 1750, 2000, 3000, 4000, 5000, 7500, 10000]
-x_s = [0, 5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500]
+y_s = [0, 5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500]
 
 # Color Scheme
 WB = False # Sequential
@@ -34,11 +34,11 @@ def Velocity(px,ptot):
 # Returns relativistic velocity from momentum
     return px / Gamma(ptot)
 
-def getBallisticTraj(x_0,y_0,xi_0,z_0,px,py,pz,x_s):
+def getBallisticTraj(x_0,y_0,xi_0,z_0,px,py,pz,y_s):
 # Use ballistic matrix to find positions on screens
-    dx = x_s - x_0
-    y_f = y_0 + dx * (py/px)
-    z_f = z_0 + dx * (pz/px)
+    dy = y_s - y_0
+    x_f = x_0 + dy * (px/py)
+    z_f = z_0 + dy * (pz/py)
 
 # Find time traveled to get proper xi
     p = math.sqrt(px**2 + py**2 + pz**2)
@@ -46,12 +46,12 @@ def getBallisticTraj(x_0,y_0,xi_0,z_0,px,py,pz,x_s):
     vy = Velocity(py, p)
     vz = Velocity(pz, p)
     vtot = math.sqrt(vx**2 + vy**2 + vz**2)
-    dtot = math.sqrt((x_s - x_0)**2 + (y_f - y_0)**2 + (z_f - z_0)**2)
+    dtot = math.sqrt((y_s - x_0)**2 + (y_f - y_0)**2 + (z_f - z_0)**2)
     t = dtot/vtot
 
-    xi_f = xi_0 + dx * (pz/px) + t
+    xi_f = xi_0 + dy * (pz/py) + t
 
-    return y_f, xi_f, z_f
+    return x_f, xi_f, z_f
 
 def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 # Plot evolution of probe after leaving plasma
@@ -68,25 +68,25 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     shape_name = shape_name.capitalize()
 
 # Normalize screen distances
-    slices = len(x_s)
-    xs_norm = []
+    slices = len(y_s)
+    ys_norm = []
     for i in range(0,slices):
-        xs_norm.append(x_s[i] * W_P * 10**(-3) / C)
+        ys_norm.append(y_s[i] * W_P * 10**(-3) / C)
 
 # Generate arrays of coordinates at origin + each screen
-    yslice = np.empty([slices, noElec])
+    xslice = np.empty([slices, noElec])
     xislice = np.empty([slices, noElec])
     zslice = np.empty([slices, noElec])
 
 # Project positions at distances in x_s
     for i in range(0,slices):
-        # If x_s out of plasma, use ballistic trajectory
-        if (abs(xs_norm[i]) > plasma_bnds[2]):
+        # If y_s out of plasma, use ballistic trajectory
+        if (abs(ys_norm[i]) > plasma_bnds[2]):
             for j in range(0,noElec):
-                yslice[i, j], xislice[i, j], zslice[i, j] = getBallisticTraj(x_f[j], y_f[j], xi_f[j], z_f[j], px_f[j], py_f[j], pz_f[j], xs_norm[i])
+                xslice[i, j], xislice[i, j], zslice[i, j] = getBallisticTraj(x_f[j], y_f[j], xi_f[j], z_f[j], px_f[j], py_f[j], pz_f[j], xs_norm[i])
         else:
             for j in range(0,noElec):
-                yslice[i, j] = y_f[j]
+                xslice[i, j] = x_f[j]
                 xislice[i, j] = xi_f[j]
                 zslice[i, j] = z_f[j]
 
@@ -100,11 +100,11 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 # For bin size = 0.1
 # Run 232 Limits: (400,500), (-6,6), Bins: (1000,160)
 
-    binsizez = 1000#2666#1333
-    binsizey = 160#666#200
+    binsizez = 833
+    binsizey = 400
 
-    xmin = 400
-    xmax = 500
+    xmin = 27
+    xmax = 52
 
     if (WB):
         cmap = plt.cm.binary
@@ -122,9 +122,9 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     fig5, axs = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
     fig5.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
-        axs[i].set_title("X = " + str(x_s[i]) + " mm")
-        h = axs[i].hist2d(zslice[i,:], yslice[i,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
-        axs[i].set_ylim(-8,8)
+        axs[i].set_title("Y = " + str(x_s[i]) + " mm")
+        h = axs[i].hist2d(zslice[i,:], xslice[i,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
+        axs[i].set_ylim(-6,6)
         axs[i].set_xlim(xmin,xmax)
         if (WB):
             axs[i].set_facecolor('white')
@@ -135,16 +135,16 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         else:
             axs[i].set_facecolor('white')
 
-    axs[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
+    axs[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'X ($c/\omega_p$)')
     #cbar = plt.colorbar(h[3], ax=axs)
     #cbar.set_label('Electron Density')
 
     fig6, axs2 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
     fig6.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
-        axs2[i].set_title("X = " + str(x_s[i+3]) + " mm")
-        h2 = axs2[i].hist2d(zslice[i+3,:], yslice[i+3,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)# norm=norm)
-        axs2[i].set_ylim(-8,8)
+        axs2[i].set_title("Y = " + str(x_s[i+3]) + " mm")
+        h2 = axs2[i].hist2d(zslice[i+3,:], xslice[i+3,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)# norm=norm)
+        axs2[i].set_ylim(-6,6)
         axs2[i].set_xlim(xmin,xmax)
         if (WB):
             axs2[i].set_facecolor('white')
@@ -155,16 +155,16 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         else:
             axs2[i].set_facecolor('white')
 
-    axs2[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
+    axs2[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'X ($c/\omega_p$)')
     #cbar2 = plt.colorbar(h2[3], ax=axs2)
     #cbar2.set_label('Electron Density')
 
     fig7, axs3 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
     fig7.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
-        axs3[i].set_title("X = " + str(x_s[i+6]) + " mm")
-        h3 = axs3[i].hist2d(zslice[i+6,:], yslice[i+6,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
-        axs3[i].set_ylim(-8,8)
+        axs3[i].set_title("Y = " + str(x_s[i+6]) + " mm")
+        h3 = axs3[i].hist2d(zslice[i+6,:], xslice[i+6,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
+        axs3[i].set_ylim(-6,6)
         axs3[i].set_xlim(xmin,xmax)
         if (WB):
             axs3[i].set_facecolor('white')
@@ -175,21 +175,21 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         else:
             axs3[i].set_facecolor('white')
 
-    axs3[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
+    axs3[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'X ($c/\omega_p$)')
     #cbar3 = plt.colorbar(h3[3], ax=axs3)
     #cbar3.set_label('Electron Density')
 
     fig8, axs4 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
     fig8.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
-        axs4[i].set_title("X = " + str(x_s[i+9]) + " mm")
+        axs4[i].set_title("Y = " + str(x_s[i+9]) + " mm")
         if (i < 2):
-            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
-            axs4[i].set_ylim(-8,8)
+            h4 = axs4[i].hist2d(zslice[i+9,:], xslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
+            axs4[i].set_ylim(-6,6)
             axs4[i].set_xlim(xmin,xmax)
         elif (i == 2):
-            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
-            axs4[i].set_ylim(-8,8)
+            h4 = axs4[i].hist2d(zslice[i+9,:], xslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
+            axs4[i].set_ylim(-6,6)
             axs4[i].set_xlim(xmin,xmax)
         if (WB):
             axs4[i].set_facecolor('white')
@@ -200,7 +200,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         else:
             axs4[i].set_facecolor('white')
 
-    axs4[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
+    axs4[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'X ($c/\omega_p$)')
     #cbar4 = plt.colorbar(h4[3], ax=axs4)
     #cbar4.set_label('Electron Density')
 
