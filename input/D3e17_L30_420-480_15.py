@@ -5,17 +5,17 @@ simulation_name = 'QUASI3D'
 shape = 'rectangle'
 # dt = 0.005, 150000
 iterations = 500000
-mode = 1
-fname = "D3e17_L30_420-480_3.npz"
+mode = -1
+fname = "D3e17_L30_420-480_3_Py.npz"
 
 # Probe centered at the following initial coordinates (in c/w_p):
-x_c = -5 # Start within region of field
-y_c = 0
+x_c = 0 # Start within region of field
+y_c = -5
 xi_c = -119 # (t0 = 569)
 
 # Initial momentum
-px_0 = 110 # Make sure it goes towards the screen!
-py_0 = 0
+px_0 = 0 # Make sure it goes towards the screen!
+py_0 = 110
 pz_0 = 0
 
 # Screen Distances (from z-axis of plasma cell, in mm):

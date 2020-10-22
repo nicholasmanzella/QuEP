@@ -9,8 +9,8 @@ mode = 0
 fname = "L30_35-40_08_M0_Py.npz"
 
 # Probe centered at the following initial coordinates (in c/w_p):
-x_c = -2.4 # Start within region of field
-y_c = 0
+x_c = 0 # Start within region of field
+y_c = -2.4
 xi_c = -14.5
 
 # Initial momentum

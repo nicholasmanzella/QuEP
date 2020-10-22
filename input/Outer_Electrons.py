@@ -6,28 +6,28 @@ shape = 'rectangle'
 # dt = 0.005, 150000
 iterations = 500000
 mode = -1
-fname = "L30_35-40_055_Py.npz"
+fname = "Outer_Electrons.npz"
 
 # Probe centered at the following initial coordinates (in c/w_p):
-x_c = 0 # Start within region of field
-y_c = -2.4
-xi_c = -14.5
+x_c = -2.4 # Start within region of field
+y_c = 0.6
+xi_c = -19 # Start at z = 39
 
 # Initial momentum
-px_0 = 0 # Make sure it goes towards the screen!
-py_0 = 110
+px_0 = 110 # Make sure it goes towards the screen!
+py_0 = 0
 pz_0 = 0
 
 # Screen Distances (from z-axis of plasma cell, in mm):
 #x_s = [100, 200, 300, 400, 500] # Only 5
-x_s = [10, 50, 100, 250, 500]
+x_s = [2250, 2500, 2750, 3000, 3250]
 
 # Shape Parameters (Radius or Side Length, in c/w_p):
-s1 = 0.8 # In y
-s2 = 2.5 # In xi
+s1 = 0.2 # In y
+s2 = 3 # In xi
 s3 = 1 # In x
 
 # Densities
-ydensity = 800
-xidensity = 2500
-resolution = 0.002
+ydensity = 20
+xidensity = 30
+resolution = 0.02
