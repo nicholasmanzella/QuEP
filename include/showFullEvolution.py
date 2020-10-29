@@ -117,7 +117,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         cmap = plt.cm.gist_gray
     norm = mpl.colors.Normalize(vmin=1, vmax=1500)
 
-    fig5, axs = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=300)
+    fig5, axs = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
     fig5.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
         axs[i].set_title("X = " + str(x_s[i]) + " mm")
@@ -137,7 +137,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     #cbar = plt.colorbar(h[3], ax=axs)
     #cbar.set_label('Electron Density')
 
-    fig6, axs2 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=300)
+    fig6, axs2 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
     fig6.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
         axs2[i].set_title("X = " + str(x_s[i+3]) + " mm")
@@ -157,7 +157,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     #cbar2 = plt.colorbar(h2[3], ax=axs2)
     #cbar2.set_label('Electron Density')
 
-    fig7, axs3 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=300)
+    fig7, axs3 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
     fig7.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
         axs3[i].set_title("X = " + str(x_s[i+6]) + " mm")
@@ -177,7 +177,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     #cbar3 = plt.colorbar(h3[3], ax=axs3)
     #cbar3.set_label('Electron Density')
 
-    fig8, axs4 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=300)
+    fig8, axs4 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
     fig8.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
         axs4[i].set_title("X = " + str(x_s[i+9]) + " mm")
@@ -207,7 +207,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     # fig7.show()
     # fig8.show()
 
-    fig5.savefig('prog1.png',dpi=300,transparent=False)
-    fig6.savefig('prog2.png',dpi=300,transparent=False)
-    fig7.savefig('prog3.png',dpi=300,transparent=False)
-    fig8.savefig('prog4.png',dpi=300,transparent=False)
+    fig5.savefig('prog1.png',dpi=600,transparent=False)
+    fig6.savefig('prog2.png',dpi=600,transparent=False)
+    fig7.savefig('prog3.png',dpi=600,transparent=False)
+    fig8.savefig('prog4.png',dpi=600,transparent=False)
