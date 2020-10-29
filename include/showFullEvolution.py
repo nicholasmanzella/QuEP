@@ -17,9 +17,9 @@ EP_0 = 8.854187817e-12               # Vacuum permittivity in C/(V m)
 C = 299892458                        # Speed of light in vacuum in m/s
 
 # Snapshot locations (12 total, in mm):
-x_s = [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 30]
+#x_s = [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 30]
 #x_s = [500, 750, 1000, 1250, 1500, 1750, 2000, 3000, 4000, 5000, 7500, 10000]
-#x_s = [0, 5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500]
+x_s = [0, 5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500]
 
 # Color Scheme
 WB = False # Sequential
@@ -91,18 +91,18 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
                 zslice[i, j] = z_f[j]
 
 # Plot slices
-# For bin size = 0.006
+# For bin size = 0.006 (lambda/10)
 # Run 130 Limits: (27,52), (-6,6), Bins: (4167,2000)
 #         (35,40), (-1,1), Bins: (833,333)
 # For bin size = 0.03
 # Run 130 Limits: (27,52), (-6,6), Bins: (833,400)
 # Run 232 Limits: (435,475), (0,6), Bins: (1333,200)
 
-    binsizez = 1000#2666#1333
-    binsizey = 160#666#200
+    binsizez = 4167#1000#2666#1333
+    binsizey = 2000#160#666#200
 
-    xmin = 400
-    xmax = 500
+    xmin = 27#400
+    xmax = 52#500
 
     if (WB):
         cmap = plt.cm.binary
@@ -117,12 +117,12 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         cmap = plt.cm.gist_gray
     norm = mpl.colors.Normalize(vmin=1, vmax=1500)
 
-    fig5, axs = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
+    fig5, axs = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=300)
     fig5.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
         axs[i].set_title("X = " + str(x_s[i]) + " mm")
         h = axs[i].hist2d(zslice[i,:], yslice[i,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
-        axs[i].set_ylim(-8,8)
+        axs[i].set_ylim(-6,6)
         axs[i].set_xlim(xmin,xmax)
         if (WB):
             axs[i].set_facecolor('white')
@@ -137,12 +137,12 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     #cbar = plt.colorbar(h[3], ax=axs)
     #cbar.set_label('Electron Density')
 
-    fig6, axs2 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
+    fig6, axs2 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=300)
     fig6.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
         axs2[i].set_title("X = " + str(x_s[i+3]) + " mm")
         h2 = axs2[i].hist2d(zslice[i+3,:], yslice[i+3,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)# norm=norm)
-        axs2[i].set_ylim(-8,8)
+        axs2[i].set_ylim(-6,6)
         axs2[i].set_xlim(xmin,xmax)
         if (WB):
             axs2[i].set_facecolor('white')
@@ -157,12 +157,12 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     #cbar2 = plt.colorbar(h2[3], ax=axs2)
     #cbar2.set_label('Electron Density')
 
-    fig7, axs3 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
+    fig7, axs3 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=300)
     fig7.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
         axs3[i].set_title("X = " + str(x_s[i+6]) + " mm")
         h3 = axs3[i].hist2d(zslice[i+6,:], yslice[i+6,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
-        axs3[i].set_ylim(-8,8)
+        axs3[i].set_ylim(-6,6)
         axs3[i].set_xlim(xmin,xmax)
         if (WB):
             axs3[i].set_facecolor('white')
@@ -177,17 +177,17 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     #cbar3 = plt.colorbar(h3[3], ax=axs3)
     #cbar3.set_label('Electron Density')
 
-    fig8, axs4 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
+    fig8, axs4 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=300)
     fig8.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
         axs4[i].set_title("X = " + str(x_s[i+9]) + " mm")
         if (i < 2):
             h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
-            axs4[i].set_ylim(-8,8)
+            axs4[i].set_ylim(-6,6)
             axs4[i].set_xlim(xmin,xmax)
         elif (i == 2):
             h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, norm=norm)
-            axs4[i].set_ylim(-8,8)
+            axs4[i].set_ylim(-6,6)
             axs4[i].set_xlim(xmin,xmax)
         if (WB):
             axs4[i].set_facecolor('white')
@@ -207,7 +207,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     # fig7.show()
     # fig8.show()
 
-    fig5.savefig('prog1.png',dpi=200,transparent=False)
-    fig6.savefig('prog2.png',dpi=200,transparent=False)
-    fig7.savefig('prog3.png',dpi=200,transparent=False)
-    fig8.savefig('prog4.png',dpi=200,transparent=False)
+    fig5.savefig('prog1.png',dpi=300,transparent=False)
+    fig6.savefig('prog2.png',dpi=300,transparent=False)
+    fig7.savefig('prog3.png',dpi=300,transparent=False)
+    fig8.savefig('prog4.png',dpi=300,transparent=False)
