@@ -101,7 +101,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     binsizez = 2833#4167#1000#2666#1333
     binsizey = 2000#160#666#200
 
-    xmin = 17#27#400
+    xmin = 35#27#400
     xmax = 52#500
 
     if (WB):
