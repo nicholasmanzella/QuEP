@@ -62,8 +62,8 @@ def make_patch_spines_invisible(ax):
         sp.set_visible(False)
 
 def init():
-    plt.ylim(-1, 3)
-    plt.xlim(25,40)#(15, 65)
+    plt.ylim(-6, 6)
+    plt.xlim(35,52)#(15, 65)
     plt.xlabel('Z ($c/\omega_p$)')
     plt.ylabel('Y ($c/\omega_p$)')
     return probe,
@@ -100,5 +100,5 @@ def animate(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 # Generate movie
     ani = FuncAnimation(fig, update, frames=np.linspace(xstart_mm,xend_mm,xiter), init_func=init, blit=False)
     #plt.show()
-    ani.save("eProbe.gif", fps=30, dpi=400)
+    ani.save("eProbe.gif", fps=30, dpi=100)
     print("Movie saved!")

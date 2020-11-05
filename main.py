@@ -30,11 +30,11 @@ import multiprocessing as mp
 
 # Include file imports
 import eProbe
-import include.plot2DTracks as plot2D
-import include.plot3DTracks as plot3D
-import include.showQuickEvolution as showEvol_Q
-import include.showFullEvolution as showEvol_F
-import include.viewProbe as viewProbe
+#import include.plot2DTracks as plot2D
+#import include.plot3DTracks as plot3D
+#import include.showQuickEvolution as showEvol_Q
+#import include.showFullEvolution as showEvol_F
+#import include.viewProbe as viewProbe
 
 # Definition of Constants
 M_E = 9.109e-31                      # Electron rest mass in kg
@@ -49,7 +49,7 @@ plot2DTracks = False                 # View 2D projections of trajectories
 showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
 showFullEvolution = False            # View full evolution of probe at hardcoded locations in colored histograms
 # Set all others equal False if want animation saved (dependency issue)
-saveMovie = True                    # Save mp4 of probe evolution
+saveMovie = False                    # Save mp4 of probe evolution
 if (saveMovie):
     import include.makeAnimation as makeAnimation
 
