@@ -12,10 +12,10 @@ import include.viewProbe as viewProbe
 plot2DTracks = False                 # View 2D projections of trajectories
 # plot3DTracks = False                 # View 3D model of trajectories
 # viewProbeShape = False               # View initial shape of probe separately
-showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
+showQuickEvolution = True           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
 showFullEvolution = False           # View full evolution of probe at hardcoded locations in colored histograms
 # Set all others equal False if want animation saved (dependency issue)
-saveMovie = True                    # Save mp4 of probe evolution
+saveMovie = False                    # Save mp4 of probe evolution
 if (saveMovie):
     import include.makeAnimation as makeAnimation
 

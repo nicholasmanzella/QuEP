@@ -6,10 +6,10 @@ shape = 'rectangle'
 # dt = 0.005, 150000
 iterations = 500000
 mode = 0
-fname = "test.npz"
+fname = "testM0.npz"
 
 # Probe centered at the following initial coordinates (in c/w_p):
-x_c = -5 # Start within region of field
+x_c = -2.4 # Start within region of field
 y_c = 0
 xi_c = -9.5
 
@@ -30,4 +30,4 @@ s3 = 1 # In x
 # Densities
 ydensity = 20
 xidensity = 35
-resolution = 0.42857
+resolution = 0.42
