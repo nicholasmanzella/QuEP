@@ -77,7 +77,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,x_s,noElec,iter):
     x_s = [x_f[0] * C * 10**3 / W_P] + x_s
 
 # Plot slices
-    fig5, axs = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
+    fig5, axs = plt.subplots(3, sharex=True, sharey=True, figsize=(8, 10), dpi=80)
     fig5.suptitle("Progression of " + shape_name + " EProbe")
 
     for i in range(0, 3):
@@ -103,7 +103,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,x_s,noElec,iter):
         #ax.label_outer()
         axs2[2].set(xlabel = '$\\xi$ ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
 
-    fig7, axs3 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
+    fig7, axs3 = plt.subplots(3, sharex=True, sharey=True, figsize=(8, 10), dpi=80)
     fig7.suptitle("Progression of " + shape_name + " EProbe")
 
     for i in range(0, 3):
@@ -113,7 +113,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,x_s,noElec,iter):
         #axs3[i].set_xlim(35,40)
     axs3[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
 
-    fig8, axs4 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
+    fig8, axs4 = plt.subplots(3, sharex=True, sharey=True, figsize=(8, 10), dpi=80)
     fig8.suptitle("Progression of " + shape_name + " EProbe")
 
     for i in range(0, 3):
@@ -124,9 +124,9 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,x_s,noElec,iter):
     axs4[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
 
 
-    fig5.show()
+    #fig5.show()
     #fig.tight_layout()
-    fig6.show()
+    #fig6.show()
     fig7.show()
     fig8.show()
 

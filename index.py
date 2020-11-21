@@ -41,7 +41,7 @@ s1 = init.s1
 s2 = init.s2
 s3 = init.s3
 
-data = np.load('./data/' + fname)
+data = np.load(fname)#'./data/' + fname)
 x_f = data['x_dat']
 y_f = data['y_dat']
 xi_f = data['xi_dat']
