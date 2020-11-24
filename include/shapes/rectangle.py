@@ -9,7 +9,7 @@ def initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,ydensity,xidensity,resolution):
     x_0, y_0, xi_0, z_0 = [],[],[],[]
 
     xistep = resolution
-    ystep = 0.08
+    ystep = resolution
     #xstep = s3/(density/20)
     #print("Xstep = ", xstep)
 
@@ -26,8 +26,8 @@ def initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,ydensity,xidensity,resolution):
 
     for i in range(0,ydensity):
         for j in range(0,xidensity):
-            x_0.append(x_c)
-            y_0.append(yn)
+            x_0.append(yn)#x_c)
+            y_0.append(x_c)#yn)
             xi_0.append(xin)
             z_0.append(xin + t0)
             xin += xistep
