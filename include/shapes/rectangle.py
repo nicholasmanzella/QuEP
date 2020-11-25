@@ -14,8 +14,8 @@ def initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,ydensity,xidensity,resolution):
     #print("Xstep = ", xstep)
 
 # Define corners
-    ytop = y_c + s1
-    ybot = y_c - s1
+    ytop = x_c + s1 # y_c + s1
+    ybot = x_c - s1 # y_c - s2
     xileft = xi_c - s2
     xiright = xi_c + s2
 
