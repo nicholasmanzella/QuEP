@@ -3,7 +3,7 @@
 
 simulation_name = 'QUASI3D'
 shape = 'vline'
-density = 20
+density = 50
 iterations = 15000
 
 # Probe centered at the following initial coordinates:

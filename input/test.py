@@ -15,7 +15,7 @@ xi_c = -8.2
 # Initial momentum
 px_0 = 110 # Make sure it goes towards the screen!
 py_0 = 0
-pz_0 = 1000
+pz_0 = 0
 
 # Screen Parameters (Assume infinite in y and z)
 x_s = 50

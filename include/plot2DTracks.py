@@ -8,14 +8,15 @@ import matplotlib.cm as cm
 import matplotlib.ticker as ticker
 from mpl_toolkits.mplot3d import Axes3D
 import pdb
+plt.rcParams.update({'font.size': 16})
 
 plotYForce = False # Plot transverse force with trajectories, not useful for many trajectories
 plotZForce = False # Plot force along WF propagation
 
-large_size = 12
+#large_size = 12
 
-plt.rc('ytick', labelsize=large_size)
-plt.rc('axes', labelsize=large_size)
+#plt.rc('ytick', labelsize=large_size)
+#plt.rc('axes', labelsize=large_size)
 
 def make_patch_spines_invisible(ax):
     ax.set_frame_on(True)
