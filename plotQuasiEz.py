@@ -20,7 +20,7 @@ def getFieldArrays():
         print(ir)
         for ixi in range(xiiter):
             #pdb.set_trace()
-            Ez[ir, ixi] = sim.EField(1, raxis_1[ir], 0, xiaxis_1[ixi], raxis_1[ir], mode=1)
+            Ez[ir, ixi] = sim.EField(1, raxis_1[ir], 0, xiaxis_1[ixi], raxis_1[ir], mode=0)
 
     return xiaxis_1, raxis_1, Ez
 
@@ -34,11 +34,11 @@ def main():
 
     fig, ax = plt.subplots()
     plt.subplots_adjust(left=0.05, bottom=0.1, right=0.8, top=0.9)
-    fig.suptitle("Quasi3D Ez Field for $\\phi = 0$")
+    fig.suptitle("Transverse ($\\phi = 0$) Electric Field in Z, M0 Only")
 
-    ax.set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'R ($c/\omega_p$)')
+    ax.set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'X ($c/\omega_p$)')
 
-    Ez = ax.pcolormesh(zaxis, raxis, Ez, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-10,vmax=10),cmap="RdBu_r")
+    Ez = ax.pcolormesh(zaxis, raxis, Ez, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-0.01,vmax=0.01),cmap="RdBu_r")
 
     tick_locations=[x*0.01 for x in range(2,10)]+ [x*0.01 for x in range(-10,-1)] + [x*0.1 for x in range(-10,10)] +[ x for x in range(-10,10)]
     cbar_ax = fig.add_axes([0.83, 0.05, 0.03, 0.9])

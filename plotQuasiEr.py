@@ -23,8 +23,8 @@ def getFieldArrays():
         print(ir)
         for ixi in range(xiiter):
             #pdb.set_trace()
-            Er_full[ir, ixi] = sim.EField(2, raxis_1[ir], 0, xiaxis_1[ixi], raxis_1[ir], mode=-1)
-            Er_m0[ir, ixi] = sim.EField(2, raxis_1[ir], 0, xiaxis_1[ixi], raxis_1[ir], mode=0)
+            #Er_full[ir, ixi] = sim.EField(2, raxis_1[ir], 0, xiaxis_1[ixi], raxis_1[ir], mode=-1)
+            #Er_m0[ir, ixi] = sim.EField(2, raxis_1[ir], 0, xiaxis_1[ixi], raxis_1[ir], mode=0)
             Er_m1[ir, ixi] = sim.EField(2, raxis_1[ir], 0, xiaxis_1[ixi], raxis_1[ir], mode=1)
 
     return xiaxis_1, raxis_1, Er_full, Er_m0, Er_m1
@@ -50,7 +50,7 @@ def main():
     #ax.set(xlabel = '$\\xi$ ($c/\omega_p$)', ylabel = 'x ($c/\omega_p$)')
 
     Er_m0 = ax1.pcolormesh(zaxis, raxis, Er_m0, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
-    Er_m1 = ax2.pcolormesh(zaxis, raxis, Er_m1, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
+    Er_m1 = ax2.pcolormesh(zaxis, raxis, Er_m1, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-1000,vmax=1000),cmap="RdBu_r")
     Er_full = ax3.pcolormesh(zaxis, raxis, Er_full, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
     ax1.set_ylim(0,1.6)
     ax2.set_ylim(0,1.6)
@@ -68,8 +68,8 @@ def main():
     cbar_ax2 = fig2.add_axes([0.83, 0.05, 0.03, 0.9])
     cbar_ax3 = fig3.add_axes([0.83, 0.05, 0.03, 0.9])
 
-    cbar1 = fig1.colorbar(Er_full, cax=cbar_ax1, ticks=tick_locations, format=ticker.LogFormatterMathtext())
-    cbar2 = fig2.colorbar(Er_full, cax=cbar_ax2, ticks=tick_locations, format=ticker.LogFormatterMathtext())
+    cbar1 = fig1.colorbar(Er_m0, cax=cbar_ax1, ticks=tick_locations, format=ticker.LogFormatterMathtext())
+    cbar2 = fig2.colorbar(Er_m1, cax=cbar_ax2)#, ticks=tick_locations, format=ticker.LogFormatterMathtext())
     cbar3 = fig3.colorbar(Er_full, cax=cbar_ax3, ticks=tick_locations, format=ticker.LogFormatterMathtext())
 
     cbar1.set_label('Electric Field ($m_e c \omega_p / e$)')
