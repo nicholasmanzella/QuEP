@@ -8,7 +8,7 @@ import matplotlib.ticker as ticker
 import pdb
 import time
 import include.simulations.useQuasi3D as sim
-import xlsxwriter
+import csv
 
 def getFieldArrays():
 
@@ -38,49 +38,23 @@ def main():
     xiaxis, raxis, Er_full, Er_m0, Er_m1 = getFieldArrays()
     zaxis = [xi + t0 for xi in xiaxis]
 
-    workbook = xlsxwriter.Workbook('TransverseEr.xlsx')
-    worksheet = workbook.add_worksheet()
+    with open('Axes.csv', 'w', newline='') as csvfile:
+        axeswriter = csv.writer(csvfile, dialect='excel')
+        axeswriter.writerow(xiaxis)
+        axeswriter.writerow(zaxis)
+        axeswriter.writerow(raxis)
 
-# Write titles of columns
-    worksheet.write(0, 0, 'xi')
-    worksheet.write(0, 1, 'z')
-    worksheet.write(0, 2, 'r')
-    worksheet.write(0, 3, 'Er M0')
-    worksheet.write(0, 4, 'Er M1')
-    worksheet.write(0, 5, 'Er M0+M1')
+    with open('Er_full.csv', 'w', newline='') as csvfile2:
+        erfullwriter = csv.writer(csvfile2, dialect='excel')
+        erfullwriter.writerows(Er_full)
 
-# Start filling values
-    row = 0
-    for val in (xiaxis):
-        worksheet.write(row, 0, val)
-        row += 1
+    with open('Er_m0.csv', 'w', newline='') as csvfile3:
+        erm0writer = csv.writer(csvfile3, dialect='excel')
+        erm0writer.writerows(Er_m0)
 
-    row = 0
-    for val in (zaxis):
-        worksheet.write(row, 1, val)
-        row += 1
-
-    row = 0
-    for val in (raxis):
-        worksheet.write(row, 2, val)
-        row += 1
-
-    row = 0
-    for val in (Er_m0):
-        worksheet.write(row, 3, val)
-        row += 1
-
-    row = 0
-    for val in (Er_m1):
-        worksheet.write(row, 4, val)
-        row += 1
-
-    row = 0
-    for val in (Er_full):
-        worksheet.write(row, 5, val)
-        row += 1
-
-    workbook.close()
+    with open('Er_m1.csv', 'w', newline='') as csvfile4:
+        erm1writer = csv.writer(csvfile4, dialect='excel')
+        erm1writer.writerows(Er_m1)
 
     input()
 
