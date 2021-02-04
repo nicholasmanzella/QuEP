@@ -8,6 +8,8 @@ import pdb
 import time
 import include.simulations.useQuasi3D as sim
 import math
+plt.rcParams.update({'font.size': 16})
+
 
 xicheck = -8.2#-18.0
 
@@ -42,7 +44,7 @@ def main():
     fig = plt.figure()
     ax = plt.axes()
     ax.set(xlabel = '$R$ ($c/\omega_p$)', ylabel = '$E_r$ ($m_e c \omega_p / e$)')
-    ax.set_title("Wakefield (M=0): $E_r$ as a Function of $r$")
+    ax.set_title("Radial Electric Field as a Function of R, M0 Only")
     ax.plot(raxis, Ex, c='C0')
 
 # Fit linear portion
@@ -53,6 +55,11 @@ def main():
 
     m, b = np.polyfit(raxis[xDex_start:xDex_end], Ex[xDex_start:xDex_end], 1)
     print("EField = ", m, "*x + ", b)
+
+    x = np.linspace(0,0.8,100)
+    y = m*x + b
+
+    ax.plot(x,y,c='C3',linestyle='dashed')
 
     print((time.time() - start_time)/60, " min")
 
