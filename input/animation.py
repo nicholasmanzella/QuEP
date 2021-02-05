@@ -5,13 +5,13 @@ simulation_name = 'QUASI3D'
 shape = 'rectangle'
 # dt = 0.005, 150000
 iterations = 500000
-mode = 0
+mode = -1
 fname = "animation.npz"
 
 # Probe centered at the following initial coordinates (in c/w_p):
 x_c = -2.4 # Start within region of field
 y_c = 0
-xi_c = -9.5
+xi_c = -14.5
 
 # Initial momentum
 px_0 = 110 # Make sure it goes towards the screen!
