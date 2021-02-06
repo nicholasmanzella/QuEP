@@ -81,10 +81,11 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,x_s,noElec,iter):
     fig5.suptitle("Progression of " + shape_name + " EProbe")
 
     for i in range(0, 3):
-        axs[i].set_title("Snapshot at X = " + str(x_s[i]) + " mm")
+        axs[i].set_title("Low Density Probe, X = " + str(x_s[i]) + " mm")
         #axs[i].hist2d(xislice[i,:], yslice[i,:], bins=(50,50), cmap=plt.cm.jet)
         axs[i].scatter(xislice[i,:], yslice[i,:], c='C0', zorder=1)
-        #axs[i].set_ylim(-1,1)
+        axs[i].set_xlim(27,52)
+        axs[i].set_ylim(-6,6)
     #for ax in axs.flat:
         #ax.set(xlabel = '$\\xi$ ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
         #ax.label_outer()
@@ -94,7 +95,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,x_s,noElec,iter):
     fig6.suptitle("Progression of " + shape_name + " EProbe")
 
     for i in range(0, 3):
-        axs2[i].set_title("Snapshot at X = " + str(x_s[i+3]) + " mm")
+        axs2[i].set_title("Low Density Probe, X = " + str(x_s[i+3]) + " mm")
         #axs2[i].hist2d(xislice[i+3,:], yslice[i+3,:], bins=(50,50), cmap=plt.cm.jet)
         axs2[i].scatter(xislice[i+3,:], yslice[i+3,:], c='C0', zorder=1)
         #axs2[i].set_ylim(-2,2)
@@ -107,7 +108,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,x_s,noElec,iter):
     fig7.suptitle("Progression of " + shape_name + " EProbe")
 
     for i in range(0, 3):
-        axs3[i].set_title("Snapshot at X = " + str(x_s[i]) + " mm")
+        axs3[i].set_title("Low Density Probe, X = " + str(x_s[i]) + " mm")
         axs3[i].scatter(zslice[i,:], yslice[i,:], zorder=2)
         #axs3[i].set_ylim(-1,1)
         #axs3[i].set_xlim(35,40)
@@ -117,7 +118,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,x_s,noElec,iter):
     fig8.suptitle("Progression of " + shape_name + " EProbe")
 
     for i in range(0, 3):
-        axs4[i].set_title("Snapshot at X = " + str(x_s[i+3]) + " mm")
+        axs4[i].set_title("Low Density Probe, X = " + str(x_s[i+3]) + " mm")
         axs4[i].scatter(zslice[i+3,:], yslice[i+3,:])
         #axs4[i].set_ylim(-1,1)
         #axs4[i].set_xlim(35,40)

@@ -13,7 +13,7 @@ fname = "dotmast.npz"
 # Probe centered at the following initial coordinates (in c/w_p):
 x_c = -2.4 # Start within region of field
 y_c = 0
-xi_c = -9.5#-14.5#-13
+xi_c = -12
 
 # Initial momentum
 px_0 = 110 # Make sure it goes towards the screen!
@@ -26,10 +26,10 @@ x_s = [10, 50, 100, 250, 500]
 
 # Shape Parameters (Radius or Side Length, in c/w_p):
 s1 = 0.55#0.5 # In y
-s2 = 7.5#12 # In xi
+s2 = 12#7.5#12 # In xi
 s3 = 1 # In x
 
 # Densities
-ydensity = 20#30
-xidensity = 20#30
+ydensity = 30
+xidensity = 30
 resolution = 0.5
