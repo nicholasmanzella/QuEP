@@ -6,12 +6,12 @@ shape = 'rectangle'
 # dt = 0.005, 150000
 iterations = 500000
 mode = -1
-fname = "L60_28-52_05.npz"
+fname = "L60_28-51_05.npz"
 
 # Probe centered at the following initial coordinates (in c/w_p):
 x_c = -2.4 # Start within region of field
 y_c = 0
-xi_c = -12
+xi_c = -13
 
 # Initial momentum
 px_0 = 110 # Make sure it goes towards the screen!
