@@ -5,15 +5,17 @@ import numpy as np
 import include.plot2DTracks as plot2D
 import include.plot3DTracks as plot3D
 import include.showQuickEvolution as showEvol_Q
-import include.showFullEvolution_Ydir as showEvol_F
+import include.showFullEvolution as showEvol_F
 import include.viewProbe as viewProbe
+import include.writeFullEvolData as writeHist
 
 # Plotting Scripts
 plot2DTracks = False                 # View 2D projections of trajectories
 # plot3DTracks = False                 # View 3D model of trajectories
 # viewProbeShape = False               # View initial shape of probe separately
-showQuickEvolution = True           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
-showFullEvolution = False           # View full evolution of probe at hardcoded locations in colored histograms
+showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
+showFullEvolution = False          # View full evolution of probe at hardcoded locations in colored histograms
+writeHistData = True
 # Set all others equal False if want animation saved (dependency issue)
 saveMovie = False                   # Save mp4 of probe evolution
 if (saveMovie):
@@ -61,7 +63,7 @@ if (showQuickEvolution):
     showEvol_Q.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noElec, iter)
 if (showFullEvolution):
     showEvol_F.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
-# if (viewProbeShape):
-#     viewProbe.plot(x_dat, y_dat, xi_dat, z_dat, sim_name, shape_name, s1, s2, noElec)
+if (writeHistData):
+     writeHist.plot(x_dat, y_dat, xi_dat, z_dat, sim_name, shape_name, s1, s2, noElec)
 if (saveMovie):
     makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
