@@ -96,7 +96,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 
     norm = mpl.colors.Normalize(vmin=1, vmax=1500)
 
-    (h2, bins) = plt.hist2d(zslice, yslice, bins=(binsizez,binsizey), vmin=1)#, norm=norm)
+    (h2, bins, patches) = plt.hist2d(zslice, yslice, bins=(binsizez,binsizey), vmin=1)#, norm=norm)
 
     with open('counts.csv', 'w', newline='') as csvfile:
         nwriter = csv.writer(csvfile, dialect='excel')
