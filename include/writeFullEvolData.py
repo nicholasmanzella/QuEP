@@ -69,16 +69,13 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         xs_norm.append(x_s[i] * W_P * 10**(-3) / C)
 
 # Generate arrays of coordinates at origin + each screen
-    yslice = []
-    xislice = []
-    zslice = []
+    yslice = np.empty(noElec)
+    xislice = np.empty(noElec)
+    zslice = np.empty(noElec)
 
 # Project positions at distances in x_s
     for j in range(0,noElec):
-        y, xi , z = getBallisticTraj(x_f[j], y_f[j], xi_f[j], z_f[j], px_f[j], py_f[j], pz_f[j], xs_norm[-1])
-        yslice.append(y)
-        xislice.append(xi)
-        zslice.append(z)
+        yslice[j], xislice[j] , zslice[j] = getBallisticTraj(x_f[j], y_f[j], xi_f[j], z_f[j], px_f[j], py_f[j], pz_f[j], xs_norm[-1])
 
 # Plot slices
 # For bin size = 0.006 (lambda/10)
@@ -96,12 +93,16 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 
     norm = mpl.colors.Normalize(vmin=1, vmax=1500)
 
-    (h2, bins, patches) = plt.hist2d(zslice, yslice, bins=(binsizez,binsizey), vmin=1)#, norm=norm)
+    (h2, xbin, ybin) = plt.hist2d(zslice, yslice, bins=(binsizez,binsizey), vmin=1)#, norm=norm)
 
     with open('counts.csv', 'w', newline='') as csvfile:
         nwriter = csv.writer(csvfile, dialect='excel')
         nwriter.writerows(h2)
 
-    with open('bins.csv', 'w', newline='') as csvfile2:
+    with open('xbins.csv', 'w', newline='') as csvfile2:
         binwriter = csv.writer(csvfile2, dialect='excel')
-        binwriter.writerows(bins)
+        binwriter.writerows(xbin)
+
+    with open('ybins.csv', 'w', newline='') as csvfile3:
+        binwriter2 = csv.writer(csvfile2, dialect='excel')
+        binwriter2.writerows(ybin)
