@@ -93,7 +93,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 
     norm = mpl.colors.Normalize(vmin=1, vmax=1500)
 
-    h2, xbin, ybin = plt.hist2d(zslice, yslice, bins=(binsizez,binsizey), vmin=1)#, norm=norm)
+    h2, xbin, ybin, himage  = plt.hist2d(zslice, yslice, bins=(binsizez,binsizey), vmin=1)#, norm=norm)
 
     with open('counts.csv', 'w', newline='') as csvfile:
         nwriter = csv.writer(csvfile, dialect='excel')
@@ -101,8 +101,8 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 
     with open('xbins.csv', 'w', newline='') as csvfile2:
         binwriter = csv.writer(csvfile2, dialect='excel')
-        binwriter.writerows(xbin)
+        binwriter.writerow(xbin)
 
     with open('ybins.csv', 'w', newline='') as csvfile3:
-        binwriter2 = csv.writer(csvfile2, dialect='excel')
-        binwriter2.writerows(ybin)
+        binwriter2 = csv.writer(csvfile3, dialect='excel')
+        binwriter2.writerow(ybin)

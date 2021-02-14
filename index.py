@@ -64,6 +64,6 @@ if (showQuickEvolution):
 if (showFullEvolution):
     showEvol_F.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
 if (writeHistData):
-     writeHist.plot(x_dat, y_dat, xi_dat, z_dat, sim_name, shape_name, s1, s2, noElec)
+     writeHist.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
 if (saveMovie):
     makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
