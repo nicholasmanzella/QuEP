@@ -5,13 +5,13 @@ simulation_name = 'QUASI3D'
 shape = 'single'
 # dt = 0.005, 150000
 iterations = 500000
-mode = 1
+mode = 0
 fname = "modifiedxp.npz"
 
 # Probe centered at the following initial coordinates (in c/w_p):
 x_c = -2.4 # Start within region of field
 y_c = 0.25
-xi_c = -9.9
+xi_c = -5.9
 
 # Initial momentum
 px_0 = 110 # Make sure it goes towards the screen!
