@@ -2,16 +2,16 @@
 # This filename is the input parameter of the eProbe.py file
 
 simulation_name = 'QUASI3D'
-shape = 'rectangle'
+shape = 'single'
 # dt = 0.005, 150000
 iterations = 500000
 mode = 1
-fname = "testfront.npz"
+fname = "modifiedxp.npz"
 
 # Probe centered at the following initial coordinates (in c/w_p):
-x_c = 0 # Start within region of field
-y_c = 0
-xi_c = -3.0
+x_c = -2.4 # Start within region of field
+y_c = 0.25
+xi_c = -9.9
 
 # Initial momentum
 px_0 = 110 # Make sure it goes towards the screen!

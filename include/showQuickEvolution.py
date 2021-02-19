@@ -41,6 +41,12 @@ def getBallisticTraj(x_0,y_0,xi_0,z_0,px,py,pz,x_s):
 
     return y_f, xi_f, z_f
 
+def returnXi(z):
+    return z - C * 54.3948
+
+def returnZ(xi):
+    return xi + C * 54.3948
+
 def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,x_s,noElec,iter):
 # Plot evolution of probe after leaving plasma
     if (sim_name.upper() == 'OSIRIS_CYLINSYMM'):
@@ -120,15 +126,25 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,x_s,noElec,iter):
     for i in range(0, 3):
         axs4[i].set_title("Low Density Probe, X = " + str(x_s[i+3]) + " mm")
         axs4[i].scatter(zslice[i+3,:], yslice[i+3,:])
+
+    secax = axs4[2].secondary_xaxis('top', functions= (returnXi, returnZ))
+    secax.set(xlabel= '$\\xi$ ($c/\omega_p$)')
         #axs4[i].set_ylim(-1,1)
         #axs4[i].set_xlim(35,40)
     axs4[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
 
+    fig9, axs5 = plt.subplots(constrained_layout=True, figsize=(10,5))
+    axs5.set_title("Low Density Probe, X = " + str(x_s[5]) + " mm")
+    axs5.scatter(zslice[5], yslice[5])
+    axs5.set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
+    secax = axs5.secondary_xaxis('top', functions= (returnXi, returnZ))
+    secax.set(xlabel= '$\\xi$ ($c/\omega_p$)')
 
+    fig9.show()
     #fig5.show()
     #fig.tight_layout()
     #fig6.show()
-    fig7.show()
-    fig8.show()
+    #fig7.show()
+    #fig8.show()
 
     input()
