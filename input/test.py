@@ -7,10 +7,10 @@ density = 1
 fill = False
 iterations = 100000
 
-# Probe centered at the following initial coordinates:
+# Probe centered at the following initial coordinates (in c/w_p):
 x_c = -2.4 # Start within region of field
 y_c = 0.25
-xi_c = -8.2
+xi_c = -5.9
 
 # Initial momentum
 px_0 = 110 # Make sure it goes towards the screen!

@@ -43,7 +43,7 @@ C = 299892458                        #speed of light in vacuum in m/s
 useMatrix = True # Use standard [x,x'] = [(1,d),(0,1)][x,x'] matrix for ballistic portion of trajectory
 
 # Plotting Scripts
-findFocal = False # Calculate Y focal length at end of script
+findFocal = True # Calculate Y focal length at end of script
 plot2DTracks = True
 plot3DTracks = False
 
