@@ -44,7 +44,7 @@ useMatrix = True # Use standard [x,x'] = [(1,d),(0,1)][x,x'] matrix for ballisti
 
 # Plotting Scripts
 findFocal = True # Calculate Y focal length at end of script
-plot2DTracks = True
+plot2DTracks = False
 plot3DTracks = False
 
 def main():

@@ -9,7 +9,7 @@ iterations = 15000
 # Probe centered at the following initial coordinates:
 x_c = -2.4 # Start within region of field
 y_c = 0
-xi_c = -8.2 # (Front Bubble) #-18.3 (Back Bubble)
+xi_c = -5.9#-8.2 # (Front Bubble) #-18.3 (Back Bubble)
 
 # Initial momentum
 px_0 = 110 # Make sure it goes towards the screen!
