@@ -10,7 +10,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import pdb
 plt.rcParams.update({'font.size': 16})
 
-plotYForce = False # Plot transverse force with trajectories, not useful for many trajectories
+plotYForce = True # Plot transverse force with trajectories, not useful for many trajectories
 plotZForce = False # Plot force along WF propagation
 
 #large_size = 12
@@ -26,17 +26,17 @@ def make_patch_spines_invisible(ax):
 
 def plot(x_dat,y_dat,z_dat,xi_dat,Fx_dat,Fy_dat,Fz_dat,px_dat,py_dat,sim_name,shape_name,s1,s2,noElec):
 
-# 2D: Xi-X, constrained to blowout regime
+# 2D: Z-X, constrained to blowout regime
     fig1 = plt.figure(1)
     ax1 = plt.axes()
     ax1.set_xlabel("X ($c/\omega_p$)")
-    ax1.set_ylabel("$\\xi$ ($c/\omega_p$)")
+    ax1.set_ylabel("Z ($c/\omega_p$)")
     ax1.set_xlim(-3,3)
     ax1.tick_params(axis='y', labelcolor='k')
     ax1.set_title("Electron Trajectories through Blowout Regime")
 
     for i in range(0, noElec):
-        ax1.plot(x_dat[i,:], xi_dat[i,:], 'k', label='$\\xi$-X Trajectory') # Want vertical axis as y
+        ax1.plot(x_dat[i,:], z_dat[i,:], 'k', label='$Z-X Trajectory') # Want vertical axis as y
 
     if (plotZForce):
         ax1_f = ax1.twinx()
@@ -95,7 +95,7 @@ def plot(x_dat,y_dat,z_dat,xi_dat,Fx_dat,Fy_dat,Fz_dat,px_dat,py_dat,sim_name,sh
         fig2.legend(bbox_to_anchor=(0.3, 0.8), bbox_transform=plt.gcf().transFigure)
 
     fig1.tight_layout()
-    #fig1.show()
+    fig1.show()
     fig2.tight_layout()
     fig2.show()
     input()

@@ -22,12 +22,13 @@ def calculate(x_0,y_0,xi_0,z_0,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_na
 # Find focal length for each data point by multiplying dy by the angle of the electron leaving the regime
     for i in range(0, len(x_0)):
         f_y.append( abs(dy[i]) * px_f[i] / abs(py_f[i]))
-        #print("px_f = ", px_f[i], ", py_f = ", py_f[i])
+        print("px_f = ", px_f[i], ", py_f = ", py_f[i])
         print("f_y = ", f_y[i])
+        #pdb.set_trace()
 # Find average focal length and variance
-    focal_y = stat.mean(f_y)
-    std_y = math.sqrt(stat.variance(f_y))
+    #focal_y = stat.mean(f_y)
+    #std_y = math.sqrt(stat.variance(f_y))
 
-    print("Focal Y = " + str(focal_y) + " " + u"\u00B1 " + str(std_y))
+    #print("Focal Y = " + str(focal_y) + " " + u"\u00B1 " + str(std_y))
 
     input()
