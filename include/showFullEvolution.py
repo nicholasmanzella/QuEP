@@ -135,7 +135,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
             axs[i].set_facecolor('white')
 
     axs[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
-    cbar = plt.colorbar(h[3], ax=axs, orientation=horizontal)
+    cbar = plt.colorbar(h[3], ax=axs, orientation='horizontal')
     #cbar.set_label('Electron Density')
 
     fig6, axs2 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
@@ -155,7 +155,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
             axs2[i].set_facecolor('white')
 
     axs2[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
-    cbar2 = plt.colorbar(h2[3], ax=axs2, orientation=horizontal)
+    cbar2 = plt.colorbar(h2[3], ax=axs2, orientation='horizontal')
     #cbar2.set_label('Electron Density')
 
     fig7, axs3 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
@@ -175,7 +175,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
             axs3[i].set_facecolor('white')
 
     axs3[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
-    cbar3 = plt.colorbar(h3[3], ax=axs3, orientation=horizontal)
+    cbar3 = plt.colorbar(h3[3], ax=axs3, orientation='horizontal')
     #cbar3.set_label('Electron Density')
 
     fig8, axs4 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
@@ -200,7 +200,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
             axs4[i].set_facecolor('white')
 
     axs4[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
-    cbar4 = plt.colorbar(h4[3], ax=axs4, orientation=horizontal)
+    cbar4 = plt.colorbar(h4[3], ax=axs4, orientation='horizontal')
     cbar4.set_label('Electron Density')
 
     # fig5.show()
