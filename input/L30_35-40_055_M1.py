@@ -6,7 +6,7 @@ shape = 'rectangle'
 # dt = 0.005, 150000
 iterations = 500000
 mode = 1
-fname = "L30_35-40_08_M1_Y.npz"
+fname = "L30_35-40_08_M1.npz"
 
 # Probe centered at the following initial coordinates (in c/w_p):
 x_c = 0 # Start within region of field
@@ -14,8 +14,8 @@ y_c = -2.4
 xi_c = -14.5
 
 # Initial momentum
-px_0 = 0 # Make sure it goes towards the screen!
-py_0 = 110
+px_0 = 110 # Make sure it goes towards the screen!
+py_0 = 0
 pz_0 = 0
 
 # Screen Distances (from z-axis of plasma cell, in mm):
