@@ -9,7 +9,7 @@ import matplotlib.ticker as ticker
 import pdb
 import math
 import copy
-plt.rcParams.update({'font.size': 15})
+plt.rcParams.update({'font.size': 15 })
 
 # Definition of Constants
 M_E = 9.109e-31                      # Electron rest mass in kg
@@ -165,7 +165,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     axs2[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
     cbar2 = plt.colorbar(h2[3], ax=axs2, orientation='horizontal')
     #cbar2.set_label('Electron Density')
-    secax2 = axs[0].secondary_xaxis('top', functions= (returnXi, returnZ))
+    secax2 = axs2[0].secondary_xaxis('top', functions= (returnXi, returnZ))
     secax2.set(xlabel= '$\\xi$ ($c/\omega_p$)')
 
     fig7, axs3 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
@@ -187,7 +187,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     axs3[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
     cbar3 = plt.colorbar(h3[3], ax=axs3, orientation='horizontal')
     #cbar3.set_label('Electron Density')
-    secax3 = axs[0].secondary_xaxis('top', functions= (returnXi, returnZ))
+    secax3 = axs3[0].secondary_xaxis('top', functions= (returnXi, returnZ))
     secax3.set(xlabel= '$\\xi$ ($c/\omega_p$)')
 
     fig8, axs4 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
@@ -214,7 +214,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     axs4[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
     cbar4 = plt.colorbar(h4[3], ax=axs4, orientation='horizontal')
     cbar4.set_label('Electron Density')
-    secax4 = axs[0].secondary_xaxis('top', functions= (returnXi, returnZ))
+    secax4 = axs4[0].secondary_xaxis('top', functions= (returnXi, returnZ))
     secax4.set(xlabel= '$\\xi$ ($c/\omega_p$)')
     # fig5.show()
     # fig6.show()
