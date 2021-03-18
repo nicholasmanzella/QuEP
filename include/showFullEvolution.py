@@ -9,7 +9,7 @@ import matplotlib.ticker as ticker
 import pdb
 import math
 import copy
-#plt.rcParams.update({'font.size': 20})
+plt.rcParams.update({'font.size': 15})
 
 # Definition of Constants
 M_E = 9.109e-31                      # Electron rest mass in kg
@@ -27,6 +27,12 @@ WB = False # Sequential
 Viridis = False # Sequential + Perceptually Uniform
 BuPu = False # Sequential
 Jet = True
+
+def returnXi(z):
+    return z - C * 54.3948 # Hardcoded time for Run 144!!!
+
+def returnZ(xi):
+    return xi + C * 54.3948
 
 def Gamma(p):
     return math.sqrt(1.0 + p**2)
@@ -121,8 +127,8 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     fig5, axs = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
     fig5.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
-        axs[i].set_title("X = " + str(x_s[i]) + " mm")
-        h = axs[i].hist2d(zslice[i,:], yslice[i,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1, vmax=200)#, norm=norm)
+        #axs[i].set_title("X = " + str(x_s[i]) + " mm")
+        h = axs[i].hist2d(zslice[i,:], yslice[i,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1, vmax=500)#, norm=norm)
         axs[i].set_ylim(-6,6)
         axs[i].set_xlim(xmin,xmax)
         if (WB):
@@ -136,13 +142,15 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 
     axs[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
     cbar = plt.colorbar(h[3], ax=axs, orientation='horizontal')
+    secax = axs[0].secondary_xaxis('top', functions= (returnXi, returnZ))
+    secax.set(xlabel= '$\\xi$ ($c/\omega_p$)')
     #cbar.set_label('Electron Density')
 
     fig6, axs2 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
     fig6.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
-        axs2[i].set_title("X = " + str(x_s[i+3]) + " mm")
-        h2 = axs2[i].hist2d(zslice[i+3,:], yslice[i+3,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1, vmax=200)# norm=norm)
+        #axs2[i].set_title("X = " + str(x_s[i+3]) + " mm")
+        h2 = axs2[i].hist2d(zslice[i+3,:], yslice[i+3,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1, vmax=500)# norm=norm)
         axs2[i].set_ylim(-6,6)
         axs2[i].set_xlim(xmin,xmax)
         if (WB):
@@ -157,12 +165,14 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     axs2[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
     cbar2 = plt.colorbar(h2[3], ax=axs2, orientation='horizontal')
     #cbar2.set_label('Electron Density')
+    secax2 = axs[0].secondary_xaxis('top', functions= (returnXi, returnZ))
+    secax2.set(xlabel= '$\\xi$ ($c/\omega_p$)')
 
     fig7, axs3 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
     fig7.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
-        axs3[i].set_title("X = " + str(x_s[i+6]) + " mm")
-        h3 = axs3[i].hist2d(zslice[i+6,:], yslice[i+6,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1, vmax=200)#, norm=norm)
+        #axs3[i].set_title("X = " + str(x_s[i+6]) + " mm")
+        h3 = axs3[i].hist2d(zslice[i+6,:], yslice[i+6,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1, vmax=500)#, norm=norm)
         axs3[i].set_ylim(-6,6)
         axs3[i].set_xlim(xmin,xmax)
         if (WB):
@@ -177,17 +187,19 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     axs3[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
     cbar3 = plt.colorbar(h3[3], ax=axs3, orientation='horizontal')
     #cbar3.set_label('Electron Density')
+    secax3 = axs[0].secondary_xaxis('top', functions= (returnXi, returnZ))
+    secax3.set(xlabel= '$\\xi$ ($c/\omega_p$)')
 
     fig8, axs4 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
     fig8.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
-        axs4[i].set_title("X = " + str(x_s[i+9]) + " mm")
+        #axs4[i].set_title("X = " + str(x_s[i+9]) + " mm")
         if (i < 2):
-            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1, vmax=200)#, norm=norm)
+            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1, vmax=500)#, norm=norm)
             axs4[i].set_ylim(-6,6)
             axs4[i].set_xlim(xmin,xmax)
         elif (i == 2):
-            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1, vmax=200)#, norm=norm)
+            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1, vmax=500)#, norm=norm)
             axs4[i].set_ylim(-6,6)
             axs4[i].set_xlim(xmin,xmax)
         if (WB):
@@ -202,7 +214,8 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     axs4[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
     cbar4 = plt.colorbar(h4[3], ax=axs4, orientation='horizontal')
     cbar4.set_label('Electron Density')
-
+    secax4 = axs[0].secondary_xaxis('top', functions= (returnXi, returnZ))
+    secax4.set(xlabel= '$\\xi$ ($c/\omega_p$)')
     # fig5.show()
     # fig6.show()
     # fig7.show()

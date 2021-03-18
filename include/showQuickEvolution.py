@@ -42,7 +42,7 @@ def getBallisticTraj(x_0,y_0,xi_0,z_0,px,py,pz,x_s):
     return y_f, xi_f, z_f
 
 def returnXi(z):
-    return z - C * 54.3948
+    return z - C * 54.3948 # Hardcoded time for Run 144!!!
 
 def returnZ(xi):
     return xi + C * 54.3948
