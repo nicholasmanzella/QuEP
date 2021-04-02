@@ -106,10 +106,10 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 # Run 232 Limits: (435,475), (0,6), Bins: (1333,200)
 
     binsizez = 833#833#2833#4167#1000#2666#1333
-    binsizey = 166#400#2000#160#666#200
+    binsizey = 400#400#2000#160#666#200
 
-    xmin = 35#27#35#27#400
-    xmax = 40#52#500
+    xmin = 27#35#27#400
+    xmax = 52#500
 
     if (WB):
         cmap = plt.cm.binary
@@ -124,83 +124,83 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         cmap = plt.cm.gist_gray
     norm = mpl.colors.Normalize(vmin=1, vmax=1500)
 
-    # fig5, axs = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
-    # fig5.suptitle("Progression of " + shape_name + " EProbe")
-    # for i in range(0, 3):
-    #     #axs[i].set_title("X = " + str(x_s[i]) + " mm")
-    #     h = axs[i].hist2d(zslice[i,:], yslice[i,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1, vmax=500)#, norm=norm)
-    #     axs[i].set_ylim(-6,6)
-    #     axs[i].set_xlim(xmin,xmax)
-    #     if (WB):
-    #         axs[i].set_facecolor('white')
-    #     elif (Viridis):
-    #         axs[i].set_facecolor('#30013b')
-    #     #elif (Jet):
-    #         #axs[i].set_facecolor('#000080')
-    #     else:
-    #         axs[i].set_facecolor('white')
-    #
-    # axs[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
-    # cbar = plt.colorbar(h[3], ax=axs, orientation='horizontal')
-    # secax = axs[0].secondary_xaxis('top', functions= (returnXi, returnZ))
-    # secax.set(xlabel= '$\\xi$ ($c/\omega_p$)')
-    # #cbar.set_label('Electron Density')
-    #
-    # fig6, axs2 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
-    # fig6.suptitle("Progression of " + shape_name + " EProbe")
-    # for i in range(0, 3):
-    #     #axs2[i].set_title("X = " + str(x_s[i+3]) + " mm")
-    #     h2 = axs2[i].hist2d(zslice[i+3,:], yslice[i+3,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1, vmax=500)# norm=norm)
-    #     axs2[i].set_ylim(-6,6)
-    #     axs2[i].set_xlim(xmin,xmax)
-    #     if (WB):
-    #         axs2[i].set_facecolor('white')
-    #     elif (Viridis):
-    #         axs2[i].set_facecolor('#30013b')
-    #     #elif (Jet):
-    #         #axs2[i].set_facecolor('#000080')
-    #     else:
-    #         axs2[i].set_facecolor('white')
-    #
-    # axs2[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
-    # cbar2 = plt.colorbar(h2[3], ax=axs2, orientation='horizontal')
-    # #cbar2.set_label('Electron Density')
-    # secax2 = axs2[0].secondary_xaxis('top', functions= (returnXi, returnZ))
-    # secax2.set(xlabel= '$\\xi$ ($c/\omega_p$)')
-    #
-    # fig7, axs3 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
-    # fig7.suptitle("Progression of " + shape_name + " EProbe")
-    # for i in range(0, 3):
-    #     #axs3[i].set_title("X = " + str(x_s[i+6]) + " mm")
-    #     h3 = axs3[i].hist2d(zslice[i+6,:], yslice[i+6,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1, vmax=500)#, norm=norm)
-    #     axs3[i].set_ylim(-6,6)
-    #     axs3[i].set_xlim(xmin,xmax)
-    #     if (WB):
-    #         axs3[i].set_facecolor('white')
-    #     elif (Viridis):
-    #         axs3[i].set_facecolor('#30013b')
-    #     #elif (Jet):
-    #         #axs3[i].set_facecolor('#000080')
-    #     else:
-    #         axs3[i].set_facecolor('white')
-    #
-    # axs3[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
-    # cbar3 = plt.colorbar(h3[3], ax=axs3, orientation='horizontal')
-    # #cbar3.set_label('Electron Density')
-    # secax3 = axs3[0].secondary_xaxis('top', functions= (returnXi, returnZ))
-    # secax3.set(xlabel= '$\\xi$ ($c/\omega_p$)')
+    fig5, axs = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
+    fig5.suptitle("Progression of " + shape_name + " EProbe")
+    for i in range(0, 3):
+        #axs[i].set_title("X = " + str(x_s[i]) + " mm")
+        h = axs[i].hist2d(zslice[i,:], yslice[i,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1, vmax=500)#, norm=norm)
+        axs[i].set_ylim(-6,6)
+        axs[i].set_xlim(xmin,xmax)
+        if (WB):
+            axs[i].set_facecolor('white')
+        elif (Viridis):
+            axs[i].set_facecolor('#30013b')
+        #elif (Jet):
+            #axs[i].set_facecolor('#000080')
+        else:
+            axs[i].set_facecolor('white')
+
+    axs[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
+    cbar = plt.colorbar(h[3], ax=axs, orientation='horizontal')
+    secax = axs[0].secondary_xaxis('top', functions= (returnXi, returnZ))
+    secax.set(xlabel= '$\\xi$ ($c/\omega_p$)')
+    #cbar.set_label('Electron Density')
+
+    fig6, axs2 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
+    fig6.suptitle("Progression of " + shape_name + " EProbe")
+    for i in range(0, 3):
+        #axs2[i].set_title("X = " + str(x_s[i+3]) + " mm")
+        h2 = axs2[i].hist2d(zslice[i+3,:], yslice[i+3,:], bins=(binsizez,binsizey/4), cmap=cmap, vmin=1, vmax=500)# norm=norm)
+        axs2[i].set_ylim(-1.5,1.5)
+        axs2[i].set_xlim(xmin,xmax)
+        if (WB):
+            axs2[i].set_facecolor('white')
+        elif (Viridis):
+            axs2[i].set_facecolor('#30013b')
+        #elif (Jet):
+            #axs2[i].set_facecolor('#000080')
+        else:
+            axs2[i].set_facecolor('white')
+
+    axs2[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
+    cbar2 = plt.colorbar(h2[3], ax=axs2, orientation='horizontal')
+    #cbar2.set_label('Electron Density')
+    secax2 = axs2[0].secondary_xaxis('top', functions= (returnXi, returnZ))
+    secax2.set(xlabel= '$\\xi$ ($c/\omega_p$)')
+
+    fig7, axs3 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
+    fig7.suptitle("Progression of " + shape_name + " EProbe")
+    for i in range(0, 3):
+        #axs3[i].set_title("X = " + str(x_s[i+6]) + " mm")
+        h3 = axs3[i].hist2d(zslice[i+6,:], yslice[i+6,:], bins=(binsizez,binsizey/2), cmap=cmap, vmin=1, vmax=500)#, norm=norm)
+        axs3[i].set_ylim(-3,3)
+        axs3[i].set_xlim(xmin,xmax)
+        if (WB):
+            axs3[i].set_facecolor('white')
+        elif (Viridis):
+            axs3[i].set_facecolor('#30013b')
+        #elif (Jet):
+            #axs3[i].set_facecolor('#000080')
+        else:
+            axs3[i].set_facecolor('white')
+
+    axs3[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
+    cbar3 = plt.colorbar(h3[3], ax=axs3, orientation='horizontal')
+    #cbar3.set_label('Electron Density')
+    secax3 = axs3[0].secondary_xaxis('top', functions= (returnXi, returnZ))
+    secax3.set(xlabel= '$\\xi$ ($c/\omega_p$)')
 
     fig8, axs4 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=600)
     fig8.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
         #axs4[i].set_title("X = " + str(x_s[i+9]) + " mm")
         if (i < 2):
-            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, vmax=500)#, norm=norm)
-            axs4[i].set_ylim(-0.5,0.5)
+            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1, vmax=500)#, norm=norm)
+            axs4[i].set_ylim(-6,6)
             axs4[i].set_xlim(xmin,xmax)
         elif (i == 2):
-            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap)#, vmin=1, vmax=500)#, norm=norm)
-            axs4[i].set_ylim(-0.5,0.5)
+            h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1, vmax=500)#, norm=norm)
+            axs4[i].set_ylim(-6,6)
             axs4[i].set_xlim(xmin,xmax)
         if (WB):
             axs4[i].set_facecolor('white')
@@ -221,7 +221,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     # fig7.show()
     # fig8.show()
 
-    # fig5.savefig('prog1.png',dpi=600,transparent=False)
-    # fig6.savefig('prog2.png',dpi=600,transparent=False)
-    # fig7.savefig('prog3.png',dpi=600,transparent=False)
+    fig5.savefig('prog1.png',dpi=600,transparent=False)
+    fig6.savefig('prog2.png',dpi=600,transparent=False)
+    fig7.savefig('prog3.png',dpi=600,transparent=False)
     fig8.savefig('prog4.png',dpi=600,transparent=False)
