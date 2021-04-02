@@ -106,7 +106,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 # Run 232 Limits: (435,475), (0,6), Bins: (1333,200)
 
     binsizez = 833#833#2833#4167#1000#2666#1333
-    binsizey = 333#400#2000#160#666#200
+    binsizey = 166#400#2000#160#666#200
 
     xmin = 35#27#35#27#400
     xmax = 40#52#500
