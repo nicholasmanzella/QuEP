@@ -13,7 +13,7 @@ fname = "dotmast.npz"
 # Probe centered at the following initial coordinates (in c/w_p):
 x_c = -2.4 # Start within region of field
 y_c = 0
-xi_c = -13#-12#-13
+xi_c = -12#-12#-13
 
 # Initial momentum
 px_0 = 110 # Make sure it goes towards the screen!

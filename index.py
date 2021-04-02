@@ -13,8 +13,8 @@ import include.writeFullEvolData as writeHist
 plot2DTracks = False                 # View 2D projections of trajectories
 # plot3DTracks = False                 # View 3D model of trajectories
 # viewProbeShape = False               # View initial shape of probe separately
-showQuickEvolution = True           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
-showFullEvolution = False          # View full evolution of probe at hardcoded locations in colored histograms
+showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
+showFullEvolution = True          # View full evolution of probe at hardcoded locations in colored histograms
 writeHistData = False
 # Set all others equal False if want animation saved (dependency issue)
 saveMovie = False                   # Save mp4 of probe evolution
@@ -43,7 +43,7 @@ s1 = init.s1
 s2 = init.s2
 s3 = init.s3
 
-data = np.load(fname)#'./data/' + fname)
+data = np.load('./data/' + fname)
 x_f = data['x_dat']
 y_f = data['y_dat']
 xi_f = data['xi_dat']
