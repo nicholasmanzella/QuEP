@@ -196,11 +196,11 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
         #axs4[i].set_title("X = " + str(x_s[i+9]) + " mm")
         if (i < 2):
             h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap, vmin=1)#, vmax=500)#, norm=norm)
-            axs4[i].set_ylim(-1,1)
+            axs4[i].set_ylim(-0.5,0.5)
             axs4[i].set_xlim(xmin,xmax)
         elif (i == 2):
             h4 = axs4[i].hist2d(zslice[i+9,:], yslice[i+9,:], bins=(binsizez,binsizey), cmap=cmap)#, vmin=1, vmax=500)#, norm=norm)
-            axs4[i].set_ylim(-1,1)
+            axs4[i].set_ylim(-0.5,0.5)
             axs4[i].set_xlim(xmin,xmax)
         if (WB):
             axs4[i].set_facecolor('white')
