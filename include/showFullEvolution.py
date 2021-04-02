@@ -221,7 +221,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     # fig7.show()
     # fig8.show()
 
-    fig5.savefig('prog1.png',dpi=600,transparent=False)
-    fig6.savefig('prog2.png',dpi=600,transparent=False)
-    fig7.savefig('prog3.png',dpi=600,transparent=False)
+    # fig5.savefig('prog1.png',dpi=600,transparent=False)
+    # fig6.savefig('prog2.png',dpi=600,transparent=False)
+    # fig7.savefig('prog3.png',dpi=600,transparent=False)
     fig8.savefig('prog4.png',dpi=600,transparent=False)
