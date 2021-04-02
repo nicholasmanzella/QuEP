@@ -150,7 +150,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     fig6.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
         #axs2[i].set_title("X = " + str(x_s[i+3]) + " mm")
-        h2 = axs2[i].hist2d(zslice[i+3,:], yslice[i+3,:], bins=(binsizez,binsizey/4), cmap=cmap, vmin=1, vmax=500)# norm=norm)
+        h2 = axs2[i].hist2d(zslice[i+3,:], yslice[i+3,:], bins=(binsizez,int(binsizey/4)), cmap=cmap, vmin=1, vmax=500)# norm=norm)
         axs2[i].set_ylim(-1.5,1.5)
         axs2[i].set_xlim(xmin,xmax)
         if (WB):
@@ -172,7 +172,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     fig7.suptitle("Progression of " + shape_name + " EProbe")
     for i in range(0, 3):
         #axs3[i].set_title("X = " + str(x_s[i+6]) + " mm")
-        h3 = axs3[i].hist2d(zslice[i+6,:], yslice[i+6,:], bins=(binsizez,binsizey/2), cmap=cmap, vmin=1, vmax=500)#, norm=norm)
+        h3 = axs3[i].hist2d(zslice[i+6,:], yslice[i+6,:], bins=(binsizez,int(binsizey/2)), cmap=cmap, vmin=1, vmax=500)#, norm=norm)
         axs3[i].set_ylim(-3,3)
         axs3[i].set_xlim(xmin,xmax)
         if (WB):
