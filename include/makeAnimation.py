@@ -1,19 +1,26 @@
+import os
 import numpy as np
 import matplotlib as mpl
-mpl.use("Agg")
+#mpl.use("Agg")
 import matplotlib.pyplot as plt
-import matplotlib.animation as manimation
+from matplotlib.animation import FuncAnimation
+plt.rcParams['animation.ffmpeg_path'] = '/ffmpeg/bin'
 import matplotlib.colors as col
 import matplotlib.cm as cm
 import pdb
 import math
 
 # Choose boundaries of plasma in mm
-xstep_mm = 1
+xstart_mm = 0
 xend_mm = 500
+xstep_mm = 1
 
 # Definition of Constants
 C = 299892458                        # Speed of light in vacuum in m/s
+
+fig, ax = plt.subplots()
+y_dat, z_dat, xi_dat = [],[],[]
+probe, = plt.plot([], [], 'C0o', markersize='2')
 
 def Gamma(p):
     return math.sqrt(1.0 + p**2)
@@ -54,6 +61,13 @@ def make_patch_spines_invisible(ax):
     for sp in ax.spines.values():
         sp.set_visible(False)
 
+def init():
+    plt.ylim(-6, 6)
+    plt.xlim(35,52)#(15, 65)
+    plt.xlabel('Z ($c/\omega_p$)')
+    plt.ylabel('Y ($c/\omega_p$)')
+    return probe,
+
 def animate(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
     if (sim_name.upper() == 'OSIRIS_CYLINSYMM'):
         import include.simulations.useOsiCylin as sim
@@ -65,64 +79,26 @@ def animate(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,noElec,iter):
 
 # Define step size, current and end location in normalized units
     W_P = sim.getPlasFreq()
-    xstep = xstep_mm * W_P * 10**(-3) / C
-    xend = xend_mm * W_P * 10**(-3) / C
-    xiter = int(xend_mm/xstep_mm)
-    xn = 0
-    xn_mm = 0
-    y_dat, z_dat, xi_dat = [],[],[]
+    #xstart = xstart_mm * W_P * 10**(-3) / C
+    #xend = xend_mm * W_P * 10**(-3) / C
+    #xstep = xstep_mm * W_P * 10**(-3) / C
+    xiter = int(abs(xend_mm - xstart_mm) / xstep_mm)
 
-# # Histogram options
-#     binsizez = 50
-#     binsizey = 40
-#     norm = mpl.colors.Normalize(vmin=0, vmax=50)
-#     cmap = plt.cm.gist_gray
-
-# Set up FFMpeg and figure
-    FFMpegWriter = manimation.writers['ffmpeg']
-    metadata = dict(title='Movie Test', artist='Matplotlib',
-                    comment='Movie support!')
-    writer = FFMpegWriter(fps=15, metadata=metadata)
-    fig, ax = plt.subplots()
-    #fig.subplots_adjust(bottom=-0.1)
-
-    probe, = plt.plot([], [], 'C0o', markersize='2')
-    #probe, = ax.hist2d(xi_dat, y_dat, bins=(binsizez,binsizey), cmap=cmap, norm=norm)
-    plt.ylim(-10, 10)
-    plt.xlim(15, 65)
-    plt.xlabel('Z ($c/\omega_p$)')
-    plt.ylabel('Y ($c/\omega_p$)')
-
-    #xi_ax = ax.twiny()
-    #xi_ax.set_xlabel("$\\xi$ ($c/\omega_p$)")
-    #xi_ax.set_xlim(-37,13)
-
-# Generate movie
-    with writer.saving(fig, "C:/Users/Marisa/Documents/Research/plots/eProbe.mp4", dpi=400):
-    # Start with initial position at 0 mm
-        for i in range(0,noElec):
-            y_dat.append(y_f[i])
-            z_dat.append(z_f[i])
-        probe.set_data(z_dat, y_dat)
-        ax.set_title("X = 0 mm")
-        writer.grab_frame()
-    # Move electrons outside of plasma
+    def update(frame):
+        # Move electrons outside of plasma
         for i in range(0,xiter):
             y_dat.clear()
             z_dat.clear()
-            xn += xstep
-            xn_mm += xstep_mm
-            ax.set_title("Electron Probe Evolution: X = " + str(xn_mm) + " mm" )
+            xn = frame * W_P * 10**(-3) / C
+            ax.set_title("Electron Probe Evolution: X = " + str(frame) + " mm" )
             for j in range(0,noElec):
                 yn, zn, xin = getBallisticTraj(x_f[j], y_f[j], z_f[j], xi_f[j], px_f[j], py_f[j], pz_f[j], xn)
                 y_dat.append(yn)
                 z_dat.append(zn)
             probe.set_data(z_dat, y_dat)
-            writer.grab_frame()
+
+# Generate movie
+    ani = FuncAnimation(fig, update, frames=np.linspace(xstart_mm,xend_mm,xiter), init_func=init, blit=False)
+    #plt.show()
+    ani.save("eProbe.gif", fps=30, dpi=100)
     print("Movie saved!")
-# For movie inside plasma (probe should not change shape)
-    # with writer.saving(fig, "writer_test.mp4", dpi=400):
-    #     for i in range(len(x_dat)):
-    #         ax.set_title("X = " + str(x_dat[0,i]) + " c/$\omega_p$" )
-    #         probe.set_data(xi_dat[:,i], y_dat[:,i])
-    #         writer.grab_frame()

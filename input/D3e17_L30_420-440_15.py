@@ -28,6 +28,6 @@ s2 = 10 # In xi
 s3 = 1 # In x
 
 # Densities
-ydensity = 50
-xidensity = 333
-resolution = 0.03
+ydensity = 91
+xidensity = 606
+resolution = 0.033

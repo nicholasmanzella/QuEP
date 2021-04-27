@@ -18,10 +18,11 @@ import pdb
 # Definition of Constants
 M_E = 9.109e-31                       # Electron rest mass in kg
 EC = 1.60217662e-19                   # Electron charge in C
-EP_0 = 8.854187817e-12                    # Vacuum permittivity in C/(V m)
+EP_0 = 8.854187817e-12                # Vacuum permittivity in C/(V m)
 C = 299892458                         # Speed of light in vacuum in m/s
 
-Quasi_ID = '000232'
+Quasi_ID = '000130' #'000130' is for 1e15 density data
+                    #'000144' or '000232' are for 1e17 density data (at different times in run)
 
 def getField(fpath):
     f = h5.File(fpath,"r")
@@ -48,7 +49,7 @@ def getPlasFreq():
 
 def axes():
 # Retrieve axes boundaries under staggered mesh
-    f = h5.File('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-'+ Quasi_ID + '.h5',"r")#('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-000130.h5',"r")
+    f = h5.File('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-'+ Quasi_ID + '.h5',"r")
     datasetNames = [n for n in f.keys()] # Three Datasets: AXIS, SIMULATION, Field data
     field = datasetNames[-1]
     Field_dat = f[field][:].astype(float)
@@ -64,9 +65,9 @@ def axes():
     t0 = getTime()#f.attrs['TIME']
 
 # Field Shape is (433, 25231), where data is written as E(r,z)
-    xiaxis_1 = np.linspace(z_bounds_1[0] - t0, z_bounds_1[1] - t0, len(Field_dat[0])) # len = 25231
+    xiaxis_1 = np.linspace(z_bounds_1[0] - t0, z_bounds_1[1] - t0, len(Field_dat[0]))
     xiaxis_2 = np.linspace(z_bounds_2[0] - t0, z_bounds_2[1] - t0, len(Field_dat[0]))
-    raxis_1 = np.linspace(r_bounds_1[0], r_bounds_2[1], len(Field_dat)) # 433
+    raxis_1 = np.linspace(r_bounds_1[0], r_bounds_2[1], len(Field_dat))
     raxis_2 = np.linspace(r_bounds_2[0], r_bounds_2[1], len(Field_dat))
 
     return xiaxis_1, xiaxis_2, raxis_1, raxis_2
@@ -75,7 +76,7 @@ xiaxis_1, xiaxis_2, raxis_1, raxis_2 = axes() # Evenly spaced axes data
 
 def getBoundCond():
 # Define when the electron leaves the plasma cell
-    f = h5.File('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-'+ Quasi_ID + '.h5',"r")#('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-000130.h5',"r")
+    f = h5.File('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-'+ Quasi_ID + '.h5',"r")
     datasetNames = [n for n in f.keys()] # Three Datasets: AXIS, SIMULATION, Field data
     field = datasetNames[-1]
     Field_dat = f[field][:].astype(float)

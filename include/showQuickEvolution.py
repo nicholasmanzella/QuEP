@@ -8,6 +8,7 @@ import matplotlib.cm as cm
 import matplotlib.ticker as ticker
 import pdb
 import math
+plt.rcParams.update({'font.size': 15 })
 
 # Definition of Constants
 M_E = 9.109e-31                      # Electron rest mass in kg
@@ -40,6 +41,12 @@ def getBallisticTraj(x_0,y_0,xi_0,z_0,px,py,pz,x_s):
     xi_f = xi_0 + dx * (pz/px) + t
 
     return y_f, xi_f, z_f
+
+def returnXi(z):
+    return z - C * 54.3948 # Hardcoded time for Run 144!!!
+
+def returnZ(xi):
+    return xi + C * 54.3948
 
 def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,x_s,noElec,iter):
 # Plot evolution of probe after leaving plasma
@@ -77,14 +84,15 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,x_s,noElec,iter):
     x_s = [x_f[0] * C * 10**3 / W_P] + x_s
 
 # Plot slices
-    fig5, axs = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
+    fig5, axs = plt.subplots(3, sharex=True, sharey=True, figsize=(8, 10), dpi=80)
     fig5.suptitle("Progression of " + shape_name + " EProbe")
 
     for i in range(0, 3):
-        axs[i].set_title("Snapshot at X = " + str(x_s[i]) + " mm")
+        axs[i].set_title("Low Density Probe, X = " + str(x_s[i]) + " mm")
         #axs[i].hist2d(xislice[i,:], yslice[i,:], bins=(50,50), cmap=plt.cm.jet)
         axs[i].scatter(xislice[i,:], yslice[i,:], c='C0', zorder=1)
-        #axs[i].set_ylim(-1,1)
+        axs[i].set_xlim(27,52)
+        axs[i].set_ylim(-6,6)
     #for ax in axs.flat:
         #ax.set(xlabel = '$\\xi$ ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
         #ax.label_outer()
@@ -94,7 +102,7 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,x_s,noElec,iter):
     fig6.suptitle("Progression of " + shape_name + " EProbe")
 
     for i in range(0, 3):
-        axs2[i].set_title("Snapshot at X = " + str(x_s[i+3]) + " mm")
+        axs2[i].set_title("Low Density Probe, X = " + str(x_s[i+3]) + " mm")
         #axs2[i].hist2d(xislice[i+3,:], yslice[i+3,:], bins=(50,50), cmap=plt.cm.jet)
         axs2[i].scatter(xislice[i+3,:], yslice[i+3,:], c='C0', zorder=1)
         #axs2[i].set_ylim(-2,2)
@@ -103,31 +111,41 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,x_s,noElec,iter):
         #ax.label_outer()
         axs2[2].set(xlabel = '$\\xi$ ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
 
-    fig7, axs3 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
+    fig7, axs3 = plt.subplots(3, sharex=True, sharey=True, figsize=(8, 10), dpi=80)
     fig7.suptitle("Progression of " + shape_name + " EProbe")
 
     for i in range(0, 3):
-        axs3[i].set_title("Snapshot at X = " + str(x_s[i]) + " mm")
+        axs3[i].set_title("Low Density Probe, X = " + str(x_s[i]) + " mm")
         axs3[i].scatter(zslice[i,:], yslice[i,:], zorder=2)
-        axs3[i].set_ylim(-6,6)
-        axs3[i].set_xlim(20,60)
+        #axs3[i].set_ylim(-1,1)
+        #axs3[i].set_xlim(35,40)
     axs3[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
 
-    fig8, axs4 = plt.subplots(3, sharey=True, figsize=(8, 10), dpi=80)
+    fig8, axs4 = plt.subplots(3, sharex=True, sharey=True, figsize=(8, 10), dpi=80)
     fig8.suptitle("Progression of " + shape_name + " EProbe")
 
     for i in range(0, 3):
-        axs4[i].set_title("Snapshot at X = " + str(x_s[i+3]) + " mm")
+        axs4[i].set_title("Low Density Probe, X = " + str(x_s[i+3]) + " mm")
         axs4[i].scatter(zslice[i+3,:], yslice[i+3,:])
-        axs4[i].set_ylim(-6,6)
-        axs4[i].set_xlim(20,60)
+
+    secax = axs4[2].secondary_xaxis('top', functions= (returnXi, returnZ))
+    secax.set(xlabel= '$\\xi$ ($c/\omega_p$)')
+        #axs4[i].set_ylim(-1,1)
+        #axs4[i].set_xlim(35,40)
     axs4[2].set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
 
+    fig9, axs5 = plt.subplots(constrained_layout=True, figsize=(10,5))
+    axs5.set_title("Low Density Probe, X = " + str(x_s[5]) + " mm")
+    axs5.scatter(zslice[5], yslice[5])
+    axs5.set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'Y ($c/\omega_p$)')
+    secax = axs5.secondary_xaxis('top', functions= (returnXi, returnZ))
+    secax.set(xlabel= '$\\xi$ ($c/\omega_p$)')
 
+    fig9.show()
     #fig5.show()
     #fig.tight_layout()
     #fig6.show()
-    fig7.show()
-    fig8.show()
+    #fig7.show()
+    #fig8.show()
 
     input()

@@ -7,15 +7,15 @@ import include.plot3DTracks as plot3D
 import include.showQuickEvolution as showEvol_Q
 import include.showFullEvolution as showEvol_F
 import include.viewProbe as viewProbe
+import include.writeFullEvolData as writeHist
 
 # Plotting Scripts
 plot2DTracks = False                 # View 2D projections of trajectories
-# plot3DTracks = False                 # View 3D model of trajectories
-# viewProbeShape = False               # View initial shape of probe separately
 showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
-showFullEvolution = True           # View full evolution of probe at hardcoded locations in colored histograms
+showFullEvolution = False          # View full evolution of probe at hardcoded locations in colored histograms
+writeHistData = False
 # Set all others equal False if want animation saved (dependency issue)
-saveMovie = False                    # Save mp4 of probe evolution
+saveMovie = False                   # Save gif of probe evolution
 if (saveMovie):
     import include.makeAnimation as makeAnimation
 
@@ -41,7 +41,7 @@ s1 = init.s1
 s2 = init.s2
 s3 = init.s3
 
-data = np.load('./data/HighResProbe/' + fname)
+data = np.load('./data/' + fname)
 x_f = data['x_dat']
 y_f = data['y_dat']
 xi_f = data['xi_dat']
@@ -55,13 +55,11 @@ noElec = len(x_f)
 # Plot data points
 if (plot2DTracks):
     plot2D.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noElec)
-# if (plot3DTracks):
-    #     plot3D.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, s1, s2, noElec)
 if (showQuickEvolution):
     showEvol_Q.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noElec, iter)
 if (showFullEvolution):
     showEvol_F.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
-# if (viewProbeShape):
-#     viewProbe.plot(x_dat, y_dat, xi_dat, z_dat, sim_name, shape_name, s1, s2, noElec)
+if (writeHistData):
+     writeHist.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
 if (saveMovie):
     makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)

@@ -37,43 +37,51 @@ def getFieldArrays():
 def main():
 
     start_time = time.time()
+    t0 = sim.getTime()
 
     xiaxis, raxis, Ex, Ey, Ez, Bx, By, Bz = getFieldArrays()
+    zaxis = [xi + t0 for xi in xiaxis]
 
     fig, axs = plt.subplots(2, 3)
     plt.subplots_adjust(left=0.05, bottom=0.1, right=0.8, top=0.9)
-    fig.suptitle("Quasi3D Fields for $\\phi = 0$")
+    fig.suptitle("OSIRIS Transverse ($\\phi = 0$) Electromagnetic Fields")
 
-    axs[0, 0].set_title('Ex')
-    axs[0, 1].set_title('Ey')
-    axs[0, 2].set_title('Ez')
-    axs[1, 0].set_title('Bx')
-    axs[1, 1].set_title('By')
-    axs[1, 2].set_title('Bz')
+    axs[0, 0].set_title('$E_x$')
+    axs[0, 1].set_title('$E_y$')
+    axs[0, 2].set_title('$E_z$')
+    axs[1, 0].set_title('$B_x$')
+    axs[1, 1].set_title('$B_y$')
+    axs[1, 2].set_title('$B_z$')
 
     for ax in axs.flat:
-        ax.set(xlabel = '$\\xi$ ($c/\omega_p$)', ylabel = 'x ($c/\omega_p$)')
-
+        ax.set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'R ($c/\omega_p$)')
     for ax in axs.flat:
         ax.label_outer()
 
-    Ex = axs[0, 0].pcolormesh(xiaxis, raxis, Ex, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
-    Ey = axs[0, 1].pcolormesh(xiaxis, raxis, Ey, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
-    Ez = axs[0, 2].pcolormesh(xiaxis, raxis, Ez, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
-    Bx = axs[1, 0].pcolormesh(xiaxis, raxis, Bx, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
-    By = axs[1, 1].pcolormesh(xiaxis, raxis, By, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
-    Bz = axs[1, 2].pcolormesh(xiaxis, raxis, Bz, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
+    Ex = axs[0, 0].pcolormesh(zaxis, raxis, Ex, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
+    Ey = axs[0, 1].pcolormesh(zaxis, raxis, Ey, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
+    Ez = axs[0, 2].pcolormesh(zaxis, raxis, Ez, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
+    Bx = axs[1, 0].pcolormesh(zaxis, raxis, Bx, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
+    By = axs[1, 1].pcolormesh(zaxis, raxis, By, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
+    Bz = axs[1, 2].pcolormesh(zaxis, raxis, Bz, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
+
+    axs[0,0].set_ylim(0,1.6)
+    axs[0,1].set_ylim(0,1.6)
+    axs[0,2].set_ylim(0,1.6)
+    axs[1,0].set_ylim(0,1.6)
+    axs[1,1].set_ylim(0,1.6)
+    axs[1,2].set_ylim(0,1.6)
 
     tick_locations=[x*0.01 for x in range(2,10)]+ [x*0.01 for x in range(-10,-1)] + [x*0.1 for x in range(-10,10)] +[ x for x in range(-10,10)]
     cbar_ax = fig.add_axes([0.83, 0.05, 0.03, 0.9])
     cbar = fig.colorbar(Ex, cax=cbar_ax, ticks=tick_locations, format=ticker.LogFormatterMathtext())
 
-    cbar.set_label('Electric or Magnetic Field ($m_e c \omega_p / e$ or $m_e \omega_p / e$)')
+    cbar.set_label('Electric ($m_e c \omega_p / e$) or Magnetic ($m_e \omega_p / e$) Field')
 
     print((time.time() - start_time)/60, " min")
 
-    #plt.savefig("fields.png",transparent=True)
-    plt.show()
+    plt.savefig("fields.png",dpi=600,transparent=True)
+    #plt.show()
     input()
 
 main()
