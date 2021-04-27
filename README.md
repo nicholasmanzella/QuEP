@@ -32,24 +32,23 @@ To plot generated data, set the appropriate plotting script macros' booleans to 
 python index.py input.example
 ```
 
-### Requirements
-This simulation requires the python packages `h5py`, `importlib`, `numpy`, and `multiprocessing`. Plots require `matplotlib`.
-
-A non-multiprocessing version of the code can be found on the version-1.0 branch
-
-### Compatible Plasma Simulations (`/include/simulations`):
-
-* Quasi3D 
-
 ### Repository Structure 
 
 The `master` branch contains the most up-to-date code. 
 
 The `version-1.0` branch contains the first complete version of the code, where positions of electrons *inside* the plasma are tracked. No output files are saved in this version; plots are immediately generated. Multiprocessing is also not implemented here.
 
-The respective `unit-test` branches contain input files and plotting macros used to verify QuEP. 
+The respective `unit-test` branches contain input files and plotting macros used to verify QuEP. See my UG thesis (link TBD) for walkthroughs of verification testing.  
 
 The `plotting` branch is used as a working branch.
+
+### Comments
+
+* QuEP is not optimized algorithm-wise, so even with the Python multiprocessing package, high density probes (e.g. see densities used in `input.L30_35-40_055`) will take several hours to run on personal computers. 
+* Conversely, running low density probes (e.g. single electrons, densities used in `input.animation`) will take (slightly) longer with the multiprocessing version of the code than without it. You may want to switch to `version-1.0` for faster usage.   
+
+### Requirements
+This simulation uses Python 3.0, and requires the packages `h5py`, `importlib`, `numpy`, and `multiprocessing`. Plots require `matplotlib`.
 
 ### Contact
 Contact Marisa Petrusky (marisapetrusky@gmail.com) for questions about this code. Source code can be found at https://github.com/marisapetrusky/QuEP/
