@@ -33,7 +33,7 @@ python index.py input.example
 ```
 
 ### Requirements
-This simulation requires the python packages h5py, importlib, numpy, and multiprocessing.
+This simulation requires the python packages `h5py`, `importlib`, `numpy`, and `multiprocessing`. Plots require `matplotlib`.
 
 A non-multiprocessing version of the code can be found on the version-1.0 branch
 
