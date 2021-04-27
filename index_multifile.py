@@ -10,8 +10,6 @@ import include.viewProbe as viewProbe
 
 # Plotting Scripts
 plot2DTracks = False                 # View 2D projections of trajectories
-# plot3DTracks = False                 # View 3D model of trajectories
-# viewProbeShape = False               # View initial shape of probe separately
 showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
 showFullEvolution = True           # View full evolution of probe at hardcoded locations in colored histograms
 # Set all others equal False if want animation saved (dependency issue)
@@ -94,13 +92,9 @@ noElec = len(x_f)
 # Plot data points
 if (plot2DTracks):
     plot2D.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noElec)
-# if (plot3DTracks):
-    #     plot3D.plot(x_dat, y_dat, xi_dat, z_dat, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, s1, s2, noElec)
 if (showQuickEvolution):
     showEvol_Q.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noElec, iter)
 if (showFullEvolution):
     showEvol_F.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
-# if (viewProbeShape):
-#     viewProbe.plot(x_dat, y_dat, xi_dat, z_dat, sim_name, shape_name, s1, s2, noElec)
 if (saveMovie):
     makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noElec, iter)
