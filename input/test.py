@@ -3,10 +3,9 @@
 
 simulation_name = 'QUASI3D'
 shape = 'single'
-# dt = 0.005, 150000
 iterations = 500000
-mode = 0
-fname = "modifiedxp.npz"
+mode = -1
+fname = "test.npz"
 
 # Probe centered at the following initial coordinates (in c/w_p):
 x_c = -2.4 # Start within region of field

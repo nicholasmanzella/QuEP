@@ -15,6 +15,11 @@ import pdb
 # x   - Direction of transverse probe
 # y   - Direction perpendicular to transverse probe
 
+# Modes
+# mode = 0 refers to LWF effects only
+# mode = 1 refers to laser effects only
+# mode = any other integer uses LWF + laser effects
+
 # Definition of Constants
 M_E = 9.109e-31                       # Electron rest mass in kg
 EC = 1.60217662e-19                   # Electron charge in C

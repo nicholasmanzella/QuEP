@@ -9,6 +9,8 @@ import include.showFullEvolution as showEvol_F
 import include.viewProbe as viewProbe
 import include.writeFullEvolData as writeHist
 
+# Be sure to change file name location!
+
 # Plotting Scripts
 plot2DTracks = False                 # View 2D projections of trajectories
 showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
@@ -41,7 +43,7 @@ s1 = init.s1
 s2 = init.s2
 s3 = init.s3
 
-data = np.load('./data/' + fname)
+data = np.load('./data/' + fname) # Change this line as needed
 x_f = data['x_dat']
 y_f = data['y_dat']
 xi_f = data['xi_dat']
