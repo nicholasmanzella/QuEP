@@ -8,10 +8,11 @@ import pdb
 import time
 import include.simulations.useQuasi3D as sim
 import math
+import scipy
+from scipy.optimize import curve_fit
 plt.rcParams.update({'font.size': 16})
 
-
-xicheck = -8.2#-18.0
+xicheck = -5#-5.9#-11.2#-8.2#-18.0
 
 def getFieldArrays():
 
@@ -34,6 +35,9 @@ def find_nearest_index(array,value):
     else:
         return idx
 
+def linear(x, m, b):
+    return m*x + b
+
 def main():
 
     start_time = time.time()
@@ -53,8 +57,13 @@ def main():
     xDex_start = find_nearest_index(raxis, x_start)
     xDex_end = find_nearest_index(raxis, x_end)
 
-    m, b = np.polyfit(raxis[xDex_start:xDex_end], Ex[xDex_start:xDex_end], 1)
+    #m, b = np.polyfit(raxis[xDex_start:xDex_end], Ex[xDex_start:xDex_end], 1)
+    opt_params, parm_cov = scipy.optimize.curve_fit(linear, raxis[xDex_start:xDex_end], Ex[xDex_start:xDex_end])
+    m = opt_params[0]
+    b = opt_params[1]
+    merr = np.sqrt(parm_cov[0,0])
     print("EField = ", m, "*x + ", b)
+    print("Merr = ", merr)
 
     x = np.linspace(0,0.8,100)
     y = m*x + b
@@ -64,7 +73,8 @@ def main():
     print((time.time() - start_time)/60, " min")
 
     #plt.savefig("fields.png",transparent=True)
-    plt.show()
+    #plt.show()
+
     input()
 
 main()

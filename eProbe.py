@@ -33,6 +33,7 @@ import time
 import include.findFocalY as findFocalY
 import include.plot2DTracks as plot2D
 import include.plot3DTracks as plot3D
+import include.findWaist as findWaist
 
 # Definition of Constants
 M_E = 9.109e-31                      #electron rest mass in kg
@@ -40,12 +41,11 @@ EC = 1.60217662e-19                  #electron charge in C
 EP_0 = 8.854187817e-12               #vacuum permittivity in C/(V m)
 C = 299892458                        #speed of light in vacuum in m/s
 
-useMatrix = True # Use standard [x,x'] = [(1,d),(0,1)][x,x'] matrix for ballistic portion of trajectory
-
 # Plotting Scripts
 findFocal = True # Calculate Y focal length at end of script
-plot2DTracks = True
+plot2DTracks = False
 plot3DTracks = False
+findW = False
 
 def main():
 
@@ -329,10 +329,10 @@ def main():
 
     for i in range (0, noElec):
         x_dat[i,:], y_dat[i,:], z_dat[i,:], xi_dat[i,:], Fx_dat[i,:], Fy_dat[i,:], Fz_dat[i,:], px_dat[i,:], py_dat[i,:], px, py, pz = getFullTrajectory(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, x_s)
-        x_f.append(x_dat[i,noElec])
-        y_f.append(y_dat[i,noElec])
-        xi_f.append(xi_dat[i,noElec])
-        z_f.append(z_dat[i,noElec])
+        x_f.append(x_dat[i,-1]) # Changed form [i,noElec] to [i,-1], unsure of why noElec was chosen in the first place
+        y_f.append(y_dat[i,-1])
+        xi_f.append(xi_dat[i,-1])
+        z_f.append(z_dat[i,-1])
         px_f.append(px)
         py_f.append(py)
         pz_f.append(pz)
@@ -344,10 +344,12 @@ def main():
 
 # Plot data points
     if (findFocal):
-        findFocalY.calculate(x_0, y_0, xi_0, z_0, x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, s1, s2)
+        findFocalY.calculate(x_0, y_0, xi_0, z_0, x_dat, y_dat, z_dat, xi_dat, px_f, py_f, pz_f, sim_name, shape_name, x_s, s1, s2)
     if (plot2DTracks):
         plot2D.plot(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat, sim_name, shape_name, s1, s2, noElec)
     if (plot3DTracks):
         plot3D.plot(x_dat,y_dat,z_dat,xi_dat,sim_name,shape_name,s1,s2,noElec)
+    if (findW):
+        findWaist.calculate(x_0,y_0,xi_0,z_0,x_dat,y_dat,z_dat,xi_dat,px_f,py_f,pz_f,sim_name,shape_name,x_s,s1,s2)
 
 main()
