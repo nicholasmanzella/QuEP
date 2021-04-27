@@ -36,9 +36,9 @@ python index.py input.example
 
 The `master` branch contains the most up-to-date code. 
 
-The `version-1.0` branch contains the first complete version of the code, where positions of electrons *inside* the plasma are tracked. No output files are saved in this version; plots are immediately generated. Multiprocessing is also not implemented here.
+The `version-1.0` branch contains the first complete version of the code. No output files are saved in this version; plots are immediately generated. Multiprocessing is also not implemented here.
 
-The respective `unit-test` branches contain input files and plotting macros used to verify QuEP. See my UG thesis (link TBD) for walkthroughs of verification testing.  
+The respective `unit-test` branches contain input files and plotting macros used to verify QuEP. They also record electron trajectory data from *inside* the plasma cell (whereas other branches only record final position as the electron is leaving the cell). See my UG thesis (link TBD) for walkthroughs of verification testing.  
 
 The `plotting` branch is used as a working branch.
 
