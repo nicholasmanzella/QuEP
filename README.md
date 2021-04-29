@@ -45,4 +45,4 @@ Aside from the electrons' initial momenta, the center of the probe, and the loca
 This simulation requires the python packages h5py, importlib, numpy, and matplotlib.
 
 ### Contact
-Contact Marisa Petrusky (marisapetrusky@gmail.com) for questions about this code. Source code can be found at https://github.com/marisapetrusky/PWFA-eProbe/
+Contact Marisa Petrusky (marisapetrusky@gmail.com) for questions about this code. Source code can be found at https://github.com/marisapetrusky/QuEP/
