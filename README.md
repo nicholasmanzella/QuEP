@@ -1,4 +1,4 @@
-# PWFA-eProbe
+# QuEP
 
 This code was developed to simulate an electron probe's trajectory through a plasma wakefield accelerator. It does so by taking previously simulated fields and propagating an electron through these fields. This allows us to quickly estimate the trajectories of multiple electrons without the repeated use of computationally expensive simulations.
 
