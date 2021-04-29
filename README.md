@@ -1,46 +1,4 @@
-# PWFA-eProbe
+# QuEP
 
-This code was developed to simulate an electron probe's trajectory through a plasma wakefield accelerator. It does so by taking previously simulated fields and propagating an electron through these fields. This allows us to quickly estimate the trajectories of multiple electrons without the repeated use of computationally expensive simulations.
+The unit-test-betatron branch contains plotting macros for visualizing and cross-checking betatron motion of electrons within the blowout regime of a plasma wakefield. Macros can be selected by setting the boolean variables at the top of the eProbe.py script.
 
-The master branch contains the most up-to-date code.
-
-### Compatible Plasma Simulations:
-
-• Quasi3D
-
-
-### Electron Probe Shapes:
-
-• Circle
-
-• Rectangle
-
-• Vertical Line
-
-• Horizontal Line
-
-• Single Electron
-
-### Running the Simulation
-To run the simulation, add an initialization file in the `input` folder, such as the file `example.py`, which would be input to the simulation using
-```
-python3 eProbe.py input.example
-```
-
-Aside from the electrons' initial momenta, the center of the probe, and the location of the screen, the following parameters must be specified in the initialization file (case insensitive):
-
-• simulation_name - quasi3D
-
-• shape - circle, rectangle, vline, hline, or single
-
-• density - Number of electrons to be distributed throughout shape
-
-• iterations - Maximum number of steps before tracking is stopped
-
-• Shape Parameters - Define the dimensions of the shape (see initialization files under include.shape for specifications)
-
-### Requirements
-This simulation requires the python packages h5py, importlib, numpy, and matplotlib.
-
-### Contact
-Contact Marisa Petrusky (marisapetrusky@gmail.com) for questions about this code. Source code can be found at https://github.com/marisapetrusky/PWFA-eProbe/
