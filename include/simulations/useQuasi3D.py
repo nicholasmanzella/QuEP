@@ -1,5 +1,7 @@
 # This file retrieves the fields from OSIRIS Quasi3D data files stored within the data/ folder.
 # Expresses EM fields in azimuthal harmonics up to the first order
+# Functions that MUST be updated for any new simulation (i.e. Called in either main.py or eProbe.py) are designated with three asterisks ***
+# All other functions are used for either reading out data or plotting results
 
 import sys
 import h5py as h5
@@ -29,30 +31,30 @@ C = 299892458                         # Speed of light in vacuum in m/s
 Quasi_ID = '000130' #'000130' is for 1e15 density data
                     #'000144' or '000232' are for 1e17 density data (at different times in run)
 
-def getField(fpath):
+def getField(fpath): 
     f = h5.File(fpath,"r")
     datasetNames = [n for n in f.keys()]
     field = datasetNames[-1]
     Field_dat = f[field][:].astype(float)
     return Field_dat
 
-def getTime():
+def getTime(): # ***
     f = h5.File('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-'+ Quasi_ID + '.h5',"r")
     t0 = f.attrs['TIME']
     t0 = t0[0]
     return t0
 
-def getPlasDensity():
+def getPlasDensity(): 
     if (Quasi_ID == '000130'):
         return 1e21
     else:
         return 3e23
 
-def getPlasFreq():
+def getPlasFreq(): 
     N_0 = getPlasDensity()
     return math.sqrt(EC**2 * N_0 / (M_E * EP_0))
 
-def axes():
+def axes(): 
 # Retrieve axes boundaries under staggered mesh
     f = h5.File('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-'+ Quasi_ID + '.h5',"r")
     datasetNames = [n for n in f.keys()] # Three Datasets: AXIS, SIMULATION, Field data
@@ -79,7 +81,7 @@ def axes():
 
 xiaxis_1, xiaxis_2, raxis_1, raxis_2 = axes() # Evenly spaced axes data
 
-def getBoundCond():
+def getBoundCond(): # ***
 # Define when the electron leaves the plasma cell
     f = h5.File('data/OSIRIS/Quasi3D/b1_cyl_m-0-re-'+ Quasi_ID + '.h5',"r")
     datasetNames = [n for n in f.keys()] # Three Datasets: AXIS, SIMULATION, Field data
@@ -184,7 +186,7 @@ def find_nearest_index(array,value):
     else:
         return idx
 
-def EField(axis,x,y,xi,r,vx=-1,vy=-1,vz=-1,vr=-1,vphi=-1,mode=-1):
+def EField(axis,x,y,xi,r,vx=-1,vy=-1,vz=-1,vr=-1,vphi=-1,mode=-1): # ***
 # axis = 1 refers to z-axis field
 # axis = 2 refers to x-axis field
 # axis = 3 refers to y-axis field
@@ -221,7 +223,7 @@ def EField(axis,x,y,xi,r,vx=-1,vy=-1,vz=-1,vr=-1,vphi=-1,mode=-1):
         elif (axis == 3):
             return E3_M0[rDex2, xiDex2]*cos + E2_M0[rDex1, xiDex2]*sin + E3_M1_Re[rDex2, xiDex2]*cos**2 + E2_M1_Re[rDex1, xiDex2]*cos*sin + E3_M1_Im[rDex2, xiDex2]*cos*sin + E2_M1_Im[rDex1, xiDex2]*sin**2
 
-def BForce(axis,x,y,xi,r,vx=-1,vy=-1,vz=-1,vr=-1,vphi=-1,mode=-1):
+def BForce(axis,x,y,xi,r,vx=-1,vy=-1,vz=-1,vr=-1,vphi=-1,mode=-1): # ***
 # axis = 1 refers to z-axis field
 # axis = 2 refers to x-axis field
 # axis = 3 refers to y-axis field
