@@ -54,6 +54,7 @@ if __name__ == '__main__':
         init = importlib.import_module(input_fname)
         sim_name = init.simulation_name
         shape_name = init.shape
+        xden = init.xdensity
         yden = init.ydensity
         xiden = init.xidensity
         res = init.resolution
@@ -94,12 +95,14 @@ if __name__ == '__main__':
             import include.shapes.hline as shape
         elif (shape_name.upper() == 'SINGLE'):
             import include.shapes.single as shape
+        elif (shape_name.upper() == 'RPRISM'):
+            import include.shapes.rprism as shape
         else:
             print("Electron probe shape unrecognized. Quitting...")
             exit()
 
     # Get arrays of initial coordinates in shape of probe
-        x_0, y_0, xi_0, z_0 = shape.initProbe(x_c, y_c, xi_c, t0, s1, s2, s3, yden, xiden, res)
+        x_0, y_0, xi_0, z_0 = shape.initProbe(x_c, y_c, xi_c, t0, s1, s2, s3, xden, yden, xiden, res)
 
         print("Probe initialized")
         noElec = len(x_0) # Number of electrons to track
@@ -116,5 +119,5 @@ if __name__ == '__main__':
         np.savez(fname, x_dat=x_f, y_dat=y_f, xi_dat=xi_f, z_dat=z_f, px_dat=px_f, py_dat=py_f, pz_dat=pz_f)
 
     else:
-        print("Improper number of arguments. Expected 'python3 eProbe.py <fname>'")
+        print("Improper number of arguments. Expected 'python3 main.py <fname>'")
         exit()

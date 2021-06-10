@@ -2,16 +2,16 @@
 # This filename is the input parameter of the eProbe.py file
 
 simulation_name = 'QUASI3D'
-shape = 'rectangle'
+shape = 'rprism'
 # dt = 0.005, 150000
 iterations = 500000
 mode = -1
-fname = "animation.npz"
+fname = "rprism_test.npz"
 
 # Probe centered at the following initial coordinates (in c/w_p):
-x_c = -2.4 # Start within region of field
+x_c = -2.4 # Start within region of field # 2.4 = maximum x_c
 y_c = 0
-xi_c = -14.5
+xi_c = -9
 
 # Initial momentum
 px_0 = 110 # Make sure it goes towards the screen!
@@ -23,12 +23,12 @@ pz_0 = 0
 x_s = [10, 50, 100, 250, 500]
 
 # Shape Parameters (Radius or Side Length, in c/w_p):
-s1 = 0.8 # In y
-s2 = 7.5 # In xi
-s3 = 1 # In x
+s1 = 1 # In y
+s2 = 2.5 # In xi
+s3 = 4 # In x
 
 # Densities
-xdensity = 0 #Not used
-ydensity = 32
-xidensity = 30
-resolution = 0.5
+ydensity = 10
+xidensity = 10
+xdensity = 3 #This effectively creates the number of layers in x direction
+resolution = 0.002

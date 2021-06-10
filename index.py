@@ -13,8 +13,8 @@ import include.writeFullEvolData as writeHist
 
 # Plotting Scripts
 plot2DTracks = False                 # View 2D projections of trajectories
-showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots
-showFullEvolution = False          # View full evolution of probe at hardcoded locations in colored histograms
+showQuickEvolution = True           # View evolution of probe after leaving plasma at inputted x_s in scatter plots # Use for low density probes
+showFullEvolution = False             # View full evolution of probe at hardcoded locations in colored histograms # Use for high density probes
 writeHistData = False
 # Set all others equal False if want animation saved (dependency issue)
 saveMovie = False                   # Save gif of probe evolution
@@ -26,6 +26,7 @@ print("Using initial conditions from ", input_fname)
 init = importlib.import_module(input_fname)
 sim_name = init.simulation_name
 shape_name = init.shape
+xden = init.xdensity
 yden = init.ydensity
 xiden = init.xidensity
 res = init.resolution
@@ -55,6 +56,7 @@ pz_f = data['pz_dat']
 noElec = len(x_f)
 
 # Plot data points
+print("Plotting...")
 if (plot2DTracks):
     plot2D.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noElec)
 if (showQuickEvolution):
