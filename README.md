@@ -29,9 +29,14 @@ Initialization conditions, especially starting coordinates, should be chosen bas
 A `.npz` file that includes the final x, y, xi, and z positions of each electron, as well as the final x, y, and z momenta, will then be saved.
 
 ### Plotting Results
+
+To plot generated data, set the appropriate plotting script macros' booleans to `True` in `index.py` (be sure to check the file name readout location), then run
+
 ```
 python index.py input.example
 ```
+
+Plotting scripts MUST be edited based on your probe initial conditions, otherwise you might not see anything!
 
 ### Repository Structure 
 
