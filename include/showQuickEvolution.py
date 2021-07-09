@@ -9,6 +9,7 @@ import matplotlib.ticker as ticker
 import pdb
 import math
 plt.rcParams.update({'font.size': 15 })
+mpl.use('Agg')
 
 # Definition of Constants
 M_E = 9.109e-31                      # Electron rest mass in kg

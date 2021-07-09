@@ -36,7 +36,7 @@ def initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,xdensity,ydensity,xidensity,resolution):
                 xin += xistep
             yn -= ystep
             xin = xileft
-        print('x Layer',i+1,'of',xdensity,'complete')
+        print('x Layer',i+1,'of',xdensity,'complete') #Just for debugging // can remove
         xn -= xstep
         yn = ytop
 
