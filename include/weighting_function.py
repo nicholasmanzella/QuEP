@@ -5,15 +5,14 @@ import pdb
 
 # Creates weights based on distribution
 
-def getWeightsX(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,s3,xdensity,ydensity,xidensity,resolution,sigma_x,sigma_y,noPart):
+def getWeightsX(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xidensity,resolution,sigma_x,sigma_y,noPart):
 
     # Recompute necessary parameters (as done in shape file)
     xistep = 2*s2/xidensity # Can also use resolution here
-    ystep = 2*s1/ydensity
     xstep = xistep          # Purposefully setting xstep as equal to xistep for projection of x onto xi
     xidensity_ = xidensity + xdensity - 1  # Allows enough particles in xi direction for x layering
 
-    s3 = xstep*xdensity/2.0
+    s3 = xstep*(xdensity-1)/2.0
 
     # Creating weighting array for layers in x
     wxlayers = []
@@ -32,15 +31,11 @@ def getWeightsX(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,s3,xdensity,ydensity
 
     return w_x
 
-def getWeightsY(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,s3,xdensity,ydensity,xidensity,resolution,sigma_x,sigma_y,noPart):
+def getWeightsY(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xidensity,resolution,sigma_x,sigma_y,noPart):
 
     # Recompute necessary parameters (as done in shape file)
-    xistep = 2*s2/xidensity # Can also use resolution here
     ystep = 2*s1/ydensity
-    xstep = xistep          # Purposefully setting xstep as equal to xistep for projection of x onto xi
     xidensity_ = xidensity + xdensity - 1  # Allows enough particles in xi direction for x layering
-
-    s3 = xstep*xdensity/2.0
 
     # Creating weighting array for layers in y
     wylayers = []

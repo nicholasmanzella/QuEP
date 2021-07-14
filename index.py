@@ -61,7 +61,6 @@ if (len(sys.argv) == 3):
     x_s = init.x_s
     s1 = init.s1
     s2 = init.s2
-    s3 = init.s3
 
     # Get initial conditions of beam
     input_fname_2 = str(sys.argv[2])
@@ -94,23 +93,21 @@ if (len(sys.argv) == 3):
 
     # Create weighting array
     w = []
-    w = [0 for k in range(0,noPart)]
+    w = [1 for k in range(0,noPart)]
 
     if (useWeights_x) and (useWeights_y):
-        w_x = weightFunc.getWeightsX(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,s3,xden,yden,xiden,res,sigma_x,sigma_y,noPart)
-        w_y = weightFunc.getWeightsY(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,s3,xden,yden,xiden,res,sigma_x,sigma_y,noPart)
+        w_x = weightFunc.getWeightsX(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noPart)
+        w_y = weightFunc.getWeightsY(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noPart)
         for particle in range(0,noPart):
             w[particle] = w_x[particle] * w_y[particle]
     elif (useWeights_x):
-        w_x = weightFunc.getWeightsX(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,s3,xden,yden,xiden,res,sigma_x,sigma_y,noPart)
+        w_x = weightFunc.getWeightsX(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noPart)
         for particle in range(0,noPart):
             w[particle] = w_x[particle]
     elif (useWeights_y):
-        w_y = weightFunc.getWeightsY(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,s3,xden,yden,xiden,res,sigma_x,sigma_y,noPart)
+        w_y = weightFunc.getWeightsY(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noPart)
         for particle in range(0,noPart):
             w[particle] = w_y[particle]
-    else:
-        w = [1 for k in range(0,noPart)] #THIS MAY BE REDUNDANT IF WE CHANGE LINE 93 TO THIS INSTEAD
 
     # Plot data points
     print("Plotting...")

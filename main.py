@@ -70,7 +70,6 @@ if __name__ == '__main__':
         x_s = init.x_s
         s1 = init.s1
         s2 = init.s2
-        s3 = init.s3
 
         if (sim_name.upper() == 'OSIRIS_CYLINSYMM'):
             import include.simulations.useOsiCylin as sim
@@ -104,7 +103,7 @@ if __name__ == '__main__':
             exit()
 
     # Get arrays of initial coordinates in shape of probe
-        x_0, y_0, xi_0, z_0 = shape.initProbe(x_c, y_c, xi_c, t0, s1, s2, s3, xden, yden, xiden, res)
+        x_0, y_0, xi_0, z_0 = shape.initProbe(x_c, y_c, xi_c, t0, s1, s2, xden, yden, xiden, res)
 
         print("Probe initialized")
         noPart = len(x_0) # Number of electrons/particles to track

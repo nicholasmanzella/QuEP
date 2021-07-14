@@ -5,16 +5,17 @@ import pdb
 
 # Initializes probe as a rectangular prism outline of electrons with volume = 2*s3 * 2*s2 * 2*s1
 
-def initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,xdensity,ydensity,xidensity,resolution):
+def initProbe(x_c,y_c,xi_c,t0,s1,s2,xdensity,ydensity,xidensity,resolution):
     x_0, y_0, xi_0, z_0 = [],[],[],[]
 
     xistep = 2*s2/xidensity # Can also use resolution here
     ystep = 2*s1/ydensity
     xstep = xistep          # Purposefully setting xstep as equal to xistep for projection of x onto xi, unused here
 
-    s3 = xstep*xdensity/2.0
-    print("s3 =",s3)
-
+# Calculate s3 
+    s3 = xstep*(xdensity-1)/2.0
+    print(f"s3 ={s3}")
+    
 # Define corners (front is first to enter field)
     ytop = y_c + s1
     ybot = y_c - s1
@@ -22,6 +23,9 @@ def initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,xdensity,ydensity,xidensity,resolution):
     xiright = xi_c + s2
     xfront = x_c + s3  
     xback = x_c - s3
+
+    print(f"width of probe in x: 2*s3 = {2*s3}")
+    print(f"probe extends from {xfront} to {xback}")
 
 # Start in front top right
     yn = ytop
