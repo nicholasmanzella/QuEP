@@ -15,16 +15,17 @@ import include.plotWeights as plotWeights
 # Be sure to change file name location!
 
 # Weighting Options:
-useWeights_x = True                  # Use weights in x-direction
-useWeights_y = True                  # Use weights in y-direction
+useWeights_x = False                 # Use weights in x-direction
+useWeights_y = False                 # Use weights in y-direction
+beamThickness = False                # Use beam thickness in x-direction
 
 # Plotting Scripts
 plot2DTracks = False                 # View 2D projections of trajectories
 showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots # Use for low density probes
 showFullEvolution = True             # View full evolution of probe at hardcoded locations in colored histograms # Use for high density probes
 writeHistData = False
-plotWeightsy = True                  # Plot w_x vs xi
-plotWeightsx = True                  # Plot w_y vs y
+plotWeightsy = False                  # Plot w_x vs xi
+plotWeightsx = False                  # Plot w_y vs y
 # Set all others equal False if want animation saved (dependency issue)
 #saveMovie = False                   # Save gif of probe evolution
 #if (saveMovie):
@@ -32,7 +33,7 @@ plotWeightsx = True                  # Plot w_y vs y
 
 if (len(sys.argv) == 3):
     
-    # Time index file runtime
+    # Begin timing index file runtime
     start_time = time.time()
     t = time.localtime()
     curr_time = time.strftime("%H:%M:%S", t)
@@ -86,7 +87,10 @@ if (len(sys.argv) == 3):
     py_f = data['py_dat']
     pz_f = data['pz_dat']
 
-    noPart = len(x_0) # number of particles in the simulation
+    if not (beamThickness):
+        xden = 1
+
+    noPart = len(x_0) # Number of particles in the simulation
 
     # Create weighting array
     w = []
@@ -108,12 +112,12 @@ if (len(sys.argv) == 3):
     else:
         w = [1 for k in range(0,noPart)] #THIS MAY BE REDUNDANT IF WE CHANGE LINE 93 TO THIS INSTEAD
 
-    # Plot data points #ADD WEIGHTS PASSTHROUGH HERE!!!
+    # Plot data points
     print("Plotting...")
     if (plot2DTracks):
         plot2D.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noPart)
     if (showQuickEvolution):
-        showEvol_Q.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noPart, iter)
+        showEvol_Q.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noPart, iter) # Note: does not use weights
     if (showFullEvolution):
         showEvol_F.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, w, sim_name, shape_name, noPart, iter)
     if (writeHistData):
@@ -126,6 +130,7 @@ if (len(sys.argv) == 3):
     #if (saveMovie):
     #    makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noPart, iter)
 
+    # End timing index file runtime
     tf = time.localtime()
     curr_time_f = time.strftime("%H:%M:%S", tf)
     print("End Time: ", curr_time_f)

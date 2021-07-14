@@ -29,7 +29,7 @@ A `.npz` file that includes the final x, y, xi, and z positions of each electron
 ### Plotting Results
 To plot generated data, set the appropriate plotting script macros' booleans to `True` in `index.py` (be sure to check the file name readout location), then run
 ```
-python index.py input.example
+python index.py input.example input.example-weights
 ```
 
 ### Repository Structure 
