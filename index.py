@@ -1,3 +1,6 @@
+# index.py can be used to propagate objects after simulation through fields in main.py
+# Available features include weighting of particles and masking of regions
+
 # Include file imports
 import sys
 import time
@@ -14,12 +17,15 @@ import include.shapes.postmasks_xi as postmasks_xi
 import include.weighting_function as weightFunc
 import include.plotWeights as plotWeights
 
-# Be sure to change file name location!
+# Be sure to change .npz file name location from main.py output!
 
-# Weighting Options:
-useWeights_x = False                 # Use weights in x-direction
-useWeights_y = False                 # Use weights in y-direction
-beamThickness = False                # Use beam thickness in x-direction
+# Weighting Options (Only applicable for showFullEvolution plot):
+useWeights_x = True                 # Use weights in x-direction
+useWeights_y = True                 # Use weights in y-direction
+beamThickness = True                # Use beam thickness in x-direction
+
+# Masking Options:
+useMasks = True                      # Use masks in either direction (Note: Masking must be done after weighting!)
 
 # Plotting Scripts
 plot2DTracks = False                 # View 2D projections of trajectories
@@ -112,24 +118,24 @@ if (len(sys.argv) == 3):
         for particle in range(0,noPart):
             w[particle] = w_y[particle]
 
-    #MASKING
-    #Define masks in y direction, 0 is 0 on the y-axis. Change if different mask is desired
-    top_of_masks = []  #upper limit of each mask in order
-    bot_of_masks = []  #lower limit of each mask in order 
+    # MASKING
+    if (useMasks):
+        #Define masks in y direction, 0 is 0 on the y-axis. Change if different mask is desired
+        top_of_masks = []  #upper limit of each mask in order
+        bot_of_masks = []  #lower limit of each mask in order 
 
-    #Define masks in z direction, leftmost z-coordinate = 0. Change if different mask is desired
-    left_of_masks= []  #left most limit of each mosk in order
-    right_of_masks = []  #right most limit of each mask in order
+        #Define masks in z direction, leftmost z-coordinate = 0. Change if different mask is desired
+        left_of_masks= []  #left most limit of each mosk in order
+        right_of_masks = []  #right most limit of each mask in order
 
-    new_ydensity = yden  #just in case there are no horizontal masks
+        new_ydensity = yden  #just in case there are no horizontal masks
 
-    if len(top_of_masks)>0:
-        x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,new_ydensity = postmasks_y.initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,yden,xiden,res,top_of_masks,bot_of_masks,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f)
+        if len(top_of_masks)>0:
+            x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,new_ydensity = postmasks_y.initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,yden,xiden,res,top_of_masks,bot_of_masks,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f)
 
-    if len(left_of_masks)>0:
-        x_f,y_f,xi_f,z_f,px_f,py_f,pz_f = postmasks_xi.initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,yden,xiden,res,left_of_masks,right_of_masks,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,new_ydensity)
-    
-    #END OF MASKING
+        if len(left_of_masks)>0:
+            x_f,y_f,xi_f,z_f,px_f,py_f,pz_f = postmasks_xi.initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,yden,xiden,res,left_of_masks,right_of_masks,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,new_ydensity)    
+    # END OF MASKING
     
     
     # Plot data points
