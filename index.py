@@ -22,7 +22,7 @@ import include.plotWeights as plotWeights
 # Weighting Options (Only applicable for showFullEvolution plot):
 useWeights_x = True                 # Use weights in x-direction
 useWeights_y = True                 # Use weights in y-direction
-beamThickness = True                # Use beam thickness in x-direction
+singleLayerBeam = False             # Use beam with thickness xden=1 in x-direction
 
 # Masking Options:
 useMasks = True                      # Use masks in either direction (Note: Masking must be done after weighting!)
@@ -95,7 +95,7 @@ if (len(sys.argv) == 3):
     pz_f = data['pz_dat']
     t0 = data['t_dat']
 
-    if not (beamThickness):
+    if (singleLayerBeam):
         xden = 1
 
     noPart = len(x_0) # Number of particles in the simulation
