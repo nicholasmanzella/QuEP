@@ -1,14 +1,5 @@
-# Transverse Electron Probe of Laser Wakefield Tracking Script
-# Author: Marisa Petrusky - marisa.petrusky@stonybrook.edu
-#   This script is designed to take the Lorentz fields of a simulated laser wakefield
-#   and obtain the trajectory of an electron probe through a first order Runge Kutta
-
-#   Implemented Simulations:
-#   - Quasi3D
-
-#   Instructions on how to add more simulations can be found in the README
-
-#   Derived from Audrey Farrell's electron tracking script: eTracks.py
+# NOTE THAT THIS VERSION IS TO BE USED TO AVOID WAKEFIELD FIELD EFFECTS ON ELECTRONS !!!
+# PARTICLES FOLLOW BALLISTIC TRAJECTORY AS IF WAKEFIELD IS NOT PRESENT
 
 # Coordinate System
 #   z   - Direction of laser propagation (longitudinal)
@@ -70,6 +61,7 @@ if __name__ == '__main__':
         x_s = init.x_s
         s1 = init.s1
         s2 = init.s2
+        s3 = init.s3
 
         if (sim_name.upper() == 'OSIRIS_CYLINSYMM'):
             import include.simulations.useOsiCylin as sim
@@ -103,13 +95,19 @@ if __name__ == '__main__':
             exit()
 
     # Get arrays of initial coordinates in shape of probe
-        x_0, y_0, xi_0, z_0 = shape.initProbe(x_c, y_c, xi_c, t0, s1, s2, xden, yden, xiden, res)
+        x_0, y_0, xi_0, z_0 = shape.initProbe(x_c, y_c, xi_c, t0, s1, s2, s3, xden, yden, xiden, res)
 
         print("Probe initialized")
-        noPart = len(x_0) # Number of electrons/particles to track
-        print("Number of particles:",noPart)
+        noElec = len(x_0) # Number of electrons/particles to track
+        print(noElec)
 
-        x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = zip(*pool.starmap(eProbe.getTrajectory, [(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode, sim_name) for i in range(0,noPart)]))
+        #x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = zip(*pool.starmap(eProbe.getTrajectory, [(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode, sim_name) for i in range(0,noElec)]))
+        px_f = []
+        px_f = [px_0 for k in range(0,noElec)]
+        py_f = []
+        py_f = [py_0 for k in range(0,noElec)]
+        pz_f = []
+        pz_f = [pz_0 for k in range(0,noElec)]
 
         pool.close()
 
@@ -118,7 +116,7 @@ if __name__ == '__main__':
         print("End Time: ", curr_time_f)
         print("Duration: ", (time.time() - start_time)/60, " min")
 
-        np.savez(fname, x_init=x_0, y_init=y_0, xi_init=xi_0, z_init=z_0, x_dat=x_f, y_dat=y_f, xi_dat=xi_f, z_dat=z_f, px_dat=px_f, py_dat=py_f, pz_dat=pz_f)
+        np.savez(fname, x_init=x_0, y_init=y_0, xi_init=xi_0, z_init=z_0, x_dat=x_0, y_dat=y_0, xi_dat=xi_0, z_dat=z_0, px_dat=px_f, py_dat=py_f, pz_dat=pz_f)
 
     else:
         print("Improper number of arguments. Expected 'python3 main.py <fname>'")

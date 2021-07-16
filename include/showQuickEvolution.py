@@ -9,6 +9,7 @@ import matplotlib.ticker as ticker
 import pdb
 import math
 plt.rcParams.update({'font.size': 15 })
+mpl.use('Agg')
 
 # Definition of Constants
 M_E = 9.109e-31                      # Electron rest mass in kg
@@ -141,11 +142,11 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,sim_name,shape_name,x_s,noElec,iter):
     secax = axs5.secondary_xaxis('top', functions= (returnXi, returnZ))
     secax.set(xlabel= '$\\xi$ ($c/\omega_p$)')
 
-    fig9.show()
+    #fig9.show()
     #fig5.show()
     #fig.tight_layout()
     #fig6.show()
     #fig7.show()
-    #fig8.show()
+    fig8.savefig('quickevolution.png')
 
     input()
