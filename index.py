@@ -8,7 +8,8 @@ import include.showQuickEvolution as showEvol_Q
 import include.showFullEvolution as showEvol_F
 import include.viewProbe as viewProbe
 import include.writeFullEvolData as writeHist
-
+import include.shapes.postmasks_y as postmasks_y
+import include.shapes.postmasks_xi as postmasks_xi
 # Be sure to change file name location!
 
 # Plotting Scripts
@@ -43,6 +44,14 @@ s1 = init.s1
 s2 = init.s2
 s3 = init.s3
 
+#Define masks in y direction, 0 is 0 on the y-axis. Change if different mask is desired
+top_of_masks = []  #upper limit of each mask in order
+bot_of_masks = []  #lower limit of each mask in order 
+
+#Define masks in z direction, leftmost z-coordinate = 0. Change if different mask is desired
+left_of_masks= []  #left most limit of each mosk in order
+right_of_masks = []  #right most limit of each mask in order
+
 data = np.load('./data/' + fname) # Change this line as needed
 x_f = data['x_dat']
 y_f = data['y_dat']
@@ -51,6 +60,15 @@ z_f = data['z_dat']
 px_f = data['px_dat']
 py_f = data['py_dat']
 pz_f = data['pz_dat']
+t0 = data['t_dat']
+
+new_ydensity = yden  #just in case there are no horizontal masks
+
+if len(top_of_masks)>0:
+    x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,new_ydensity = postmasks_y.initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,yden,xiden,res,top_of_masks,bot_of_masks,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f)
+    
+if len(left_of_masks)>0:
+    x_f,y_f,xi_f,z_f,px_f,py_f,pz_f = postmasks_xi.initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,yden,xiden,res,left_of_masks,right_of_masks,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,new_ydensity)
 
 noElec = len(x_f)
 
