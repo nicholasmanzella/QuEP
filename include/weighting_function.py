@@ -13,6 +13,7 @@ def getWeightsX(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xi
     xidensity_ = xidensity + xdensity - 1  # Allows enough particles in xi direction for x layering
 
     s3 = xstep*(xdensity-1)/2.0
+    print(f"s3 = {s3}")
 
     # Creating weighting array for layers in x
     wxlayers = []
