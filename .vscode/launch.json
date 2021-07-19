@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}/main.py",
             "console": "integratedTerminal",
             "args": [
-                "input.rprism_t-01"
+                "input.test-06"
             ]
         },
         {
@@ -21,7 +21,7 @@
             "program": "${workspaceFolder}/index.py",
             "console": "integratedTerminal",
             "args": [
-                "input.rprism_t-01", "input.rprism_t_weights-01"
+                "input.test-06", "input.test_weights-06"
             ]
         }
     ]

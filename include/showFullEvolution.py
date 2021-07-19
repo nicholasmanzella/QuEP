@@ -110,8 +110,8 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f, w, sim_name,shape_name,noElec,iter):
     binsizez = 619#833#2833#4167#1000#2666#1333
     binsizey = 600#400#2000#160#666#200
 
-    xmin = 35#27#400
-    xmax = 52#500
+    xmin = 27 #35#27#400
+    xmax = 52 #500
     
     vmax_ = 10
 

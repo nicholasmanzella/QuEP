@@ -25,7 +25,7 @@ useWeights_y = True                 # Use weights in y-direction
 singleLayerBeam = False             # Use beam with thickness xden=1 in x-direction
 
 # Masking Options:
-useMasks = True                      # Use masks in either direction (Note: Masking must be done after weighting!)
+useMasks = False                      # Use masks in either direction (Note: Masking must be done after weighting!)
 
 # Plotting Scripts
 plot2DTracks = False                 # View 2D projections of trajectories
@@ -93,7 +93,7 @@ if (len(sys.argv) == 3):
     px_f = data['px_dat']
     py_f = data['py_dat']
     pz_f = data['pz_dat']
-    t0 = data['t_dat']
+    t0 = 0#data['t_dat']
 
     if (singleLayerBeam):
         xden = 1
@@ -104,19 +104,8 @@ if (len(sys.argv) == 3):
     w = []
     w = [1 for k in range(0,noPart)]
     
-    if (useWeights_x) and (useWeights_y):
-        w_x = weightFunc.getWeightsX(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noPart)
-        w_y = weightFunc.getWeightsY(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noPart)
-        for particle in range(0,noPart):
-            w[particle] = w_x[particle] * w_y[particle]
-    elif (useWeights_x):
-        w_x = weightFunc.getWeightsX(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noPart)
-        for particle in range(0,noPart):
-            w[particle] = w_x[particle]
-    elif (useWeights_y):
-        w_y = weightFunc.getWeightsY(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noPart)
-        for particle in range(0,noPart):
-            w[particle] = w_y[particle]
+    if (useWeights_x) or (useWeights_y):
+        w = weightFunc.getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noPart,useWeights_x,useWeights_y)
 
     # MASKING
     if (useMasks):
@@ -148,10 +137,10 @@ if (len(sys.argv) == 3):
         showEvol_F.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, w, sim_name, shape_name, noPart, iter)
     if (writeHistData):
         writeHist.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noPart, iter)
-    if (plotWeightsy):
-        plotWeights.ploty(w_y,y_0,beamy_c,sigma_y)
-    if (plotWeightsx):
-        plotWeights.plotx(w_x,x_0,xi_0,beamx_c,sigma_x)
+    #if (plotWeightsy):
+    #    plotWeights.ploty(w_y,y_0,beamy_c,sigma_y)
+    #if (plotWeightsx):
+    #    plotWeights.plotx(w_x,x_0,xi_0,beamx_c,sigma_x)
     
     #if (saveMovie):
     #    makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noPart, iter)
@@ -162,5 +151,5 @@ if (len(sys.argv) == 3):
     print("End Time: ", curr_time_f)
     print("Duration: ", (time.time() - start_time)/60, " min")
 else:
-        print("Improper number of arguments. Expected 'python3 index.py <fname> <fname>'")
-        exit()
+    print("Improper number of arguments. Expected 'python3 index.py <fname> <fname>'")
+    exit()
