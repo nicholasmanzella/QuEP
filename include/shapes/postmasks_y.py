@@ -8,7 +8,7 @@ import pdb
 
 # Initializes probe as a rectangular outline of electrons with area 2*s2 * 2*s1 with masks inserted to block electrons
 
-def initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,ydensity,xidensity,res,top_of_masks,bot_of_masks,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f):
+def initProbe(x_c,y_c,xi_c,t0,s1,s2,ydensity,xidensity,res,top_of_masks,bot_of_masks,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,w):
     x_f = list(x_f)
     y_f = list(y_f)
     xi_f = list(xi_f)
@@ -16,22 +16,21 @@ def initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,ydensity,xidensity,res,top_of_masks,bot_o
     px_f = list(px_f)
     py_f = list(py_f)
     pz_f = list(pz_f)
-    
-#Define masks. Change if different mask is desired
+    w = list(w)
 
     xistep = 2*s2/xidensity # Can also use resolution here
     ystep = 2*s1/ydensity
 
-# Define corners
+# Define corners (front is first to enter field)
     ytop = y_c + s1
     ybot = y_c - s1
     xileft = xi_c - s2
     xiright = xi_c + s2
 
-# Start in top left
+# Start in front top right
     yn = ytop
-    xin = xileft
-    zn = xileft + t0
+    xin = xiright
+    zn = xiright + t0
 
 
 
@@ -63,4 +62,4 @@ def initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,ydensity,xidensity,res,top_of_masks,bot_o
     new_ydensity = ydensity - h
 
                    
-    return x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, new_ydensity
+    return x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, new_ydensity, w

@@ -22,7 +22,7 @@ import include.plotWeights as plotWeights
 # Weighting Options (Only applicable for showFullEvolution plot):
 useWeights_x = True                 # Use weights in x-direction
 useWeights_y = True                 # Use weights in y-direction
-beamThickness = True                # Use beam thickness in x-direction
+singleLayerBeam = False             # Use beam with thickness xden=1 in x-direction
 
 # Masking Options:
 useMasks = True                      # Use masks in either direction (Note: Masking must be done after weighting!)
@@ -95,7 +95,7 @@ if (len(sys.argv) == 3):
     pz_f = data['pz_dat']
     t0 = data['t_dat']
 
-    if not (beamThickness):
+    if (singleLayerBeam):
         xden = 1
 
     noPart = len(x_0) # Number of particles in the simulation
@@ -131,10 +131,10 @@ if (len(sys.argv) == 3):
         new_ydensity = yden  #just in case there are no horizontal masks
 
         if len(top_of_masks)>0:
-            x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,new_ydensity = postmasks_y.initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,yden,xiden,res,top_of_masks,bot_of_masks,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f)
+            x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,new_ydensity, w = postmasks_y.initProbe(x_c,y_c,xi_c,t0,s1,s2,yden,xiden,res,top_of_masks,bot_of_masks,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,w)
 
         if len(left_of_masks)>0:
-            x_f,y_f,xi_f,z_f,px_f,py_f,pz_f = postmasks_xi.initProbe(x_c,y_c,xi_c,t0,s1,s2,s3,yden,xiden,res,left_of_masks,right_of_masks,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,new_ydensity)    
+            x_f,y_f,xi_f,z_f,px_f,py_f,pz_f, w = postmasks_xi.initProbe(x_c,y_c,xi_c,t0,s1,s2,yden,xiden,res,left_of_masks,right_of_masks,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,new_ydensity,w)    
     # END OF MASKING
     
     
