@@ -40,20 +40,18 @@ def initProbe(x_c,y_c,xi_c,t0,s1,s2,ydensity,xidensity,res,top_of_masks,bot_of_m
     for i in range(0,ydensity):
         if top_of_masks[g] >= yn >= bot_of_masks[g]: #if yn is within the mask
             for j in range(0,xidensity-1):
-                x_f.remove(x_f[(i-h)*xidensity])
-                y_f.remove(y_f[(i-h)*xidensity])
-                xi_f.remove(xi_f[(i-h)*xidensity])
-                z_f.remove(z_f[(i-h)*xidensity])
-                px_f.remove(px_f[(i-h)*xidensity])
-                py_f.remove(py_f[(i-h)*xidensity])
-                pz_f.remove(pz_f[(i-h)*xidensity])
-                w.remove(pz_f[(i-h)*xidensity])
+                index = (i-h)*xidensity
+                x_f = x_f[:index] + x_f[index+1:]
+                y_f = y_f[:index] + y_f[index+1:]
+                xi_f = xi_f[:index] + xi_f[index+1:]
+                z_f = z_f[:index] + z_f[index+1:]
+                px_f = px_f[:index] + px_f[index+1:]
+                py_f = py_f[:index] + py_f[index+1:]
+                pz_f = pz_f[:index] + pz_f[index+1:]
             h+=1
-            break
         elif yn <= bot_of_masks[g]:
             g += 1
-        #if g >= len(bot_of_masks):
-        if g > 0:
+        if g >= len(bot_of_masks):
             break
         yn-=ystep
 
