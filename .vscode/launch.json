@@ -21,7 +21,7 @@
             "program": "${workspaceFolder}/index.py",
             "console": "integratedTerminal",
             "args": [
-                "input.test-06", "input.test_weights-06"
+                "input.test-07-nowake", "input.test_weights-07"
             ]
         }
     ]
