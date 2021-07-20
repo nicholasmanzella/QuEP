@@ -106,10 +106,10 @@ if __name__ == '__main__':
         x_0, y_0, xi_0, z_0 = shape.initProbe(x_c, y_c, xi_c, t0, s1, s2, xden, yden, xiden, res)
 
         print("Probe initialized")
-        noPart = len(x_0) # Number of electrons/particles to track
-        print("Number of particles:",noPart)
+        noObj = len(x_0) # Number of electrons/particles to track
+        print("Number of objects:",noObj)
 
-        x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = zip(*pool.starmap(eProbe.getTrajectory, [(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode, sim_name) for i in range(0,noPart)]))
+        x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = zip(*pool.starmap(eProbe.getTrajectory, [(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode, sim_name) for i in range(0,noObj)]))
 
         pool.close()
 
@@ -118,7 +118,7 @@ if __name__ == '__main__':
         print("End Time: ", curr_time_f)
         print("Duration: ", (time.time() - start_time)/60, " min")
 
-        np.savez(fname, x_init=x_0, y_init=y_0, xi_init=xi_0, z_init=z_0, x_dat=x_f, y_dat=y_f, xi_dat=xi_f, z_dat=z_f, px_dat=px_f, py_dat=py_f, pz_dat=pz_f)
+        np.savez(fname, x_init=x_0, y_init=y_0, xi_init=xi_0, z_init=z_0, x_dat=x_f, y_dat=y_f, xi_dat=xi_f, z_dat=z_f, px_dat=px_f, py_dat=py_f, pz_dat=pz_f, t_dat=t0)
 
     else:
         print("Improper number of arguments. Expected 'python3 main.py <fname>'")

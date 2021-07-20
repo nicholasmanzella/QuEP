@@ -6,7 +6,7 @@ shape = 'rprism_weighted_after'
 # dt = 0.005, 150000
 iterations = 500000
 mode = -1
-fname = "test-06.npz"
+fname = "test-07.npz"
 
 # Probe centered at the following initial coordinates (in c/w_p):
 x_c = -2.4 # Start within region of field # 2.4 = maximum x_c
@@ -25,11 +25,10 @@ x_s = [10, 50, 100, 250, 500]
 # Shape Parameters (Radius or Side Length, in c/w_p):
 s1 = 1 # In y
 s2 = 12 # In xi
-s3 = 0.5 # In x
 
 # Densities
 ydensity = 400
 xidensity = 1200
-xdensity = 50 #This effectively creates the number of layers in x direction
+xdensity = 51 #This effectively creates the number of layers in x direction
 resolution = 0.002
 

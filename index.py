@@ -14,7 +14,7 @@ import include.viewProbe as viewProbe
 import include.writeFullEvolData as writeHist
 import include.shapes.postmasks_y as postmasks_y
 import include.shapes.postmasks_xi as postmasks_xi
-import include.weighting_function as weightFunc
+import include.weighting_masks_function as weightmaskFunc
 import include.plotWeights as plotWeights
 
 # Be sure to change .npz file name location from main.py output!
@@ -25,7 +25,8 @@ useWeights_y = True                 # Use weights in y-direction
 singleLayerBeam = False             # Use beam with thickness xden=1 in x-direction
 
 # Masking Options:
-useMasks = True                      # Use masks in either direction (Note: Masking must be done after weighting!)
+useMasks_xi = False                 # Use masks in xi-direction (Vertical; done during weighting)
+useMasks_y = True                  # Use masks in y-direction (Horizontal; done during weighting)
 
 # Plotting Scripts
 plot2DTracks = False                 # View 2D projections of trajectories
@@ -98,63 +99,34 @@ if (len(sys.argv) == 3):
     if (singleLayerBeam):
         xden = 1
 
-    noPart = len(x_0) # Number of particles in the simulation
+    noObj = len(x_0) # Number of particles in the simulation
 
-    # Create weighting array
+    # Create weighting array with appropriate masks
     w = []
-    w = [1 for k in range(0,noPart)]
+    w = [1 for k in range(0,noObj)]
     
-    if (useWeights_x) and (useWeights_y):
-        w_x = weightFunc.getWeightsX(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noPart)
-        w_y = weightFunc.getWeightsY(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noPart)
-        for particle in range(0,noPart):
-            w[particle] = w_x[particle] * w_y[particle]
-    elif (useWeights_x):
-        w_x = weightFunc.getWeightsX(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noPart)
-        for particle in range(0,noPart):
-            w[particle] = w_x[particle]
-    elif (useWeights_y):
-        w_y = weightFunc.getWeightsY(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noPart)
-        for particle in range(0,noPart):
-            w[particle] = w_y[particle]
-
-    # MASKING
-    if (useMasks):
-        #Define masks in y direction, 0 is 0 on the y-axis. Change if different mask is desired
-        top_of_masks = []  #upper limit of each mask in order
-        bot_of_masks = []  #lower limit of each mask in order 
-
-        #Define masks in z direction, leftmost z-coordinate = 0. Change if different mask is desired
-        left_of_masks= []  #left most limit of each mosk in order
-        right_of_masks = []  #right most limit of each mask in order
-
-        new_ydensity = yden  #just in case there are no horizontal masks
-
-        if len(top_of_masks)>0:
-            x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,new_ydensity, w = postmasks_y.initProbe(x_c,y_c,xi_c,t0,s1,s2,yden,xiden,res,top_of_masks,bot_of_masks,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,w)
-
-        if len(left_of_masks)>0:
-            x_f,y_f,xi_f,z_f,px_f,py_f,pz_f, w = postmasks_xi.initProbe(x_c,y_c,xi_c,t0,s1,s2,yden,xiden,res,left_of_masks,right_of_masks,x_f,y_f,xi_f,z_f,px_f,py_f,pz_f,new_ydensity,w)    
-    # END OF MASKING
+    if (useWeights_x) or (useWeights_y):
+        w, w_virt, xv, yv, xiv = weightmaskFunc.getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noObj,t0,useWeights_x,useWeights_y,useMasks_xi,useMasks_y)    
     
-    
+    #np.savez(fname, w, w_virt, xv, yv, xiv)
+
     # Plot data points
     print("Plotting...")
     if (plot2DTracks):
-        plot2D.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noPart)
+        plot2D.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noObj)
     if (showQuickEvolution):
-        showEvol_Q.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noPart, iter) # Note: does not use weights
+        showEvol_Q.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noObj, iter) # Note: does not use weights
     if (showFullEvolution):
-        showEvol_F.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, w, sim_name, shape_name, noPart, iter)
+        showEvol_F.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, w, sim_name, shape_name, noObj, iter)
     if (writeHistData):
-        writeHist.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noPart, iter)
+        writeHist.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noObj, iter)
     if (plotWeightsy):
-        plotWeights.ploty(w_y,y_0,beamy_c,sigma_y)
+        plotWeights.ploty(w_virt,yv,beamx_c,beamy_c,sigma_x,sigma_y)
     if (plotWeightsx):
-        plotWeights.plotx(w_x,x_0,xi_0,beamx_c,sigma_x)
+        plotWeights.plotx(w_virt,xv,beamx_c,beamy_c,sigma_x,sigma_y)
     
     #if (saveMovie):
-    #    makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noPart, iter)
+    #    makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noObj, iter)
 
     # End timing index file runtime
     tf = time.localtime()
@@ -162,5 +134,5 @@ if (len(sys.argv) == 3):
     print("End Time: ", curr_time_f)
     print("Duration: ", (time.time() - start_time)/60, " min")
 else:
-        print("Improper number of arguments. Expected 'python3 index.py <fname> <fname>'")
-        exit()
+    print("Improper number of arguments. Expected 'python3 index.py <fname> <fname>'")
+    exit()
