@@ -12,11 +12,16 @@ import copy
 import time
 import progressbar
 import include.movieWriter as movieWriter
-import multiprocessing as mp
 
 plt.rcParams.update({'font.size': 12 })
 #plt.rcParams['animation.ffmpeg_path'] = '/ffmpeg/bin'
 mpl.use('Agg')
+
+
+# Choose boundaries of screens in mm
+xstart_mm = 0
+xend_mm = 550
+xstep_mm = 1
 
 
 # Definition of Constants
@@ -83,6 +88,30 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f, w, sim_name,shape_name,noObj,iter):
     plasma_bnds = sim.getBoundCond()
     shape_name = shape_name.capitalize()
 
+# Normalize screen distances
+    screen_dists = list(range(xstart_mm,xend_mm+1,xstep_mm))
+    slices = len(screen_dists) # Number of Screens
+    xs_norm = []
+    for i in range(0,slices):
+        xs_norm.append(screen_dists[i] * W_P * 10**(-3) / C)
+
+# Generate arrays of coordinates at origin + each screen
+    yslice = np.empty([slices, noObj])
+    xislice = np.empty([slices, noObj])
+    zslice = np.empty([slices, noObj])
+
+# Project positions at distances in x_s
+    for i in progressbar.progressbar(range(0,slices), redirect_stout=True):
+        # If x_s out of plasma, use ballistic trajectory
+        if (abs(xs_norm[i]) > plasma_bnds[2]):
+            for j in range(0,noObj):
+                yslice[i, j], xislice[i, j], zslice[i, j] = getBallisticTraj(x_f[j], y_f[j], xi_f[j], z_f[j], px_f[j], py_f[j], pz_f[j], xs_norm[i])
+        else:
+            for j in range(0,noObj):
+                yslice[i, j] = y_f[j]
+                xislice[i, j] = xi_f[j]
+                zslice[i, j] = z_f[j]
+
 # Plot slices
 # For bin size = 0.006 (lambda/10)
 # Run 130 Limits: (27,52), (-6,6), Bins: (4167,2000)
@@ -90,13 +119,6 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f, w, sim_name,shape_name,noObj,iter):
 # For bin size = 0.03
 # Run 130 Limits: (27,52), (-6,6), Bins: (833,400)
 # Run 232 Limits: (435,475), (0,6), Bins: (1333,200)
-
-    ######## PLOT PARAMETERS: ########
-    
-    # Choose boundaries of screens in mm
-    xstart_mm = 0
-    xend_mm = 550
-    xstep_mm = 1
 
     binsizez = 6000#6000#833#2833#4167#1000#2666#1333
     binsizey = 1000#400#2000#160#666#200
@@ -110,10 +132,6 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f, w, sim_name,shape_name,noObj,iter):
     cmin = 1
     vmin_ = cmin
     vmax_ = 1000
-
-    fps = 12 # frames per second for movie
-
-    ######## END PARAMETERS ########
 
     if (WB):
         cmap = plt.cm.binary
@@ -134,47 +152,22 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f, w, sim_name,shape_name,noObj,iter):
     print("Duration of propagation: ", (time.time() - start_time_prop)/60, " min \n")
 
 
-    #################### CREATING PLOT #######################
+    ##############################
+    # Creating plot
     start_time_plot = time.time()
     print("Making frames...")
 
-    # Normalize screen distances
-    screen_dists = list(range(xstart_mm,xend_mm+1,xstep_mm))
-    slices = len(screen_dists) # Number of Screens
-    xs_norm = []
-    for i in range(0,slices):
-        xs_norm.append(screen_dists[i] * W_P * 10**(-3) / C)
-
-    # Generate arrays of coordinates at origin + each screen
-    yslice = np.empty([slices, noObj])
-    xislice = np.empty([slices, noObj])
-    zslice = np.empty([slices, noObj])
-
-    # Get cwd and create path variable for frame output
     path = os.getcwd()
     timestr = time.strftime("%Y%m%d-%H%M%S")
     new_path = os.path.join(path,f'animation-{timestr}')
     os.mkdir(new_path)
 
-    # Create figure
     fig, ax = plt.subplots(1, figsize=(8, 5), dpi=600)
     fig.suptitle("Progression of EProbe")
+    
     plt.tight_layout(rect=[0, 0, 1, 0.9])
 
-    # Loop over each x-slice to propagate and plot frame
     for i in progressbar.progressbar(range(0,slices), redirect_stout=True):
-        
-        # Project positions at distances in x_s
-        # If x_s out of plasma, use ballistic trajectory
-        if (abs(xs_norm[i]) > plasma_bnds[2]):
-            for j in range(0,noObj):
-                yslice[i, j], xislice[i, j], zslice[i, j] = getBallisticTraj(x_f[j], y_f[j], xi_f[j], z_f[j], px_f[j], py_f[j], pz_f[j], xs_norm[i])
-        else:
-            for j in range(0,noObj):
-                yslice[i, j] = y_f[j]
-                xislice[i, j] = xi_f[j]
-                zslice[i, j] = z_f[j]
-        
         h = ax.hist2d(zslice[i,:], yslice[i,:], weights=w, bins=(binsizez,binsizey), cmap=cmap, vmin=vmin_,vmax=vmax_,cmin=cmin)#, norm=norm)
         temptext = ax.text(xmin+0.3,ymax*0.8,f"x = {screen_dists[i]:03}mm", fontdict=None, horizontalalignment='left', fontsize=10, color="Black")
         
@@ -203,11 +196,13 @@ def plot(x_f,y_f,xi_f,z_f,px_f,py_f,pz_f, w, sim_name,shape_name,noObj,iter):
         cbar.remove()
     ################################
 
-    ######## WRITE MOVIE ########
+    ################################
+    # WRITE MOVIE
+    fps = 12 # frames per second
     movieWriter.generatemovie(fps,new_path)
-    #############################
+    ################################
 
-    # Report animation timing statistics
+    # Report timing statistics
     tplotf = time.localtime()
     curr_time_plot_f = time.strftime("%H:%M:%S", tplotf)
     print("Plotting Frames End Time: ", curr_time_plot_f)
