@@ -3,6 +3,7 @@ import math
 import numpy as np
 import pdb
 import progressbar
+import time
 
 # Creates weights based on distribution and inputted masks (below)
 
@@ -45,7 +46,8 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
     w_y = np.exp((-1.*(yv-beamy_c)**2)/(2*sigma_y**2))
 
 # Loop through x layers to calculate weights with masks and add to 2D projection
-    for i in progressbar.progressbar(range(0,len(x_0)), redirect_stout=True):
+    for i in progressbar.progressbar(range(0,len(x_0)), redirect_stout=False):
+        start_time_weightcalc = time.time()
         # Create 3d virtual coordinate array for x-slice
         xv, yv, xiv = np.meshgrid(x_0[i], y_0, xi_0,indexing='ij',sparse=True)
         
@@ -91,6 +93,7 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
             
         # Create final weighting list w to return
         # Maps 3d virtual particles in x-layer onto 2d projection appropriate location
+        start_time_proj = time.time()
         for j in range(0,ydensity):
             for k in range(0,xidensity):
                 w[xidensity_ * j + k + i] += w_virt[0,j,k]
@@ -101,5 +104,6 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
         xiv = None
         w_x = None
         w_virt = None
+
     
     return w, w_virt, xv, yv, xiv

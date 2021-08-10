@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}/main.py",
             "console": "integratedTerminal",
             "args": [
-                "input.test-07"
+                "input.test-08"
             ]
         },
         {
@@ -21,7 +21,17 @@
             "program": "${workspaceFolder}/index.py",
             "console": "integratedTerminal",
             "args": [
-                "input.test-07-nowake", "input.test_weights-07"
+                "input.36-50__xwid-1__0-002__01", "input.weights__x_0-1__y_0-01"
+            ]
+        },
+        {
+            "name": "Python: index-mp.py File",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/index-mp.py",
+            "console": "integratedTerminal",
+            "args": [
+                "input.36-50__xwid-1__0-002__01", "input.weights__x_0-1__y_0-01"
             ]
         }
     ]

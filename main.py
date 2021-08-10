@@ -105,7 +105,7 @@ if __name__ == '__main__':
     # Get arrays of initial coordinates in shape of probe
         x_0, y_0, xi_0, z_0 = shape.initProbe(x_c, y_c, xi_c, t0, s1, s2, xden, yden, xiden, res)
 
-        print("Probe initialized")
+        print("Probe initialized...")
         noObj = len(x_0) # Number of electrons/particles to track
         print("Number of objects:",noObj)
 

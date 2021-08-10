@@ -11,22 +11,19 @@ def generatemovie(fps,new_path):
     img_array = []
     #path = os.path.join(r'/gpfs/home/nmanzella/PWA/QuEP')
 
-    print(new_path)
-
     old_width = 4800
     old_height = 3000
-    divisor = 1
-    new_width = old_width // divisor
-    new_height = old_height // divisor
+    dim_scale = 1.0
+    new_width = int(old_width * dim_scale)
+    new_height = int(old_height * dim_scale)
     print(f"New dimensions for video: {new_width}x{new_height}px")
 
     #fps = fps
     print(f"Running at {fps} frames per second")
 
-    #LATEST SUBDIRECTORY PROBABLY JUST DUPLICATE OF new_path
-    latest_subdir = new_path
-    image_folder = latest_subdir
-    video_name = f'00-progression-movie-fullres-{fps}fps.mp4'
+    image_folder = new_path
+    dim_scale_ = "{:03.2f}".format(dim_scale).replace(".","-")
+    video_name = f'00-progression-movie__{dim_scale_}res__{fps}fps.mp4'
     os.chdir(image_folder)
 
     images = [img for img in os.listdir(image_folder)
@@ -36,11 +33,10 @@ def generatemovie(fps,new_path):
 
     images = sorted(images)
     
-    print(f"Using {len(images)} images from: {latest_subdir}")
-    print(images)
+    print(f"\nUsing {len(images)} images from: {image_folder}")
     # Array images should only consider
     # the image files ignoring others if any
-    print(f"Images included in movie: {images}") 
+    #print(f"\nImages included in movie: {images}") 
 
     img = cv2.imread(os.path.join(image_folder, images[0]))
     frame = cv2.resize(img, dsize=(new_width,new_height), interpolation=cv2.INTER_CUBIC)
@@ -53,11 +49,10 @@ def generatemovie(fps,new_path):
     #0x00000021
     video = cv2.VideoWriter(video_name, 0x31637661, fps, (width, height)) 
 
-    print("Generating video")
     start_time_video = time.time()
     t = time.localtime()
     curr_time = time.strftime("%H:%M:%S", t)
-    print("Start Time: ", curr_time)
+    print("\nMovie generation - START TIME: ", curr_time)
 
     # Appending the images to the video one by one
     for image in images: 
@@ -70,9 +65,9 @@ def generatemovie(fps,new_path):
     video.release()  # releasing the video generated
 
 
-    print(f"Movie generated! File stored at {os.path.join(latest_subdir,video_name)}")
-    tvideof = time.localtime()
-    curr_time_video_f = time.strftime("%H:%M:%S", tvideof)
-    print("Movie generation End Time: ", curr_time_video_f)
-    print("Duration of movie generation: ", (time.time() - start_time_video)/60, " min \n")
+    print(f"Movie generated! File stored at {os.path.join(image_folder,video_name)}")
+    t_video_end = time.localtime()
+    curr_time_video_end = time.strftime("%H:%M:%S", t_video_end)
+    print("Movie generation - END TIME: ", curr_time_video_end)
+    print("Movie generation - DURATION: ", (time.time() - start_time_video)/60, " min\n")
 
