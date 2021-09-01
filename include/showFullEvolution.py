@@ -26,9 +26,9 @@ x_s = [0, 5, 10, 25, 50, 75, 100, 40, 200, 300, 400, 500]
 
 # Color Scheme
 WB = False # Sequential
-Viridis = False # Sequential + Perceptually Uniform
+Viridis = True # Sequential + Perceptually Uniform
 BuPu = False # Sequential
-Jet = True
+Jet = False
 
 def returnXi(z):
     return z - C * 54.3948 # Hardcoded time for Run 144!!!

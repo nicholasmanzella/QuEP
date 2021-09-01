@@ -14,7 +14,7 @@ def initProbe(x_c,y_c,xi_c,t0,s1,s2,xdensity,ydensity,xidensity,resolution):
 
 # Calculate s3 
     s3 = xstep*(xdensity-1)/2.0
-    print(f"s3 ={s3}")
+    print(f"{s3 = }")
     
 # Define corners (front is first to enter field)
     ytop = y_c + s1
@@ -24,8 +24,8 @@ def initProbe(x_c,y_c,xi_c,t0,s1,s2,xdensity,ydensity,xidensity,resolution):
     xfront = x_c + s3  
     xback = x_c - s3
 
-    print(f"width of probe in x: 2*s3 = {2*s3}")
-    print(f"probe extends from {xfront} to {xback}")
+    print(f"Width of probe in x: 2*s3 = {2*s3}")
+    print(f"Probe extends from x={xfront} to x={xback}")
 
 # Start in front top right
     yn = ytop

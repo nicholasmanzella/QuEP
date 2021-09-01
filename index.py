@@ -10,10 +10,9 @@ import include.plot2DTracks as plot2D
 import include.plot3DTracks as plot3D
 import include.showQuickEvolution as showEvol_Q
 import include.showFullEvolution as showEvol_F
+import include.makeFullAnimation as makeFullAni
 import include.viewProbe as viewProbe
 import include.writeFullEvolData as writeHist
-import include.shapes.postmasks_y as postmasks_y
-import include.shapes.postmasks_xi as postmasks_xi
 import include.weighting_masks_function as weightmaskFunc
 import include.plotWeights as plotWeights
 
@@ -26,12 +25,13 @@ singleLayerBeam = False             # Use beam with thickness xden=1 in x-direct
 
 # Masking Options:
 useMasks_xi = False                 # Use masks in xi-direction (Vertical; done during weighting)
-useMasks_y = True                  # Use masks in y-direction (Horizontal; done during weighting)
+useMasks_y = False                  # Use masks in y-direction (Horizontal; done during weighting)
 
 # Plotting Scripts
 plot2DTracks = False                 # View 2D projections of trajectories
 showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots # Use for low density probes
-showFullEvolution = True             # View full evolution of probe at hardcoded locations in colored histograms # Use for high density probes
+showFullEvolution = False             # View full evolution of probe at hardcoded locations in colored histograms # Use for high density probes
+makeFullAnimation = True
 writeHistData = False
 plotWeightsy = False                  # Plot w_x vs xi
 plotWeightsx = False                  # Plot w_y vs y
@@ -105,25 +105,34 @@ if (len(sys.argv) == 3):
     w = []
     w = [1 for k in range(0,noObj)]
     
+    
     if (useWeights_x) or (useWeights_y):
         w, w_virt, xv, yv, xiv = weightmaskFunc.getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noObj,t0,useWeights_x,useWeights_y,useMasks_xi,useMasks_y)    
     
+    tf = time.localtime()
+    curr_time_w = time.strftime("%H:%M:%S", tf)
+    print("End Time of weighting: ", curr_time_w)
+    print("Duration of weight calculations: ", (time.time() - start_time)/60, " min")
+
+
     #np.savez(fname, w, w_virt, xv, yv, xiv)
 
     # Plot data points
-    print("Plotting...")
+    print("\nPlotting...")
     if (plot2DTracks):
         plot2D.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noObj)
     if (showQuickEvolution):
         showEvol_Q.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noObj, iter) # Note: does not use weights
     if (showFullEvolution):
         showEvol_F.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, w, sim_name, shape_name, noObj, iter)
+    if (makeFullAnimation):
+        makeFullAni.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, w, sim_name, shape_name, noObj, iter)
     if (writeHistData):
         writeHist.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noObj, iter)
     if (plotWeightsy):
-        plotWeights.ploty(w_virt,yv,beamx_c,beamy_c,sigma_x,sigma_y)
+        plotWeights.ploty(w_virt,xv,yv,beamx_c,beamy_c,sigma_x,sigma_y)
     if (plotWeightsx):
-        plotWeights.plotx(w_virt,xv,beamx_c,beamy_c,sigma_x,sigma_y)
+        plotWeights.plotx(w_virt,xv,yv,beamx_c,beamy_c,sigma_x,sigma_y)
     
     #if (saveMovie):
     #    makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noObj, iter)
@@ -131,8 +140,8 @@ if (len(sys.argv) == 3):
     # End timing index file runtime
     tf = time.localtime()
     curr_time_f = time.strftime("%H:%M:%S", tf)
-    print("End Time: ", curr_time_f)
-    print("Duration: ", (time.time() - start_time)/60, " min")
+    print("End Time of index.py: ", curr_time_f)
+    print("Duration of index.py: ", (time.time() - start_time)/60, " min")
 else:
     print("Improper number of arguments. Expected 'python3 index.py <fname> <fname>'")
     exit()
