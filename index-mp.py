@@ -29,11 +29,11 @@ useWeights_x = True                 # Use weights in x-direction
 useWeights_y = True                 # Use weights in y-direction
 singleLayerBeam = False             # Use beam with thickness xden=1 in x-direction
 
-skipWeightingCalc = True            # Skip weighting calculation and use imported pre-calculated weights
+skipWeightingCalc = False            # Skip weighting calculation and use imported pre-calculated weights
 saveWeights = False                 # Save weights to .npz file (Remember to move to ./data directory!)
 
 # Masking Options:
-useMasks_xi = False                 # Use masks in xi-direction (Vertical; done during weighting)
+useMasks_xi = True                 # Use masks in xi-direction (Vertical; done during weighting)
 useMasks_y = False                  # Use masks in y-direction (Horizontal; done during weighting)
 
 # Plotting Scripts
@@ -52,7 +52,7 @@ plotWeightsx = False                  # Plot w_y vs y (DONT USE)
 if __name__ == '__main__':
     # Start of main()
     # Initialize multiprocessing.Pool()
-    numberOfCores = 1#8# mp.cpu_count()
+    numberOfCores = 4#8# mp.cpu_count()
     print(f"Number of cores used for multiprocessing: {numberOfCores}")
     pool = mp.get_context('spawn').Pool(numberOfCores)
     if (len(sys.argv) == 3):
@@ -113,27 +113,28 @@ if __name__ == '__main__':
 
         if (singleLayerBeam):
             xden = 1
+            print("Using single-layer beam")
 
         noObj = len(x_0) # Number of particles in the simulation
 
         rand = "{:02d}".format(randint(0,99))
-        weights_fname = fname[:-4] + "-weights-81"# + rand
+        weights_fname = fname[:-4] + "-weights-" + rand
         if (skipWeightingCalc):
             data = np.load('./data/' + weights_fname + '.npz') # Change this line as needed
             w = data['w']
             print(f"\nUsing weights from {'./data/' + weights_fname + '.npz'}...\n")
-        else:
+        #else:
             # Create weighting array with appropriate masks
-            w = []
-            w = [1 for k in range(0,noObj)]
+        #    w = []
+        #    w = [1 for k in range(0,noObj)]
             
             start_time_w = time.time()
             t_w = time.localtime()
             curr_time_w = time.strftime("%H:%M:%S", t_w)
             print("\nWeighting calculations - START TIME: ", curr_time_w)
 
-            if (useWeights_x) or (useWeights_y):
-                w, w_virt, xv, yv, xiv = weightmaskFunc.getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noObj,t0,useWeights_x,useWeights_y,useMasks_xi,useMasks_y)    
+            #if (useWeights_x) or (useWeights_y):
+            w, w_virt, xv, yv, xiv = weightmaskFunc.getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noObj,t0,useWeights_x,useWeights_y,useMasks_xi,useMasks_y)    
             
             t_w_end = time.localtime()
             curr_time_w_end = time.strftime("%H:%M:%S", t_w_end)
