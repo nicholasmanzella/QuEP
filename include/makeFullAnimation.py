@@ -90,7 +90,7 @@ def prepare(sim_name,shape_name,noObj,rand):
     # Choose boundaries of screens in mm
     xstart_mm = 0
     xend_mm = 110
-    xstep_mm = 1
+    xstep_mm = 50
 
     #binsizez = 6500//4#6000#833#2833#4167#1000#2666#1333
     #binsizey = 1000//4#400#2000#160#666#200
@@ -105,11 +105,11 @@ def prepare(sim_name,shape_name,noObj,rand):
     bin_edges_z = np.arange(zmin, zmax, bin_resolution)
     bin_edges_y = np.arange(ymin, ymax, bin_resolution)
     
-    cmin = 1        # Minimum density displayed
+    cmin = 1       # Minimum density displayed
     vmin_ = cmin    # Minimum color value
-    vmax_ = 10000    # Maximum color value
+    vmax_ = 500    # Maximum color value
 
-    fps = 12 # frames per second for movie
+    fps = 2 # frames per second for movie
 
     ######## END PARAMETERS ########
 
@@ -161,7 +161,7 @@ def plotmp(i,x_f,y_f,z_f,px_f,py_f,pz_f, w, xden, plasma_bnds, xs_norm, yslice, 
         yslice = y_f
         zslice = z_f
     
-    h = ax.hist2d(zslice[(xden-1):-(xden-1)], yslice[(xden-1):-(xden-1)], weights=w[(xden-1):-(xden-1)], bins=(bin_edges_z,bin_edges_y), cmap=cmap, vmin=vmin_,vmax=vmax_,cmin=cmin)#, norm=norm)
+    h = ax.hist2d(zslice[:], yslice[:], weights=w[:], bins=(bin_edges_z,bin_edges_y), cmap=cmap, vmin=vmin_,vmax=vmax_,cmin=cmin)#, norm=norm)
     temptext = ax.text(zmin+0.3,ymax*0.8,f"x = {screen_dists[i]:03}mm", fontdict=None, horizontalalignment='left', fontsize=10, color="Black")
     
     ax.set_ylim(ymin,ymax)
