@@ -44,8 +44,6 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
     w = [0 for k in range(0,noObj)]
     yv = y_0.reshape(1,ydensity,1)
     w_y = np.exp((-1.*(yv-beamy_c)**2)/(2*sigma_y**2)) # Calculate weights for each y slice
-    w_y.fill(1.0)
-    print(w_y)
 
 # Loop through x layers to calculate weights with masks and add to 2D projection
     for i in progressbar.progressbar(range(0,len(x_0)), redirect_stout=False):
@@ -55,7 +53,7 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
         
         # Create 3d virtual weight arrays containing weight of each particle in x-slice
         w_x = np.exp((-1.*(x_0[i]-beamx_c)**2)/(2*sigma_x**2))
-        w_x.fill(1.0)
+        
 
         # Weighting options evaluator
         if (useWeights_x) and (useWeights_y):
@@ -64,8 +62,12 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
             w_virt = w_x
         elif (useWeights_y):
             w_virt = w_y
+        else:
+            w_x_noweight = np.copy(w_x)
+            w_x_noweight.fill(1.0)
+            w_virt = w_x_noweight
 
-         # MASKING
+        # MASKING
         if (not (useMasks_y)) and (not (useMasks_xi)):
             w_virt = np.where(xiv == None, 0, w_virt) # Why is this needed?
         
@@ -109,6 +111,7 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
         xiv = None
         w_x = None
         w_virt = None
+        w_x_noweight = None
 
     
     return w, w_virt, xv, yv, xiv

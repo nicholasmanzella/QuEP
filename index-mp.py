@@ -123,18 +123,18 @@ if __name__ == '__main__':
             data = np.load('./data/' + weights_fname + '.npz') # Change this line as needed
             w = data['w']
             print(f"\nUsing weights from {'./data/' + weights_fname + '.npz'}...\n")
-        else:
+        #else:
             # Create weighting array with appropriate masks
-            w = []
-            w = [1 for k in range(0,noObj)]
+        #    w = []
+        #    w = [1 for k in range(0,noObj)]
             
             start_time_w = time.time()
             t_w = time.localtime()
             curr_time_w = time.strftime("%H:%M:%S", t_w)
             print("\nWeighting calculations - START TIME: ", curr_time_w)
 
-            if (useWeights_x) or (useWeights_y):
-                w, w_virt, xv, yv, xiv = weightmaskFunc.getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noObj,t0,useWeights_x,useWeights_y,useMasks_xi,useMasks_y)    
+            #if (useWeights_x) or (useWeights_y):
+            w, w_virt, xv, yv, xiv = weightmaskFunc.getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noObj,t0,useWeights_x,useWeights_y,useMasks_xi,useMasks_y)    
             
             t_w_end = time.localtime()
             curr_time_w_end = time.strftime("%H:%M:%S", t_w_end)
