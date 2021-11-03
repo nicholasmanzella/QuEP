@@ -107,12 +107,14 @@ def getTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,mode,sim_name)
         gam = Gamma(p)
         return px, py, pz, p, gam, Fx, Fy, Fz
 
+    propspeed = sim.getPropagationSpeed()
+
     t = t0                       # Start time in 1/w_p
-    dt = 0.005 #0.005                   # Time step in 1/w_p
+    dt = 0.005 #0.005            # Time step in 1/w_p
     xn = x_0                     # Positions in c/w_p
     yn = y_0
     xin = xi_0
-    zn = xin + t0
+    zn = xin + t0*propspeed # PLACE TO ADD MULTIPLIER TO t0 for group velocity
 
     px = px_0                    # Momenta in m_e c
     py = py_0
@@ -133,7 +135,7 @@ def getTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,mode,sim_name)
         rn = math.sqrt(xn**2 + yn**2)
 
         t += dt
-        xin = zn - t
+        xin = zn - t*propspeed # PLACE TO ADD MULTIPLIER TO t for group velocity
 
         # If electron leaves cell, quit tracking
         if (xin < plasma_bnds[0] or xin > plasma_bnds[1] or rn > plasma_bnds[2]):

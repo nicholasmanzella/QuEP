@@ -49,8 +49,8 @@ def main():
 
     print((time.time() - start_time)/60, " min")
 
-    #plt.savefig("fields.png",transparent=True)
-    plt.show()
+    plt.savefig("Ez-fields.png",transparent=True)
+    #plt.show()
     input()
 
 main()

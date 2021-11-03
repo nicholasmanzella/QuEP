@@ -94,9 +94,11 @@ def prepare(sim_name,shape_name,noObj,rand):
 
     #binsizez = 6500//4#6000#833#2833#4167#1000#2666#1333
     #binsizey = 1000//4#400#2000#160#666#200
-
-    zmin = 36 #25#27#400
-    zmax = 50 #500
+    
+    # For Quasi_ID = 000130, use (36,50)
+    # For Quasi_ID = 000067, use (24,37)
+    zmin = 36 #36  #25#27#400
+    zmax = 50 #50  #500
     
     ymin = -1.0
     ymax = 1.0

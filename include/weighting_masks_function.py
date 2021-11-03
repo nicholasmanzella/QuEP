@@ -39,11 +39,18 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
     y_0 = np.linspace(ytop,ybot,ydensity)
     xi_0 = np.linspace(xiright,xileft,xidensity)
 
+# Special single layer case
+    #if (xdensity == 1):
+    #    x_0 = np.linspace(x_c,x_c,xdensity)
+
+
+
 # Create empty weighting list
     w=[]
     w = [0 for k in range(0,noObj)]
     yv = y_0.reshape(1,ydensity,1)
     w_y = np.exp((-1.*(yv-beamy_c)**2)/(2*sigma_y**2)) # Calculate weights for each y slice
+    w_y.fill(1.0)
 
 # Loop through x layers to calculate weights with masks and add to 2D projection
     for i in progressbar.progressbar(range(0,len(x_0)), redirect_stout=False):
@@ -53,7 +60,8 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
         
         # Create 3d virtual weight arrays containing weight of each particle in x-slice
         w_x = np.exp((-1.*(x_0[i]-beamx_c)**2)/(2*sigma_x**2))
-        
+        w_x.fill(1.0)
+
 
         # Weighting options evaluator
         if (useWeights_x) and (useWeights_y):
@@ -62,11 +70,12 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
             w_virt = w_x
         elif (useWeights_y):
             w_virt = w_y
-        else:
-            w_x_noweight = np.copy(w_x)
-            w_x_noweight.fill(1.0)
-            w_virt = w_x_noweight
-
+        #else:
+         #   w_y_noweight = np.copy(w_y)
+         #   w_y_noweight.fill(1.0)
+         #   w_virt = np.copy(w_y_noweight)
+        print(f"Shape 1: {np.shape(w_virt)}")
+        
         # MASKING
         if (not (useMasks_y)) and (not (useMasks_xi)):
             w_virt = np.where(xiv == None, 0, w_virt) # Why is this needed?
@@ -97,7 +106,7 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
             for h in range(0,len(top_of_masks)):
                 w_virt = np.where(np.logical_and(yv > bot_of_masks[h], yv < top_of_masks[h]), 0, w_virt)
         # END OF MASKING    
-            
+        print(f"Shape: 2 {np.shape(w_virt)}")
         # Create final weighting list w to return
         # Maps 3d virtual particles in x-layer onto 2d projection appropriate location
         start_time_proj = time.time()
@@ -111,7 +120,7 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
         xiv = None
         w_x = None
         w_virt = None
-        w_x_noweight = None
+        #w_x_noweight = None
 
     
     return w, w_virt, xv, yv, xiv
