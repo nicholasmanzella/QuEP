@@ -28,7 +28,8 @@ EC = 1.60217662e-19                   # Electron charge in C
 EP_0 = 8.854187817e-12                # Vacuum permittivity in C/(V m)
 C = 299892458                         # Speed of light in vacuum in m/s
 
-Quasi_ID = '000130' #'000130' is for 1e15 density data
+Quasi_ID = '000130' #'000067' is for a0 = 4 matched density data
+                    #'000130' is for 1e15 density data
                     #'000144' or '000232' are for 1e17 density data (at different times in run)
 
 def getField(fpath): 
@@ -47,8 +48,18 @@ def getTime(): # ***
 def getPlasDensity(): 
     if (Quasi_ID == '000130'):
         return 1e21
+    elif (Quasi_ID == '000067'):
+        return 1.1e16
     else:
         return 3e23
+
+def getPropagationSpeed(): 
+    if (Quasi_ID == '000130'):
+        return 0.50 #THIS IS INCORRECT, JUST FOR TESTING
+    elif (Quasi_ID == '000067'):
+        return 0.9958959
+    else:
+        return 1
 
 def getPlasFreq(): 
     N_0 = getPlasDensity()

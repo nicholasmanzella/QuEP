@@ -24,8 +24,8 @@ def getFieldArrays():
         for ixi in range(xiiter):
             #pdb.set_trace()
             #Er_full[ir, ixi] = sim.EField(2, raxis_1[ir], 0, xiaxis_1[ixi], raxis_1[ir], mode=-1)
-            #Er_m0[ir, ixi] = sim.EField(2, raxis_1[ir], 0, xiaxis_1[ixi], raxis_1[ir], mode=0)
-            Er_m1[ir, ixi] = sim.EField(2, raxis_1[ir], 0, xiaxis_1[ixi], raxis_1[ir], mode=1)
+            Er_m0[ir, ixi] = sim.EField(2, raxis_1[ir], 0, xiaxis_1[ixi], raxis_1[ir], mode=0)
+            #Er_m1[ir, ixi] = sim.EField(2, raxis_1[ir], 0, xiaxis_1[ixi], raxis_1[ir], mode=1)
 
     return xiaxis_1, raxis_1, Er_full, Er_m0, Er_m1
 
@@ -52,9 +52,9 @@ def main():
     Er_m0 = ax1.pcolormesh(zaxis, raxis, Er_m0, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
     Er_m1 = ax2.pcolormesh(zaxis, raxis, Er_m1, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-1000,vmax=1000),cmap="RdBu_r")
     Er_full = ax3.pcolormesh(zaxis, raxis, Er_full, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
-    ax1.set_ylim(0,1.6)
-    ax2.set_ylim(0,1.6)
-    ax3.set_ylim(0,1.6)
+    ax1.set_ylim(0,6)
+    ax2.set_ylim(0,6)
+    ax3.set_ylim(0,6)
 
     ax1.set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'X ($c/\omega_p$)')
     ax2.set(xlabel = 'Z ($c/\omega_p$)', ylabel = 'X ($c/\omega_p$)')
@@ -79,9 +79,11 @@ def main():
     print((time.time() - start_time)/60, " min")
 
     #plt.savefig("fields.png",transparent=True)
-    fig1.show()
-    fig2.show()
-    fig3.show()
-    input()
+    fig1.savefig("M0-fields.png",dpi=600,transparent=True)
+    
+    #fig1.show()
+    #fig2.show()
+    #fig3.show()
+    #input()
 
 main()
