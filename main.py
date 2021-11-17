@@ -26,7 +26,9 @@ import h5py as h5
 import importlib
 import pdb
 import time
+import pickle
 import multiprocessing as mp
+from DebugObjectModule import DebugObject
 
 # Include file imports
 import eProbe
@@ -36,6 +38,7 @@ M_E = 9.109e-31                      # Electron rest mass in kg
 EC = 1.60217662e-19                  # Electron charge in C
 EP_0 = 8.854187817e-12               # Vacuum permittivity in C/(V m)
 C = 299892458                        # Speed of light in vacuum in m/s
+
 
 if __name__ == '__main__':
     # Start of main()
@@ -61,6 +64,7 @@ if __name__ == '__main__':
         iter = init.iterations
         mode = init.mode
         fname = init.fname
+        debugmode = init.debugmode
         x_c = init.x_c
         y_c = init.y_c
         xi_c = init.xi_c
@@ -109,7 +113,7 @@ if __name__ == '__main__':
         noObj = len(x_0) # Number of electrons/particles to track
         print("Number of objects:",noObj)
 
-        x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = zip(*pool.starmap(eProbe.getTrajectory, [(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode, sim_name) for i in range(0,noObj)]))
+        x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, Debug = zip(*pool.starmap(eProbe.getTrajectory, [(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode, sim_name, debugmode, x_s) for i in range(0,noObj)]))
 
         pool.close()
 
@@ -119,6 +123,10 @@ if __name__ == '__main__':
         print("Duration: ", (time.time() - start_time)/60, " min")
 
         np.savez(fname, x_init=x_0, y_init=y_0, xi_init=xi_0, z_init=z_0, x_dat=x_f, y_dat=y_f, xi_dat=xi_f, z_dat=z_f, px_dat=px_f, py_dat=py_f, pz_dat=pz_f, t_dat=t0)
+        filehandler = open(fname[:-4]+"-DEBUG.obj", 'wb')
+        pickle.dump(Debug,filehandler)
+
+
 
     else:
         print("Improper number of arguments. Expected 'python3 main.py <fname>'")
