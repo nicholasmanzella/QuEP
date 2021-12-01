@@ -6,8 +6,6 @@ import sys
 import time
 import importlib
 import numpy as np
-import include.plot2DTracks as plot2D
-import include.plot3DTracks as plot3D
 import include.showQuickEvolution as showEvol_Q
 import include.showFullEvolution as showEvol_F
 import include.makeFullAnimation as makeFullAni
@@ -15,9 +13,15 @@ import include.viewProbe as viewProbe
 import include.writeFullEvolData as writeHist
 import include.weighting_masks_function as weightmaskFunc
 import include.plotWeights as plotWeights
+import include.findFocalY as findFocalY
+import include.plot2DTracks as plot2D
+import include.plot3DTracks as plot3D
+import include.findWaist as findWaist
 import multiprocessing as mp
 import include.movieWriter as movieWriter
 import tqdm
+import pickle
+from DebugObjectModule import DebugObject
 from random import randint
 
 
@@ -25,8 +29,8 @@ from random import randint
 # Be sure to change .npz file name location from main.py output!
 
 # Weighting Options (Only applicable for showFullEvolution and makeFullAnimation plot):
-useWeights_x = True                 # Use weights in x-direction
-useWeights_y = True                 # Use weights in y-direction
+useWeights_x = False                 # Use weights in x-direction
+useWeights_y = False                 # Use weights in y-direction
 singleLayerBeam = False             # Use beam with thickness xden=1 in x-direction
 
 skipWeightingCalc = False            # Skip weighting calculation and use imported pre-calculated weights
@@ -37,13 +41,19 @@ useMasks_xi = False                 # Use masks in xi-direction (Vertical; done 
 useMasks_y = False                  # Use masks in y-direction (Horizontal; done during weighting)
 
 # Plotting Scripts
-plot2DTracks = False                 # View 2D projections of trajectories
-showQuickEvolution = True           # View evolution of probe after leaving plasma at inputted x_s in scatter plots # Use for low density probes
+showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots # Use for low density probes
 showFullEvolution = False             # View full evolution of probe at hardcoded locations in colored histograms # Use for high density probes
-makeFullAnimation = True
+makeFullAnimation = False
 writeHistData = False
 plotWeightsy = False                  # Plot w_x vs xi (DONT USE)
 plotWeightsx = False                  # Plot w_y vs y (DONT USE)
+
+# DEBUG PLOTTING
+plot2DTracks = True                 # View 2D projections of trajectories (SET ALL OTHERS TO FALSE & ONLY USE FOR SINGLE PARTICLE)
+findFocal = False
+plot3DTracks = False
+findW = False
+
 # Set all others equal False if want animation saved (dependency issue)
 #saveMovie = False                   # Save gif of probe evolution
 #if (saveMovie):
@@ -76,6 +86,7 @@ if __name__ == '__main__':
         iter = init.iterations
         mode = init.mode
         fname = init.fname
+        debugmode = init.debugmode
         x_c = init.x_c
         y_c = init.y_c
         xi_c = init.xi_c
@@ -110,6 +121,24 @@ if __name__ == '__main__':
         py_f = data['py_dat']
         pz_f = data['pz_dat']
         t0 = data['t_dat']
+
+        if debugmode == True:
+            # Load debug data from .obj file export from main.py
+            file = open("./data/"+fname[:-4]+"-DEBUG.obj", 'rb') 
+            debug = pickle.load(file)[0]
+            file.close
+            print(debug)
+            print(type(debug))
+            print(debug.x_dat)
+            x_dat = debug.x_dat
+            y_dat = debug.y_dat
+            z_dat = debug.z_dat
+            xi_dat = debug.xi_dat
+            Fx_dat = debug.Fx_dat
+            Fy_dat = debug.Fy_dat
+            Fz_dat = debug.Fz_dat
+            px_dat = debug.px_dat
+            py_dat = debug.py_dat
 
         if (singleLayerBeam):
             xden = 1
@@ -147,8 +176,6 @@ if __name__ == '__main__':
 
         # Plot data points
         print("Plotting...")
-        if (plot2DTracks):
-            plot2D.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noObj)
         if (showQuickEvolution):
             showEvol_Q.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noObj, iter) # Note: does not use weights
         if (showFullEvolution):
@@ -187,6 +214,16 @@ if __name__ == '__main__':
         #if (saveMovie):
         #    makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noObj, iter)
 
+        if (findFocal):
+            findFocalY.calculate(x_0, y_0, xi_0, z_0, x_dat, y_dat, z_dat, xi_dat, px_f, py_f, pz_f, sim_name, shape_name, x_s, s1, s2)
+        if (plot2DTracks):
+            print("Plotting 2D Tracks...")
+            plot2D.plot(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat, sim_name, shape_name, s1, s2, noObj)
+        if (plot3DTracks):
+            plot3D.plot(x_dat,y_dat,z_dat,xi_dat,sim_name,shape_name,s1,s2,noObj)
+        if (findW):
+            findWaist.calculate(x_0,y_0,xi_0,z_0,x_dat,y_dat,z_dat,xi_dat,px_f,py_f,pz_f,sim_name,shape_name,x_s,s1,s2)
+
         # End timing index file runtime
         tf = time.localtime()
         curr_time_f = time.strftime("%H:%M:%S", tf)
@@ -195,3 +232,7 @@ if __name__ == '__main__':
     else:
         print("Improper number of arguments. Expected 'python3 index.py <fname> <fname>'")
         exit()
+    
+    pool.close()
+
+    pool.join()

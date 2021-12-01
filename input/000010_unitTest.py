@@ -3,9 +3,10 @@
 
 simulation_name = 'QUASI3D'
 shape = 'single'
-density = 1
-fill = False
 iterations = 100000
+mode = 0
+fname = "000010_unitTest.npz"
+debugmode = True
 
 # Probe centered at the following initial coordinates (in c/w_p):
 x_c = -2.4 # Start within region of field
@@ -21,5 +22,11 @@ pz_0 = 0
 x_s = 500
 
 # Shape Parameters (Radius or Side Length)
-s1 = 0.04# In y
-s2 = 1 # In xi
+s1 = None # In y
+s2 = None # In xi
+
+# Densities
+ydensity = 1
+xidensity = 1
+xdensity = 1 # Probe width - single layer
+resolution = None

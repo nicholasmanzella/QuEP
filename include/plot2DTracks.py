@@ -100,4 +100,3 @@ def plot(x_dat,y_dat,z_dat,xi_dat,Fx_dat,Fy_dat,Fz_dat,px_dat,py_dat,sim_name,sh
     #fig1.show()
     fig2.tight_layout()
     fig2.savefig("eProbe-Trajectories.png",transparent=False)
-    input()
