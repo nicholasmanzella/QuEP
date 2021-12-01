@@ -14,6 +14,9 @@ def getFieldArrays():
     xiiter = len(xiaxis_1)
     riter = len(raxis_1)
 
+    print(f"Number of xiiter = {xiiter}")
+    print(f"Number of riter = {riter}")
+    
     Ex = np.zeros((riter,xiiter),dtype=float)
     Ey = np.zeros((riter,xiiter),dtype=float)
     Ez = np.zeros((riter,xiiter),dtype=float)

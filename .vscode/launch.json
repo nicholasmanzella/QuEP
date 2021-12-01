@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
             "name": "Python: main.py File",
             "type": "python",
             "request": "launch",
@@ -21,7 +28,8 @@
             "program": "${workspaceFolder}/index.py",
             "console": "integratedTerminal",
             "args": [
-                "input.36-50__xwid-1__0-002__01", "input.weights__x_0-1__y_0-01"
+                "input.36-50__xwid-1__0-002__01",
+                "input.weights__x_0-1__y_0-01"
             ]
         },
         {
@@ -42,7 +50,8 @@
             "program": "${workspaceFolder}/eProbe-FullTrack.py",
             "console": "integratedTerminal",
             "args": [
-                "input.000010_unitTest"
+                "input.36-50__xwid-1__0-002__01",
+                "input.weights__x_0-1__y_0-01"
             ]
         }
     ]
