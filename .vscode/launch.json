@@ -18,7 +18,7 @@
             "program": "${workspaceFolder}/main.py",
             "console": "integratedTerminal",
             "args": [
-                "input.test-08"
+                "input.000010_unitTest"
             ]
         },
         {
@@ -37,6 +37,17 @@
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/index-mp.py",
+            "console": "integratedTerminal",
+            "args": [
+                "input.000010_unitTest",
+                "input.weights__x_0-1__y_0-01"
+            ]
+        },
+        {
+            "name": "Python: eProbe-FullTrack.py File",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/eProbe-FullTrack.py",
             "console": "integratedTerminal",
             "args": [
                 "input.36-50__xwid-1__0-002__01",
