@@ -29,8 +29,8 @@ from random import randint
 # Be sure to change .npz file name location from main.py output!
 
 # Weighting Options (Only applicable for showFullEvolution and makeFullAnimation plot):
-useWeights_x = True                 # Use weights in x-direction
-useWeights_y = True                 # Use weights in y-direction
+useWeights_x = False                 # Use weights in x-direction
+useWeights_y = False                 # Use weights in y-direction
 singleLayerBeam = False             # Use beam with thickness xden=1 in x-direction
 
 skipWeightingCalc = False            # Skip weighting calculation and use imported pre-calculated weights

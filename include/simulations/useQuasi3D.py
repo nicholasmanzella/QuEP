@@ -55,7 +55,7 @@ def getPlasDensity():
 
 def getPropagationSpeed(): 
     if (Quasi_ID == '000130'):
-        return 0.50 #THIS IS INCORRECT, JUST FOR TESTING
+        return 1.0 #THIS IS INCORRECT, JUST FOR TESTING
     elif (Quasi_ID == '000067'):
         return 0.9958959
     else:
