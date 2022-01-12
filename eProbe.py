@@ -106,7 +106,7 @@ def Momentum(x,y,xi,dt,px,py,pz,mode,sim_name):
     gam = Gamma(p)
     return px, py, pz, p, gam, Fx, Fy, Fz
 
-def getFullTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,x_s,sim_name):
+#def getFullTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,x_s,sim_name):
     # Returns array of x, y, z, xi
     if (sim_name.upper() == 'OSIRIS_CYLINSYMM'):
         import include.simulations.useOsiCylin as sim
@@ -331,7 +331,7 @@ def getTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,mode,sim_name,
                     yn += vyn * dt
                     zn += vzn * dt
                     t += dt
-                    xin = zn - t
+                    xin = zn - t*propspeed
                     x_dat.append(xn)
                     y_dat.append(yn)
                     z_dat.append(zn)
@@ -385,7 +385,7 @@ def getTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,mode,sim_name,
                     yn += vyn * dt
                     zn += vzn * dt
                     t += dt
-                    xin = zn - t
+                    xin = zn - t*propspeed
                     x_dat.append(xn)
                     y_dat.append(yn)
                     z_dat.append(zn)
@@ -425,4 +425,6 @@ def getTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,mode,sim_name,
                 #return xn, yn, xin, zn, px, py, pz, Debug
 
     print("Tracking quit due to more than ", iter, " iterations in plasma")
+    x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat = getArrayForm(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat, iter)
+    Debug = DebugObject(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat)
     return xn, yn, xin, zn, px, py, pz, Debug
