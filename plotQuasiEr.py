@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.colors as col
 import matplotlib.pyplot as plt
-plt.rcParams.update({'font.size': 20})
+plt.rcParams.update({'font.size': 15})
 import matplotlib as mpl
 import matplotlib.cm as cm
 import matplotlib.ticker as ticker
@@ -9,6 +9,7 @@ import pdb
 import time
 import progressbar
 import include.simulations.useQuasi3D as sim
+
 
 def getFieldArrays():
 
@@ -36,13 +37,19 @@ def main():
     t0 = sim.getTime()
 
     xiaxis, raxis, Er_full, Er_m0, Er_m1 = getFieldArrays()
+
+    # Save data for future plotting
+    fname = "Er-plot-data.npz"
+    np.savez(fname,xiaxis, raxis, Er_full, Er_m0, Er_m1)
+    print(f"Data for plot saved to {fname}")
+
     zaxis = [xi + t0 for xi in xiaxis]
 
     fig1, ax1 = plt.subplots(figsize=(10,8))
     fig2, ax2 = plt.subplots(figsize=(10,8))
     fig3, ax3 = plt.subplots(figsize=(10,8))
 
-    fig1.subplots_adjust(left=0.05, bottom=0.1, right=0.8, top=0.9)
+    fig1.subplots_adjust(left=0.1, bottom=0.1, right=0.8, top=0.9)
     fig2.subplots_adjust(left=0.05, bottom=0.1, right=0.8, top=0.9)
     fig3.subplots_adjust(left=0.05, bottom=0.1, right=0.8, top=0.9)
 
@@ -53,7 +60,7 @@ def main():
     Er_m0 = ax1.pcolormesh(zaxis, raxis, Er_m0, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
     Er_m1 = ax2.pcolormesh(zaxis, raxis, Er_m1, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-1000,vmax=1000),cmap="RdBu_r")
     Er_full = ax3.pcolormesh(zaxis, raxis, Er_full, norm=col.SymLogNorm(linthresh=0.03,linscale=0.03,vmin=-50,vmax=50),cmap="RdBu_r")
-    ax1.set_ylim(0,1.6)
+    ax1.set_ylim(0,7)
     ax2.set_ylim(0,1.6)
     ax3.set_ylim(0,1.6)
 
