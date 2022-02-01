@@ -98,11 +98,11 @@ def getBoundCond(): # ***
     datasetNames = [n for n in f.keys()] # Three Datasets: AXIS, SIMULATION, Field data
     field = datasetNames[-1]
     Field_dat = f[field][:].astype(float)
-    a1_bounds = f['AXIS']['AXIS1'] # ximin and ximax
+    a1_bounds = f['AXIS']['AXIS1'] # zmin and zmax
     a2_bounds = f['AXIS']['AXIS2'] # rmin and rmax - dr/2
     dr = 6.59e-3
-    t0 = getTime()
-    return [a1_bounds[0] - t0, a1_bounds[1] - t0, a2_bounds[1] + dr/2] # zmin, zmax, rmax
+    t0 = getTime() # Call getTime func to get sim time
+    return [a1_bounds[0] - t0, a1_bounds[1] - t0, a2_bounds[1] + dr/2] # ximin, ximax, rmax
 
 # Return cylindrical Electric field components
 # E1 - z
