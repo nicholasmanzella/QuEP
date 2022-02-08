@@ -157,10 +157,10 @@ def getTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,mode,sim_name,
     pz = pz_0
 
     ### DEBUGGING ###
-    Debug = None # Create empty Debug object
+    Debug = None # Create empty Debug object variable
     if debugmode == True: 
         print("Using Debug Mode...")
-        x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = [],[],[],[],[],[],[] # Final positions of electrons
+        x_f, y_f, xi_f, z_f, px_f, py_f, pz_f = [],[],[],[],[],[],[] # Final positions-momenta of particle
         x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat = [],[],[],[],[],[],[],[],[]
     #################
 
@@ -173,6 +173,7 @@ def getTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,mode,sim_name,
         vyn = Velocity(py, p)
         vzn = Velocity(pz, p)
 
+        # Log data in arrays if in debug mode
         if debugmode == True:
             x_dat.append(xn)
             y_dat.append(yn)
@@ -190,62 +191,21 @@ def getTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,mode,sim_name,
         rn = math.sqrt(xn**2 + yn**2)
 
         t += dt
-        xin = zn - t*propspeed # PLACE TO ADD MULTIPLIER TO t for group velocity
+        xin = zn - t*propspeed
         
-        # If electron leaves cell, quit tracking
+        # If electron leaves sim boundaries, quit tracking
         if (xin < plasma_bnds[0] or xin > plasma_bnds[1] or rn > plasma_bnds[2]):
+            print("Tracking quit due to particle leaving cell")
             if debugmode == True:
-                j = i + 1
-                j0 = j
-                dt = 1
-                # Balltistic trajectory for rest of iter or until hits screen
-                for j in range(j, iter):
-                    xn += vxn * dt
-                    yn += vyn * dt
-                    zn += vzn * dt
-                    t += dt
-                    xin = zn - t*propspeed
-                    x_dat.append(xn)
-                    y_dat.append(yn)
-                    z_dat.append(zn)
-                    xi_dat.append(xin)
-                    Fx_dat.append(Fx)
-                    Fy_dat.append(Fy)
-                    Fz_dat.append(Fz)
-                    px_dat.append(px)
-                    py_dat.append(py)
-
-                    # Stop when electron passes screen
-                    if (abs(xn) > abs(x_s)):
-                        k = j + 1
-                        # Fill rest of array with the final position
-                        for k in range(k, iter):
-                            x_dat.append(xn)
-                            y_dat.append(yn)
-                            z_dat.append(zn)
-                            xi_dat.append(xin)
-                            Fx_dat.append(Fx)
-                            Fy_dat.append(Fy)
-                            Fz_dat.append(Fz)
-                            px_dat.append(px)
-                            py_dat.append(py)
-                        x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat = getArrayForm(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat, iter)
-                        Debug = DebugObject(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat)
-                        print("Debug object created...")
-                        return xn, yn, xin, zn, px, py, pz, Debug
-                
-                print("Tracking quit due to more than ", iter - j0, " iterations outside plasma")
-                #print("xn = ", xn, " yn = ", yn, " zn = ", zn)
-                x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat = getArrayForm(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat, iter)
+                x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat = getArrayForm(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat, i+1)
                 Debug = DebugObject(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat)
                 print("Debug object created...")
-                
             return xn, yn, xin, zn, px, py, pz, Debug
 
     print("Tracking quit due to more than ", iter, " iterations in plasma")
     
     if debugmode == True:
-        x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat = getArrayForm(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat, iter)
+        x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat = getArrayForm(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat, i+1)
         Debug = DebugObject(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat)
         print("Debug object created...")
 
