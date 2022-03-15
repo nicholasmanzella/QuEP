@@ -13,13 +13,13 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
     xidensity_ = xidensity + xdensity - 1  # Allows enough particles in xi direction for x layering
     xistep = 2*s2/xidensity # Can also use resolution here
     ystep = 2*s1/ydensity
-    xstep = xistep          # Purposefully setting xstep as equal to xistep for projection of x onto xi, unused here
+    xstep = xistep          # Purposefully setting xstep as equal to xistep for projection of x onto xi
 
 # Calculate s3 
     s3 = xstep*(xdensity-1)/2.0
     print(f"s3 = {s3}\n")
     
-# Define corners (front is first to enter field)
+# Define corners (xfront is first to enter field)
     ytop = y_c + s1
     ybot = y_c - s1
     xileft = xi_c - s2
@@ -35,9 +35,9 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
     
     print("Creating weighting arrays...")
 # Create individual coordinate arrays    
-    x_0 = np.linspace(xfront,xback,xdensity)
-    y_0 = np.linspace(ytop,ybot,ydensity)
-    xi_0 = np.linspace(xiright,xileft,xidensity)
+    x_0 = np.linspace(xfront,xback,xdensity)      # List of all possible inital x  positions of all particles going through simulation
+    y_0 = np.linspace(ytop,ybot,ydensity)         # List of all possible inital y  positions of all particles going through simulation
+    xi_0 = np.linspace(xiright,xileft,xidensity)  # List of all possible inital xi positions of all particles going through simulation
 
 # Special single layer case
     #if (xdensity == 1):
@@ -47,15 +47,15 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
 
 # Create empty weighting list
     w=[]
-    w = [0 for k in range(0,noObj)]
-    yv = y_0.reshape(1,ydensity,1)
+    w = [0 for k in range(0,noObj)] # Creates weighting array of length noObj, with default value 0
+    yv = y_0.reshape(1,ydensity,1) # Reshapes y0 1D line into a 3D line
     w_y = np.exp((-1.*(yv-beamy_c)**2)/(2*sigma_y**2)) # Calculate weights for each y slice
 
-# Loop through x layers to calculate weights with masks and add to 2D projection
+# Loop through x layers to calculate weights with masks and add to 2D Y-Xi projection
     for i in progressbar.progressbar(range(0,len(x_0)), redirect_stout=False):
         start_time_weightcalc = time.time()
         # Create 3d virtual coordinate array for x-slice
-        xv, yv, xiv = np.meshgrid(x_0[i], y_0, xi_0,indexing='ij',sparse=True)
+        xv, yv, xiv = np.meshgrid(x_0[i], y_0, xi_0,indexing='ij',sparse=True) # Takes possible coordinates in each direction to make 3 3D arrays, containing location in each direction
         
         # Create 3d virtual weight arrays containing weight of each particle in x-slice
         w_x = np.exp((-1.*(x_0[i]-beamx_c)**2)/(2*sigma_x**2))
@@ -68,9 +68,9 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
         elif (useWeights_y):
             w_virt = w_y
         else:
-           w_y_noweight = np.copy.deepcopy(w_y)
-           w_y_noweight.fill(1.0)
-           w_virt = np.copy(w_y_noweight)
+            w_y_noweight = np.copy.deepcopy(w_y)
+            w_y_noweight.fill(1.0)
+            w_virt = np.copy(w_y_noweight)
         print(f"Shape 1: {np.shape(w_virt)}")
         
         # MASKING
@@ -97,10 +97,11 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
             w_virt = np.where(xiv == None, 0, w_virt)
             for h in range(0,len(top_of_masks)):
                 w_virt = np.where(np.logical_and(yv > bot_of_masks[h], yv < top_of_masks[h]), 0, w_virt)
-        # END OF MASKING    
+        # END OF MASKING
+            
         print(f"Shape: 2 {np.shape(w_virt)}")
         # Create final weighting list w to return
-        # Maps 3d virtual particles in x-layer onto 2d projection appropriate location
+        # Maps 3d virtual particles in x-layer onto 2d Y-Xi projection appropriate location
         start_time_proj = time.time()
         for j in range(0,ydensity):
             for k in range(0,xidensity):
@@ -112,7 +113,7 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
         xiv = None
         w_x = None
         w_virt = None
-        #w_x_noweight = None
+        w_y_noweight = None
 
     
     return w, w_virt, xv, yv, xiv
