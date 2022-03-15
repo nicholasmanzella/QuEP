@@ -34,7 +34,7 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
     zn = xiright + t0
     
     print("Creating weighting arrays...")
-# Create individual coordiante arrays    
+# Create individual coordinate arrays    
     x_0 = np.linspace(xfront,xback,xdensity)
     y_0 = np.linspace(ytop,ybot,ydensity)
     xi_0 = np.linspace(xiright,xileft,xidensity)
@@ -50,7 +50,6 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
     w = [0 for k in range(0,noObj)]
     yv = y_0.reshape(1,ydensity,1)
     w_y = np.exp((-1.*(yv-beamy_c)**2)/(2*sigma_y**2)) # Calculate weights for each y slice
-    w_y.fill(1.0)
 
 # Loop through x layers to calculate weights with masks and add to 2D projection
     for i in progressbar.progressbar(range(0,len(x_0)), redirect_stout=False):
@@ -60,8 +59,6 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
         
         # Create 3d virtual weight arrays containing weight of each particle in x-slice
         w_x = np.exp((-1.*(x_0[i]-beamx_c)**2)/(2*sigma_x**2))
-        w_x.fill(1.0)
-
 
         # Weighting options evaluator
         if (useWeights_x) and (useWeights_y):
@@ -70,10 +67,10 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
             w_virt = w_x
         elif (useWeights_y):
             w_virt = w_y
-        #else:
-         #   w_y_noweight = np.copy(w_y)
-         #   w_y_noweight.fill(1.0)
-         #   w_virt = np.copy(w_y_noweight)
+        else:
+           w_y_noweight = np.copy.deepcopy(w_y)
+           w_y_noweight.fill(1.0)
+           w_virt = np.copy(w_y_noweight)
         print(f"Shape 1: {np.shape(w_virt)}")
         
         # MASKING
@@ -81,16 +78,11 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
             w_virt = np.where(xiv == None, 0, w_virt) # Why is this needed?
         
         if (useMasks_xi):
-            # Define masks in z direction, leftmost z-coordinate = 0. Change if different mask is desired
-            left_of_masks = np.arange(xileft-0.001, xiright-0.001, 6*xistep)  # left most limit of each mask in order
+            # Define masks in xi direction. Change if different mask is desired
+            left_of_masks = []  # left most limit of each mask in order, on inital xi position
             left_of_masks = left_of_masks.tolist()
-            right_of_masks = np.arange(xileft+5*xistep-0.001, xiright+xistep-0.001, 6*xistep)  # right most limit of each mask in order
+            right_of_masks = []  # right most limit of each mask in order, on initial xi position
             right_of_masks = right_of_masks.tolist()
-
-            # Conversion of z-coord to xi-coord
-            #for m in range(0,len(left_of_masks)):
-            #    left_of_masks[m] = left_of_masks[m] - zn
-            #   right_of_masks[m] = right_of_masks[m] - zn
 
             # Apply masks to w_virt
             for g in range(0,len(left_of_masks)):

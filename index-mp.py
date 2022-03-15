@@ -43,13 +43,13 @@ useMasks_y = False                  # Use masks in y-direction (Horizontal; done
 # Plotting Scripts
 showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots # Use for low density probes
 showFullEvolution = False             # View full evolution of probe at hardcoded locations in colored histograms # Use for high density probes
-makeFullAnimation = False
+makeFullAnimation = True
 writeHistData = False
 plotWeightsy = False                  # Plot w_x vs xi (DONT USE)
 plotWeightsx = False                  # Plot w_y vs y (DONT USE)
 
 # DEBUG PLOTTING
-plot2DTracks = True                 # View 2D projections of trajectories (SET ALL OTHERS TO FALSE & ONLY USE FOR SINGLE PARTICLE)
+plot2DTracks = False                 # View 2D projections of trajectories (SET ALL OTHERS TO FALSE & ONLY USE FOR SINGLE PARTICLE)
 findFocal = False
 plot3DTracks = False
 findW = False
@@ -62,7 +62,7 @@ findW = False
 if __name__ == '__main__':
     # Start of main()
     # Initialize multiprocessing.Pool()
-    numberOfCores = 4#8# mp.cpu_count()
+    numberOfCores = 8# mp.cpu_count()
     print(f"Number of cores used for multiprocessing: {numberOfCores}")
     pool = mp.get_context('spawn').Pool(numberOfCores)
     if (len(sys.argv) >= 2):
@@ -165,8 +165,7 @@ if __name__ == '__main__':
             curr_time_w = time.strftime("%H:%M:%S", t_w)
             print("\nWeighting calculations - START TIME: ", curr_time_w)
 
-            if (useWeights_x) or (useWeights_y):
-                w, w_virt, xv, yv, xiv = weightmaskFunc.getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noObj,t0,useWeights_x,useWeights_y,useMasks_xi,useMasks_y)    
+            w, w_virt, xv, yv, xiv = weightmaskFunc.getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noObj,t0,useWeights_x,useWeights_y,useMasks_xi,useMasks_y)    
             
             t_w_end = time.localtime()
             curr_time_w_end = time.strftime("%H:%M:%S", t_w_end)

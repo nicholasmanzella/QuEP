@@ -195,8 +195,8 @@ def getTrajectory(x_0,y_0,xi_0,px_0,py_0,pz_0,t0,iter,plasma_bnds,mode,sim_name,
         
         # If electron leaves sim boundaries, quit tracking
         if (xin < plasma_bnds[0] or xin > plasma_bnds[1] or rn > plasma_bnds[2]):
-            print("Tracking quit due to particle leaving cell")
             if debugmode == True:
+                print("Tracking quit due to particle leaving cell")
                 x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat = getArrayForm(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat, i+1)
                 Debug = DebugObject(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat)
                 print("Debug object created...")

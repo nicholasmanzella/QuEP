@@ -58,7 +58,7 @@ def plot(x_dat,y_dat,z_dat,xi_dat,Fx_dat,Fy_dat,Fz_dat,px_dat,py_dat,sim_name,sh
     for i in range(0, noElec):
         #y_dat[i,:] = [y/0.65 for y in y_dat[i,:]]
         ax2.plot(x_dat[i,:], y_dat[i,:], 'k', label='Y-X Electron Trajectory') # Want vertical axis as y
-        ax2.set_xlim(-3,3)
+        ax2.set_xlim(-10,10)
     ax2.set_xlabel("X ($c/\omega_p$)")
     ax2.set_ylabel("Y/$R_b$ ($c/\omega_p$)")
     ax2.set_title("Electron Trajectory through Blowout Regime")
@@ -94,6 +94,7 @@ def plot(x_dat,y_dat,z_dat,xi_dat,Fx_dat,Fy_dat,Fz_dat,px_dat,py_dat,sim_name,sh
         py_ax.tick_params(axis='y', colors='C2', **tkw)
         ax2.tick_params(axis='x', **tkw)
 
+        ax2.grid()
         fig2.legend(bbox_to_anchor=(0.3, 0.8), bbox_transform=plt.gcf().transFigure)
 
     fig1.tight_layout()

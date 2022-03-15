@@ -19,6 +19,7 @@
 #   y   - Direction perpendicular to transverse probe
 
 # Python Imports
+from copy import deepcopy
 import sys
 import math
 import numpy as np
@@ -115,8 +116,10 @@ if __name__ == '__main__':
 
         if debugmode == True:
             assert shape_name == 'single', "Debug mode can only be used with shape 'single'"
+  
         x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, Debug = zip(*pool.starmap(eProbe.getTrajectory, [(x_0[i], y_0[i], xi_0[i], px_0, py_0, pz_0, t0, iter, plasma_bnds, mode, sim_name, debugmode, x_s) for i in range(0,noObj)]))
 
+        
         pool.close()
 
         tf = time.localtime()

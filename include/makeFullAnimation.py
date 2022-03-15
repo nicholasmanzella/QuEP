@@ -94,27 +94,27 @@ def prepare(sim_name,shape_name,noObj,rand):
     
     # Choose boundaries of screens in mm
     xstart_mm = 0
-    xend_mm = 110
-    xstep_mm = 50
+    xend_mm = 150
+    xstep_mm = 20
 
     #binsizez = 6500//4#6000#833#2833#4167#1000#2666#1333
     #binsizey = 1000//4#400#2000#160#666#200
     
     # For Quasi_ID = 000130, use (36,50)
     # For Quasi_ID = 000067, use (24,37)
-    zmin = 28 #36  #25#27#400
-    zmax = 38 #50  #500
+    zmin = 15 #36  #25#27#400
+    zmax = 35 #50  #500
     
-    ymin = -1.0
-    ymax = 1.0
+    ymin = -6
+    ymax = 6
 
-    bin_resolution = 0.02 #c/w_p
+    bin_resolution = 0.1 #0.02 #c/w_p
     bin_edges_z = np.arange(zmin, zmax, bin_resolution)
     bin_edges_y = np.arange(ymin, ymax, bin_resolution)
     
     cmin = 1       # Minimum density displayed
     vmin_ = cmin    # Minimum color value
-    vmax_ = 500    # Maximum color value
+    vmax_ = 100    # Maximum color value
 
     fps = 2 # frames per second for movie
 
