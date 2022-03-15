@@ -31,7 +31,6 @@ from random import randint
 # Weighting Options (Only applicable for showFullEvolution and makeFullAnimation plot):
 useWeights_x = False                 # Use weights in x-direction
 useWeights_y = False                 # Use weights in y-direction
-singleLayerBeam = False             # Use beam with thickness xden=1 in x-direction
 
 skipWeightingCalc = False            # Skip weighting calculation and use imported pre-calculated weights
 saveWeights = False                 # Save weights to .npz file (Remember to move to ./data directory!)
@@ -143,12 +142,9 @@ if __name__ == '__main__':
             px_dat = debug.px_dat
             py_dat = debug.py_dat
 
-        if (singleLayerBeam):
-            xden = 1
-            print("Using single-layer beam")
+        noObj = len(x_0) # Number of particles in the simulation (2D Projection)
 
-        noObj = len(x_0) # Number of particles in the simulation
-
+        # WEIGHTING IMPORTS/SAVING
         rand = "{:02d}".format(randint(0,99))
         weights_fname = fname[:-4] + "-weights-" + rand
         if (skipWeightingCalc):
@@ -158,13 +154,15 @@ if __name__ == '__main__':
         else:
             # Create weighting array with appropriate masks
             w = []
-            w = [1 for k in range(0,noObj)]
+            w = [1 for k in range(0,noObj)] #Creates default array of weights with length noObj, each with value 1
             
             start_time_w = time.time()
             t_w = time.localtime()
             curr_time_w = time.strftime("%H:%M:%S", t_w)
             print("\nWeighting calculations - START TIME: ", curr_time_w)
 
+            # Call weighting function getWeights 
+            # Note: w_virt, xv, yv, xiv, only used for debugging purposes
             w, w_virt, xv, yv, xiv = weightmaskFunc.getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noObj,t0,useWeights_x,useWeights_y,useMasks_xi,useMasks_y)    
             
             t_w_end = time.localtime()
@@ -174,14 +172,16 @@ if __name__ == '__main__':
 
             if (saveWeights):
                 np.savez(weights_fname, w=w)
-                print(f"\nWeights saved to {weights_fname + '.npz'}\n")
+                print(f"\nWeights saved to {weights_fname + '.npz'}\n") #Saves weights for reuse
 
         # Plot data points
         print("Plotting...")
         if (showQuickEvolution):
             showEvol_Q.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, x_s, noObj, iter) # Note: does not use weights
+        
         if (showFullEvolution):
             showEvol_F.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, w, sim_name, shape_name, noObj, iter)
+        
         if (makeFullAnimation):
             #Prepare plotting variables
             plasma_bnds, slices, xs_norm, yslice, zslice, bin_edges_z, bin_edges_y, cmap, cmin, vmin_, vmax_, zmin, zmax, ymin, ymax, fps, new_path, screen_dists = makeFullAni.prepare(sim_name, shape_name, noObj, rand)
@@ -208,8 +208,10 @@ if __name__ == '__main__':
             
         if (writeHistData):
             writeHist.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noObj, iter)
+        
         if (plotWeightsy):
             plotWeights.ploty(w_virt,xv,yv,beamx_c,beamy_c,sigma_x,sigma_y)
+        
         if (plotWeightsx):
             plotWeights.plotx(w_virt,xv,yv,beamx_c,beamy_c,sigma_x,sigma_y)
         
@@ -218,11 +220,14 @@ if __name__ == '__main__':
 
         if (findFocal):
             findFocalY.calculate(x_0, y_0, xi_0, z_0, x_dat, y_dat, z_dat, xi_dat, px_f, py_f, pz_f, sim_name, shape_name, x_s, s1, s2)
+        
         if (plot2DTracks):
             print("Plotting 2D Tracks...")
             plot2D.plot(x_dat, y_dat, z_dat, xi_dat, Fx_dat, Fy_dat, Fz_dat, px_dat, py_dat, sim_name, shape_name, s1, s2, noObj, fname)
+        
         if (plot3DTracks):
             plot3D.plot(x_dat,y_dat,z_dat,xi_dat,sim_name,shape_name,s1,s2,noObj)
+        
         if (findW):
             findWaist.calculate(x_0,y_0,xi_0,z_0,x_dat,y_dat,z_dat,xi_dat,px_f,py_f,pz_f,sim_name,shape_name,x_s,s1,s2)
 
