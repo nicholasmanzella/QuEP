@@ -30,7 +30,7 @@ from random import randint
 
 # Weighting Options (Only applicable for showFullEvolution and makeFullAnimation plot):
 useWeights_x = False                 # Use weights in x-direction
-useWeights_y = False                 # Use weights in y-direction
+useWeights_y = True                 # Use weights in y-direction
 
 skipWeightingCalc = False            # Skip weighting calculation and use imported pre-calculated weights
 saveWeights = False                 # Save weights to .npz file (Remember to move to ./data directory!)
@@ -42,10 +42,10 @@ useMasks_y = False                  # Use masks in y-direction (Horizontal; done
 # Plotting Scripts
 showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots # Use for low density probes
 showFullEvolution = False             # View full evolution of probe at hardcoded locations in colored histograms # Use for high density probes
-makeFullAnimation = True
+makeFullAnimation = False
 writeHistData = False
-plotWeightsy = False                  # Plot w_x vs xi (DONT USE)
-plotWeightsx = False                  # Plot w_y vs y (DONT USE)
+plotWeightsy = True                  # Plot w vs y
+plotWeightsx = False                  # Plot w vs xi
 
 # DEBUG PLOTTING
 plot2DTracks = False                 # View 2D projections of trajectories (SET ALL OTHERS TO FALSE & ONLY USE FOR SINGLE PARTICLE)
@@ -61,7 +61,7 @@ findW = False
 if __name__ == '__main__':
     # Start of main()
     # Initialize multiprocessing.Pool()
-    numberOfCores = 8# mp.cpu_count()
+    numberOfCores = mp.cpu_count() #8
     print(f"Number of cores used for multiprocessing: {numberOfCores}")
     pool = mp.get_context('spawn').Pool(numberOfCores)
     if (len(sys.argv) >= 2):
@@ -210,10 +210,10 @@ if __name__ == '__main__':
             writeHist.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noObj, iter)
         
         if (plotWeightsy):
-            plotWeights.ploty(w_virt,xv,yv,beamx_c,beamy_c,sigma_x,sigma_y)
+            plotWeights.ploty(w, x_0, y_0, xi_0, z_0, s1, w_virt,xv,yv,beamx_c,beamy_c,sigma_x,sigma_y)
         
         if (plotWeightsx):
-            plotWeights.plotx(w_virt,xv,yv,beamx_c,beamy_c,sigma_x,sigma_y)
+            plotWeights.plotx(w, x_0, y_0, xi_0, z_0, s2, w_virt,xv,yv,beamx_c,beamy_c,sigma_x,sigma_y)
         
         #if (saveMovie):
         #    makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noObj, iter)

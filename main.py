@@ -135,8 +135,6 @@ if __name__ == '__main__':
             pickle.dump(Debug,filehandler)
             print(f"Debug object saved to {debugname}")
 
-
-
     else:
         print("Improper number of arguments. Expected 'python3 main.py <fname>'")
         exit()

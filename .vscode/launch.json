@@ -22,6 +22,16 @@
             ]
         },
         {
+            "name": "Python: main-nowake.py File",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/main-nowake.py",
+            "console": "integratedTerminal",
+            "args": [
+                "input.000043_weighting_test"
+            ]
+        },
+        {
             "name": "Python: index.py File",
             "type": "python",
             "request": "launch",
@@ -39,7 +49,8 @@
             "program": "${workspaceFolder}/index-mp.py",
             "console": "integratedTerminal",
             "args": [
-                "input.000020_unitTest-betatron"
+                "input.000043_weighting_test",
+                "input.000041_weighting_test-w"
             ]
         },
         {

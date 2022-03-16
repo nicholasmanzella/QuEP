@@ -12,8 +12,9 @@ import matplotlib.ticker as ticker
 from mpl_toolkits.mplot3d import Axes3D
 import pdb
 mpl.use('Agg')
+plt.rcParams.update({'font.size': 12 })
 
-def plotx(w_virt,xv,yv,beamx_c,beamy_c,sigma_x,sigma_y):
+def plotxv(w, x_0, y_0, xi_0, z_0, w_virt,xv,yv,beamx_c,beamy_c,sigma_x,sigma_y):
 # 2D: w_x vs. x
     fig1 = plt.figure()
     ax1 = fig1.add_subplot(111)
@@ -51,7 +52,53 @@ def plotx(w_virt,xv,yv,beamx_c,beamy_c,sigma_x,sigma_y):
 
     fig1.savefig('weights_x-direction.png',dpi=600,transparent=False)
 
-def ploty(w_virt,xv,yv,beamx_c,beamy_c,sigma_x,sigma_y):
+def plotx(w, x_0, y_0, xi_0, z_0, s2, w_virt,xv,yv,beamx_c,beamy_c,sigma_x,sigma_y):
+# Plot w (w_x) vs xi
+    ##########################################################################################
+    fig3 = plt.figure()
+    ax3 = fig3.add_subplot(111)
+     
+    ax3.plot(xi_0,w,"o", label="weighting_function",alpha=0.7)
+    
+    #ax3.legend(loc='upper right')
+    ax3.set_xlabel("xi_f ($c/\omega_p$)")
+    ax3.set_ylabel("w_x")
+    ax3.set_title("Weighting viewing xi-direction")
+
+    Deltax = 2*s2
+    summ = 0
+    for w_x in w:
+        summ += w_x*Deltax
+    ax3.text(-23,0.2,f"Sum $w_x$ * $\Delta x$ = {summ:.3f}", fontdict=None, horizontalalignment='center', fontsize=10)
+
+    plt.tight_layout()
+
+    fig3.savefig('weights_x-xi-direction.png',dpi=600,transparent=False)
+
+def ploty(w, x_0, y_0, xi_0, z_0, s1, w_virt,xv,yv,beamx_c,beamy_c,sigma_x,sigma_y):
+# Plot w (w_x) vs xi
+    ##########################################################################################
+    fig4 = plt.figure()
+    ax4 = fig4.add_subplot(111)
+     
+    ax4.plot(y_0,w,"o", label="weighting_function",alpha=0.7)
+    
+    #ax3.legend(loc='upper right')
+    ax4.set_xlabel("y_0 ($c/\omega_p$)")
+    ax4.set_ylabel("w_y")
+    ax4.set_title("Weighting viewing y-direction")
+
+    Deltay = 2*s1/len(w)
+    summ = 0
+    for w_y in w:
+        summ += w_y*Deltay
+    ax4.text(0,0.2,f"Sum $w_y$ * $\Delta y$ = {summ:.3f}", fontdict=None, horizontalalignment='center', fontsize=10)
+
+    plt.tight_layout()
+
+    fig4.savefig('weights_y-sum-direction.png',dpi=600,transparent=False)
+
+def plotyv(w_virt,xv,yv,beamx_c,beamy_c,sigma_x,sigma_y):
 # 2D: w_y vs. y
     fig2 = plt.figure()
     ax2 = fig2.add_subplot(111)
