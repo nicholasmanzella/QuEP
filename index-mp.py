@@ -29,8 +29,8 @@ from random import randint
 # Be sure to change .npz file name location from main.py output!
 
 # Weighting Options (Only applicable for showFullEvolution and makeFullAnimation plot):
-useWeights_x = False                 # Use weights in x-direction
-useWeights_y = True                 # Use weights in y-direction
+useWeights_x = True                 # Use weights in x-direction
+useWeights_y = False                 # Use weights in y-direction
 
 skipWeightingCalc = False            # Skip weighting calculation and use imported pre-calculated weights
 saveWeights = False                 # Save weights to .npz file (Remember to move to ./data directory!)
@@ -44,8 +44,8 @@ showQuickEvolution = False           # View evolution of probe after leaving pla
 showFullEvolution = False             # View full evolution of probe at hardcoded locations in colored histograms # Use for high density probes
 makeFullAnimation = False
 writeHistData = False
-plotWeightsy = True                  # Plot w vs y
-plotWeightsx = False                  # Plot w vs xi
+plotWeightsx = True                  # Plot w vs xi
+plotWeightsy = False                  # Plot w vs y
 
 # DEBUG PLOTTING
 plot2DTracks = False                 # View 2D projections of trajectories (SET ALL OTHERS TO FALSE & ONLY USE FOR SINGLE PARTICLE)
