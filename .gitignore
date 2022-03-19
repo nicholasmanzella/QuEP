@@ -6,3 +6,6 @@
 *.scr
 *.mp4
 *.jpg
+*.pyc
+*.json
+.vscode/launch.json

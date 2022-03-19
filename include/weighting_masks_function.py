@@ -7,7 +7,7 @@ import time
 
 # Creates weights based on distribution and inputted masks (below)
 
-def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xidensity,resolution,sigma_x,sigma_y,noObj,t0,useWeights_x,useWeights_y,useMasks_xi,useMasks_y):
+def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xidensity,resolution,sigma_x,sigma_y,sigma_xi,noObj,t0,useWeights_x,useWeights_y,useWeights_xi,useMasks_x,useMasks_xi,useMasks_y):
 
 # Recompute necessary parameters (as done in shape file)
     xidensity_ = xidensity + xdensity - 1  # Allows enough particles in xi direction for x layering
@@ -39,81 +39,89 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
     y_0 = np.linspace(ytop,ybot,ydensity)         # List of all possible inital y  positions of all particles going through simulation
     xi_0 = np.linspace(xiright,xileft,xidensity)  # List of all possible inital xi positions of all particles going through simulation
 
-# Special single layer case
-    #if (xdensity == 1):
-    #    x_0 = np.linspace(x_c,x_c,xdensity)
-
-
-
 # Create empty weighting list
-    w=[]
+    w = []
     w = [0 for k in range(0,noObj)] # Creates weighting array of length noObj, with default value 0
-    yv = y_0.reshape(1,ydensity,1) # Reshapes y0 1D line into a 3D line
-    w_y = np.exp((-1.*(yv-beamy_c)**2)/(2*sigma_y**2)) # Calculate weights for each y slice
+    
+# Create y and xi weighting arrays
+    w_y = np.exp((-1.*(y_0-beamy_c)**2)/(2*sigma_y**2)) # Calculate weights for each y slice
+    w_xi = np.exp((-1.*(xi_0-beamy_c)**2)/(2*sigma_xi**2)) # Calculate weights for each xi slice
+
+# MASKING for y and xi -------------------------------------------------
+    w_xi, w_y = yxiMasks(useMasks_xi, useMasks_y, y_0, xi_0, w_xi, w_y)
+#-----------------------------------------------------------------------
 
 # Loop through x layers to calculate weights with masks and add to 2D Y-Xi projection
     for i in progressbar.progressbar(range(0,len(x_0)), redirect_stout=False):
         start_time_weightcalc = time.time()
-        # Create 3d virtual coordinate array for x-slice
-        xv, yv, xiv = np.meshgrid(x_0[i], y_0, xi_0,indexing='ij',sparse=True) # Takes possible coordinates in each direction to make 3 3D arrays, containing location in each direction
-        
-        # Create 3d virtual weight arrays containing weight of each particle in x-slice
-        w_x = np.exp((-1.*(x_0[i]-beamx_c)**2)/(2*sigma_x**2))
 
-        # Weighting options evaluator
+        # Find weight value for this x-slice
+        w_x = np.exp((-1.*(x_0[i]-beamx_c)**2)/(2*sigma_x**2)) # Gives a float
+
+        # Check for x mask
+        w_x = xMasks(useMasks_x,x_0[i],w_x)
+
+        # Weighting options evaluator for x-y
         if (useWeights_x) and (useWeights_y):
-            w_virt = w_x * w_y
+            w_xy = w_y * w_x
         elif (useWeights_x):
-            w_virt = w_x
+            w_xy = np.full(w_y.shape(), 1.0) * w_x 
         elif (useWeights_y):
-            w_virt = w_y
+            w_xy = w_y
         else:
-            w_y_noweight = np.copy.deepcopy(w_y)
-            w_y_noweight.fill(1.0)
-            w_virt = np.copy(w_y_noweight)
-        print(f"Shape 1: {np.shape(w_virt)}")
-        
-        # MASKING
-        if (not (useMasks_y)) and (not (useMasks_xi)):
-            w_virt = np.where(xiv == None, 0, w_virt) # Why is this needed?
-        
-        if (useMasks_xi):
-            # Define masks in xi direction. Change if different mask is desired
-            left_of_masks = []  # left most limit of each mask in order, on inital xi position
-            left_of_masks = left_of_masks.tolist()
-            right_of_masks = []  # right most limit of each mask in order, on initial xi position
-            right_of_masks = right_of_masks.tolist()
+            w_xy = np.full(w_y.shape(), 1.0)
 
-            # Apply masks to w_virt
-            for g in range(0,len(left_of_masks)):
-                w_virt = np.where(np.logical_and(xiv > left_of_masks[g], xiv < right_of_masks[g]), 0, w_virt)
-                
-        if (useMasks_y):
-            # Define masks in y direction, 0 is 0 on the y-axis. Change if different mask is desired
-            top_of_masks = [-0.3,0.8]  #upper limit of each mask in order
-            bot_of_masks = [-0.4,0.5]  #lower limit of each mask in order 
-
-            # Apply masks to w_virt
-            w_virt = np.where(xiv == None, 0, w_virt)
-            for h in range(0,len(top_of_masks)):
-                w_virt = np.where(np.logical_and(yv > bot_of_masks[h], yv < top_of_masks[h]), 0, w_virt)
-        # END OF MASKING
-            
-        print(f"Shape: 2 {np.shape(w_virt)}")
         # Create final weighting list w to return
         # Maps 3d virtual particles in x-layer onto 2d Y-Xi projection appropriate location
-        start_time_proj = time.time()
-        for j in range(0,ydensity):
-            for k in range(0,xidensity):
-                w[xidensity_ * j + k + i] += w_virt[0,j,k]
+        for k in range(0,xidensity):
+            # Multiply by xi weighting if in use
+            if (useWeights_xi):
+                w_virt = w_xy * w_xi[k]
+            else:
+                w_virt = w_xy
+            
+            # Loop through y layers and apply weighting in appropriate location
+            for j in range(0,ydensity):
+                w[xidensity_ * j + k + i] += w_virt[j]
         
         # Delete/Deallocate arrays for memory conservation
-        xv = None
-        yv = None
-        xiv = None
         w_x = None
         w_virt = None
-        w_y_noweight = None
+        w_xy = None
 
     
-    return w, w_virt, xv, yv, xiv
+    return w
+
+def yxiMasks(useMasks_xi, useMasks_y, y_0, xi_0, w_xi, w_y):
+    if (useMasks_xi):
+        # Define masks in xi direction. Change if different mask is desired
+        left_of_masks = []  # left most limit of each mask in order, on inital xi position
+        right_of_masks = []  # right most limit of each mask in order, on initial xi position
+
+        # Apply masks to w_xi
+        for g in range(0,len(left_of_masks)):
+            w_xi = np.where(np.logical_and(xi_0 > left_of_masks[g], xi_0 < right_of_masks[g]), 0, w_xi)
+                
+    if (useMasks_y):
+        # Define masks in y direction, 0 is 0 on the y-axis. Change if different mask is desired
+        top_of_masks = [-0.3,0.8]  #upper limit of each mask in order, on inital y position
+        bot_of_masks = [-0.4,0.5]  #lower limit of each mask in order, on inital y position
+
+        # Apply masks to w_y
+        for h in range(0,len(top_of_masks)):
+            w_y = np.where(np.logical_and(y_0 > bot_of_masks[h], y_0 < top_of_masks[h]), 0, w_y)
+
+    return w_xi, w_y
+
+def xMasks(useMasks_x,x_0_current,w_x):
+    if (useMasks_x):
+        # Define masks in x direction. Change if different mask is desired
+        back_of_masks = []  # back limit of each mask in order, on inital x position
+        front_of_masks = []  # right limit of each mask in order, on initial x position
+
+        # Apply masks to w_x
+        for m in range(0,len(back_of_masks)):
+            if (np.logical_and(x_0_current > back_of_masks[m], x_0_current < front_of_masks[m])): # If in region of mask
+                w_x = 0 # Set x weight to zero (0)
+
+    return w_x

@@ -29,8 +29,9 @@ from random import randint
 # Be sure to change .npz file name location from main.py output!
 
 # Weighting Options (Only applicable for showFullEvolution and makeFullAnimation plot):
-useWeights_x = True                 # Use weights in x-direction
-useWeights_y = False                 # Use weights in y-direction
+useWeights_x = False                 # Use weights in x-direction
+useWeights_y = True                 # Use weights in y-direction
+useWeights_xi = False                 # Use weights in xi-direction
 
 skipWeightingCalc = False            # Skip weighting calculation and use imported pre-calculated weights
 saveWeights = False                 # Save weights to .npz file (Remember to move to ./data directory!)
@@ -38,14 +39,15 @@ saveWeights = False                 # Save weights to .npz file (Remember to mov
 # Masking Options:
 useMasks_xi = False                 # Use masks in xi-direction (Vertical; done during weighting)
 useMasks_y = False                  # Use masks in y-direction (Horizontal; done during weighting)
+useMasks_x = False                  # Use masks in x-direction (transverse; done during weighting)
 
 # Plotting Scripts
 showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots # Use for low density probes
 showFullEvolution = False             # View full evolution of probe at hardcoded locations in colored histograms # Use for high density probes
 makeFullAnimation = False
 writeHistData = False
-plotWeightsx = True                  # Plot w vs xi
-plotWeightsy = False                  # Plot w vs y
+plotWeightsx = False                  # Plot w vs xi
+plotWeightsy = True                  # Plot w vs y
 
 # DEBUG PLOTTING
 plot2DTracks = False                 # View 2D projections of trajectories (SET ALL OTHERS TO FALSE & ONLY USE FOR SINGLE PARTICLE)
@@ -106,6 +108,7 @@ if __name__ == '__main__':
             beamxi_c = beaminit.beamxi_c
             sigma_x=beaminit.sigma_x
             sigma_y=beaminit.sigma_y
+            sigma_xi=beaminit.sigma_xi
         else:
             print("WARNING: No gaussian weights inputted. Make sure not using weighting!")
 
@@ -163,7 +166,7 @@ if __name__ == '__main__':
 
             # Call weighting function getWeights 
             # Note: w_virt, xv, yv, xiv, only used for debugging purposes
-            w, w_virt, xv, yv, xiv = weightmaskFunc.getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,noObj,t0,useWeights_x,useWeights_y,useMasks_xi,useMasks_y)    
+            w = weightmaskFunc.getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,sigma_xi,noObj,t0,useWeights_x,useWeights_y,useWeights_xi,useMasks_x,useMasks_xi,useMasks_y)    
             
             t_w_end = time.localtime()
             curr_time_w_end = time.strftime("%H:%M:%S", t_w_end)
@@ -210,10 +213,10 @@ if __name__ == '__main__':
             writeHist.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noObj, iter)
         
         if (plotWeightsy):
-            plotWeights.ploty(w, x_0, y_0, xi_0, z_0, s1, w_virt,xv,yv,beamx_c,beamy_c,sigma_x,sigma_y)
+            plotWeights.ploty(w, x_0, y_0, xi_0, z_0, s1, s2, beamx_c,beamy_c,beamxi_c,sigma_x,sigma_y,sigma_xi)
         
         if (plotWeightsx):
-            plotWeights.plotx(w, x_0, y_0, xi_0, z_0, s2, w_virt,xv,yv,beamx_c,beamy_c,sigma_x,sigma_y)
+            plotWeights.plotx(w, x_0, y_0, xi_0, z_0, s1, s2, beamx_c,beamy_c,beamxi_c,sigma_x,sigma_y,sigma_xi)
         
         #if (saveMovie):
         #    makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noObj, iter)
