@@ -30,8 +30,8 @@ from random import randint
 
 # Weighting Options (Only applicable for showFullEvolution and makeFullAnimation plot):
 useWeights_x = False                 # Use weights in x-direction
-useWeights_y = True                 # Use weights in y-direction
-useWeights_xi = False                 # Use weights in xi-direction
+useWeights_y = False                 # Use weights in y-direction
+useWeights_xi = True                 # Use weights in xi-direction
 
 skipWeightingCalc = False            # Skip weighting calculation and use imported pre-calculated weights
 saveWeights = False                 # Save weights to .npz file (Remember to move to ./data directory!)
@@ -46,8 +46,10 @@ showQuickEvolution = False           # View evolution of probe after leaving pla
 showFullEvolution = False             # View full evolution of probe at hardcoded locations in colored histograms # Use for high density probes
 makeFullAnimation = False
 writeHistData = False
-plotWeightsx = False                  # Plot w vs xi
-plotWeightsy = True                  # Plot w vs y
+plotWeightsx = False                  # Plot w vs xi (ONLY for single line of particles in x-dir)
+plotWeightsy = False                  # Plot w vs y (ONLY for single line of particles in y-dir)
+plotWeightsxi = True                  # Plot w vs y (ONLY for single line of particles in xi-dir)
+
 
 # DEBUG PLOTTING
 plot2DTracks = False                 # View 2D projections of trajectories (SET ALL OTHERS TO FALSE & ONLY USE FOR SINGLE PARTICLE)
@@ -217,6 +219,9 @@ if __name__ == '__main__':
         
         if (plotWeightsx):
             plotWeights.plotx(w, x_0, y_0, xi_0, z_0, s1, s2, beamx_c,beamy_c,beamxi_c,sigma_x,sigma_y,sigma_xi)
+
+        if (plotWeightsxi):
+            plotWeights.plotxi(w, x_0, y_0, xi_0, z_0, s1, s2, beamx_c,beamy_c,beamxi_c,sigma_x,sigma_y,sigma_xi)
         
         #if (saveMovie):
         #    makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noObj, iter)

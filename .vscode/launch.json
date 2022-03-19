@@ -28,7 +28,7 @@
             "program": "${workspaceFolder}/main-nowake.py",
             "console": "integratedTerminal",
             "args": [
-                "input.000046_weighting_test"
+                "input.000048_weighting_test"
             ]
         },
         {
@@ -49,8 +49,8 @@
             "program": "${workspaceFolder}/index-mp.py",
             "console": "integratedTerminal",
             "args": [
-                "input.000046_weighting_test",
-                "input.000046_weighting_test-w"
+                "input.000048_weighting_test",
+                "input.000048_weighting_test-w"
             ]
         },
         {

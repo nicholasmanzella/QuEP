@@ -45,7 +45,7 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
     
 # Create y and xi weighting arrays
     w_y = np.exp((-1.*(y_0-beamy_c)**2)/(2*sigma_y**2)) # Calculate weights for each y slice
-    w_xi = np.exp((-1.*(xi_0-beamy_c)**2)/(2*sigma_xi**2)) # Calculate weights for each xi slice
+    w_xi = np.exp((-1.*(xi_0-beamxi_c)**2)/(2*sigma_xi**2)) # Calculate weights for each xi slice
 
 # MASKING for y and xi -------------------------------------------------
     w_xi, w_y = yxiMasks(useMasks_xi, useMasks_y, y_0, xi_0, w_xi, w_y)
@@ -65,11 +65,11 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
         if (useWeights_x) and (useWeights_y):
             w_xy = w_y * w_x
         elif (useWeights_x):
-            w_xy = np.full(w_y.shape(), 1.0) * w_x 
+            w_xy = np.full(w_y.shape, 1.0) * w_x 
         elif (useWeights_y):
             w_xy = w_y
         else:
-            w_xy = np.full(w_y.shape(), 1.0)
+            w_xy = np.full(w_y.shape, 1.0)
 
         # Create final weighting list w to return
         # Maps 3d virtual particles in x-layer onto 2d Y-Xi projection appropriate location

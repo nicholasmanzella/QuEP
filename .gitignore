@@ -9,3 +9,4 @@
 *.pyc
 *.json
 .vscode/launch.json
+*.pyc

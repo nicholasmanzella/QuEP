@@ -23,7 +23,7 @@ def plotx(w, x_0, y_0, xi_0, z_0, s1, s2, beamx_c,beamy_c,beamxi_c,sigma_x,sigma
     ax3.plot(xi_0,w,"o", label="weighting_function",alpha=0.7)
     
     #ax3.legend(loc='upper right')
-    ax3.set_xlabel("xi_f ($c/\omega_p$)")
+    ax3.set_xlabel("xi_0 ($c/\omega_p$)")
     ax3.set_ylabel("w_x")
     ax3.set_title("Weighting viewing xi-direction")
 
@@ -59,3 +59,27 @@ def ploty(w, x_0, y_0, xi_0, z_0, s1, s2, beamx_c,beamy_c,beamxi_c,sigma_x,sigma
     plt.tight_layout()
 
     fig4.savefig('weights_y-sum-direction.png',dpi=600,transparent=False)
+
+
+def plotxi(w, x_0, y_0, xi_0, z_0, s1, s2, beamx_c,beamy_c,beamxi_c,sigma_x,sigma_y,sigma_xi):
+# Plot w (w_xi) vs xi
+    ##########################################################################################
+    fig5 = plt.figure()
+    ax5 = fig5.add_subplot(111)
+     
+    ax5.plot(xi_0,w,"o", label="weighting_function",alpha=0.7)
+    
+    #ax5.legend(loc='upper right')
+    ax5.set_xlabel("xi_0 ($c/\omega_p$)")
+    ax5.set_ylabel("w_xi")
+    ax5.set_title("Weighting viewing xi-direction")
+
+    Deltaxi = 2*s2/len(w)
+    summ = 0
+    for w_xi in w:
+        summ += w_xi*Deltaxi
+    ax5.text(-23,0.2,f"Sum $w_\xi$ * $\Delta \xi$ = {summ:.3f}", fontdict=None, horizontalalignment='center', fontsize=10)
+
+    plt.tight_layout()
+
+    fig5.savefig('weights_xi-xi-direction.png',dpi=600,transparent=False)
