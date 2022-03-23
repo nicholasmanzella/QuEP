@@ -11,7 +11,6 @@ import math
 import copy
 import time
 import progressbar
-import include.movieWriter as movieWriter
 import multiprocessing as mp
 import include.simulations.useQuasi3D as sim
 mpl.use('Agg')
@@ -42,20 +41,20 @@ def returnZ(xi):
 
 
 
-def plotx(w, x_0, y_0, xi_0, z_0, s1, s2, beamx_c,beamy_c,beamxi_c,sigma_x,sigma_y,sigma_xi):
+def plotx(w, x_0, y_0, xi_0, z_0, s1, s2, xidensity_, xdensity, ydensity, xidensity):
 # Plot w (w_x) vs xi
     ##########################################################################################
     fig3 = plt.figure()
     ax3 = fig3.add_subplot(111)
-     
-    ax3.plot(xi_0,w,"o", label="weighting_function",alpha=0.7)
+    
+    ax3.plot(xi_0[int(xidensity_*(ydensity/2)+49):int(xidensity_*(ydensity/2)+xidensity_-50)],w,"o", label="weighting_function",alpha=0.7)
     
     #ax3.legend(loc='upper right')
-    ax3.set_xlabel("xi_0 ($c/\omega_p$)")
-    ax3.set_ylabel("w_x")
-    ax3.set_title("Weighting viewing xi-direction")
+    ax3.set_xlabel("$\\xi_0$ ($c/\omega_p$)")
+    ax3.set_ylabel("w")
+    ax3.set_title("Weighting for x viewing $\\xi$-direction")
 
-    Deltax = 2*s2
+    Deltax = 2*s2/xidensity #same as xstep
     summ = 0
     for w_x in w:
         summ += w_x*Deltax
@@ -65,20 +64,20 @@ def plotx(w, x_0, y_0, xi_0, z_0, s1, s2, beamx_c,beamy_c,beamxi_c,sigma_x,sigma
 
     fig3.savefig('weights_x-xi-direction.png',dpi=600,transparent=False)
 
-def ploty(w, x_0, y_0, xi_0, z_0, s1, s2, beamx_c,beamy_c,beamxi_c,sigma_x,sigma_y,sigma_xi):
+def ploty(w, x_0, y_0, xi_0, z_0, s1, s2, xidensity_, xdensity, ydensity, xidensity):
 # Plot w (w_x) vs xi
     ##########################################################################################
     fig4 = plt.figure()
     ax4 = fig4.add_subplot(111)
-     
-    ax4.plot(y_0,w,"o", label="weighting_function",alpha=0.7)
+
+    ax4.plot(y_0[50:len(y_0):xidensity_],w,"o", label="weighting_function",alpha=0.7)
     
     #ax3.legend(loc='upper right')
-    ax4.set_xlabel("y_0 ($c/\omega_p$)")
-    ax4.set_ylabel("w_y")
+    ax4.set_xlabel("$y_0$ ($c/\omega_p$)")
+    ax4.set_ylabel("w")
     ax4.set_title("Weighting viewing y-direction")
 
-    Deltay = 2*s1/len(w)
+    Deltay = 2*s1/ydensity
     summ = 0
     for w_y in w:
         summ += w_y*Deltay
@@ -86,21 +85,21 @@ def ploty(w, x_0, y_0, xi_0, z_0, s1, s2, beamx_c,beamy_c,beamxi_c,sigma_x,sigma
 
     plt.tight_layout()
 
-    fig4.savefig('weights_y-sum-direction.png',dpi=600,transparent=False)
+    fig4.savefig('weights_y-direction.png',dpi=600,transparent=False)
 
 
-def plotxi(w, x_0, y_0, xi_0, z_0, s1, s2, beamx_c,beamy_c,beamxi_c,sigma_x,sigma_y,sigma_xi):
+def plotxi(w, x_0, y_0, xi_0, z_0, s1, s2, xidensity_, xdensity, ydensity, xidensity):
 # Plot w (w_xi) vs xi
     ##########################################################################################
     fig5 = plt.figure()
     ax5 = fig5.add_subplot(111)
      
-    ax5.plot(xi_0,w,"o", label="weighting_function",alpha=0.7)
+    ax5.plot(xi_0[int(xidensity_*(ydensity/2)+49):int(xidensity_*(ydensity/2)+xidensity_-50)],w,"o", label="weighting_function",alpha=0.7)
     
     #ax5.legend(loc='upper right')
-    ax5.set_xlabel("xi_0 ($c/\omega_p$)")
-    ax5.set_ylabel("w_xi")
-    ax5.set_title("Weighting viewing xi-direction")
+    ax5.set_xlabel("$\\xi_0$ ($c/\omega_p$)")
+    ax5.set_ylabel("w")
+    ax5.set_title("Weighting for $\\xi$ viewing $\\xi$-direction")
 
     Deltaxi = 2*s2/len(w)
     summ = 0
@@ -115,7 +114,7 @@ def plotxi(w, x_0, y_0, xi_0, z_0, s1, s2, beamx_c,beamy_c,beamxi_c,sigma_x,sigm
 
 
 
-def plotweightsxiy(y_f,xi_f, w, rand):
+def plotweightsxiy(y_0,xi_0, w, rand):
     
     path = os.getcwd()
     timestr = time.strftime("%Y%m%d-%H%M%S")
@@ -154,10 +153,10 @@ def plotweightsxiy(y_f,xi_f, w, rand):
     fig.suptitle("Xi-Y Weighting Map")
     plt.tight_layout(rect=[0, 0, 1, 0.9])
     
-    h = ax.hist2d(xi_f[:], y_f[:], weights=w[:], bins=(bin_edges_xi,bin_edges_y), cmap=cmap, vmin=vmin_,vmax=vmax_,cmin=cmin)#, norm=norm)
+    h = ax.hist2d(xi_0[:], y_0[:], weights=w[:], bins=[199,100])#, bins=(bin_edges_xi,bin_edges_y), cmap=cmap, vmin=vmin_,vmax=vmax_,cmin=cmin)#, norm=norm)
 
-    ax.set_ylim(ymin,ymax)
-    ax.set_xlim(ximin,ximax)
+    #ax.set_ylim(ymin,ymax)
+    #ax.set_xlim(ximin,ximax)
 
     if (WB):
         ax.set_facecolor('white')

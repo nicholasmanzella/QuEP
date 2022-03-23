@@ -18,7 +18,7 @@ import include.plot2DTracks as plot2D
 import include.plot3DTracks as plot3D
 import include.findWaist as findWaist
 import multiprocessing as mp
-import include.movieWriter as movieWriter
+#import include.movieWriter as movieWriter
 import tqdm
 import pickle
 from DebugObjectModule import DebugObject
@@ -31,7 +31,7 @@ from random import randint
 # Weighting Options (Only applicable for showFullEvolution and makeFullAnimation plot):
 useWeights_x = True                 # Use weights in x-direction
 useWeights_y = True                 # Use weights in y-direction
-useWeights_xi = False                 # Use weights in xi-direction
+useWeights_xi = True                 # Use weights in xi-direction
 
 skipWeightingCalc = False            # Skip weighting calculation and use imported pre-calculated weights
 saveWeights = False                 # Save weights to .npz file (Remember to move to ./data directory!)
@@ -52,6 +52,7 @@ plotWeightsx = False                  # Plot w vs xi (ONLY for single line of pa
 plotWeightsy = False                  # Plot w vs y (ONLY for single line of particles in y-dir)
 plotWeightsxi = False                  # Plot w vs y (ONLY for single line of particles in xi-dir)
 plotWeightsxiy = True
+plotWeights3D = False
 
 
 # DEBUG PLOTTING
@@ -68,7 +69,7 @@ findW = False
 if __name__ == '__main__':
     # Start of main()
     # Initialize multiprocessing.Pool()
-    numberOfCores = mp.cpu_count() #8
+    numberOfCores = 2 #mp.cpu_count() #8
     print(f"Number of cores used for multiprocessing: {numberOfCores}")
     pool = mp.get_context('spawn').Pool(numberOfCores)
     if (len(sys.argv) >= 2):
@@ -171,7 +172,7 @@ if __name__ == '__main__':
 
             # Call weighting function getWeights 
             # Note: w_virt, xv, yv, xiv, only used for debugging purposes
-            w = weightmaskFunc.getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,sigma_xi,noObj,t0,useWeights_x,useWeights_y,useWeights_xi,useMasks_x,useMasks_xi,useMasks_y)    
+            w, w_export1, w_export2, w_export3, w_export4 = weightmaskFunc.getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xden,yden,xiden,res,sigma_x,sigma_y,sigma_xi,noObj,t0,useWeights_x,useWeights_y,useWeights_xi,useMasks_x,useMasks_xi,useMasks_y)    
             
             t_w_end = time.localtime()
             curr_time_w_end = time.strftime("%H:%M:%S", t_w_end)
@@ -212,7 +213,7 @@ if __name__ == '__main__':
             print("MP PFC - DURATION: ", (time.time() - start_time_pfc)/60, " min\n")
             
             # Stitch frames into movie
-            movieWriter.generatemovie(fps,new_path)
+            #movieWriter.generatemovie(fps,new_path)
             
         if (writeHistData):
             writeHist.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noObj, iter)
@@ -228,6 +229,13 @@ if __name__ == '__main__':
 
         if (plotWeightsxiy):
             plotWeights.plotweightsxiy(y_0,xi_0, w, rand)
+        
+        if (plotWeights3D):
+            plotWeights.plotx(w_export1, x_0, y_0, xi_0, z_0, s1, s2, xiden+xden-1, xden, yden, xiden)
+            plotWeights.ploty(w_export2, x_0, y_0, xi_0, z_0, s1, s2, xiden+xden-1, xden, yden, xiden)
+            plotWeights.plotxi(w_export3, x_0, y_0, xi_0, z_0, s1, s2, xiden+xden-1, xden, yden, xiden)
+
+
 
         
         #if (saveMovie):

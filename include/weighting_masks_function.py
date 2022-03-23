@@ -51,6 +51,10 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
     w_xi, w_y = yxiMasks(useMasks_xi, useMasks_y, y_0, xi_0, w_xi, w_y)
 #-----------------------------------------------------------------------
 
+    w_export1 = []
+    w_export2 = w_y
+    w_export3 = w_xi
+
 # Loop through x layers to calculate weights with masks and add to 2D Y-Xi projection
     for i in progressbar.progressbar(range(0,len(x_0)), redirect_stout=False):
         start_time_weightcalc = time.time()
@@ -60,6 +64,8 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
 
         # Check for x mask
         w_x = xMasks(useMasks_x,x_0[i],w_x)
+
+        w_export1.append(w_x)
 
         # Weighting options evaluator for x-y
         if (useWeights_x) and (useWeights_y):
@@ -73,7 +79,7 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
 
         # Create final weighting list w to return
         # Maps 3d virtual particles in x-layer onto 2d Y-Xi projection appropriate location
-        for k in range(0,xidensity):
+        for k in range(0,len(xi_0)):
             # Multiply by xi weighting if in use
             if (useWeights_xi):
                 w_virt = w_xy * w_xi[k]
@@ -81,16 +87,19 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
                 w_virt = w_xy
             
             # Loop through y layers and apply weighting in appropriate location
-            for j in range(0,ydensity):
+            for j in range(0,len(y_0)):
                 w[xidensity_ * j + k + i] += w_virt[j]
-        
+
         # Delete/Deallocate arrays for memory conservation
         w_x = None
         w_virt = None
         w_xy = None
 
+    w_export1 = np.array(w_export1)
+    w_export4 = w[int(xidensity_*(ydensity/2)):int(xidensity_*(ydensity/2)+xidensity_)]
+    #np.savez("weight-exports.npz", w_exportx=w_export1, w_exporty=w_export2, w_exportxi=w_export3, w_exportvirt=w_export4)
     
-    return w
+    return w, w_export1, w_export2, w_export3, w_export4
 
 def yxiMasks(useMasks_xi, useMasks_y, y_0, xi_0, w_xi, w_y):
     if (useMasks_xi):

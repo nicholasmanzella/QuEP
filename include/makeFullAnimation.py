@@ -11,7 +11,7 @@ import math
 import copy
 import time
 import progressbar
-import include.movieWriter as movieWriter
+#import include.movieWriter as movieWriter
 import multiprocessing as mp
 import include.simulations.useQuasi3D as sim
 
