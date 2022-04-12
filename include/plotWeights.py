@@ -14,7 +14,7 @@ import progressbar
 import multiprocessing as mp
 import include.simulations.useQuasi3D as sim
 mpl.use('Agg')
-plt.rcParams.update({'font.size': 12 })
+plt.rcParams.update({'font.size': 10 })
 
 
 # Definition of Constants
@@ -41,75 +41,78 @@ def returnZ(xi):
 
 
 
-def plotx(w, x_0, y_0, xi_0, z_0, s1, s2, xidensity_, xdensity, ydensity, xidensity):
+def plotcross(w_export1, x_0, y_0, xi_0, z_0, s1, s2, ydensity, xidensity):
 # Plot w (w_x) vs xi
     ##########################################################################################
     fig3 = plt.figure()
     ax3 = fig3.add_subplot(111)
     
-    ax3.plot(xi_0[int(xidensity_*(ydensity/2)+49):int(xidensity_*(ydensity/2)+xidensity_-50)],w,"o", label="weighting_function",alpha=0.7)
+    ax3.plot(xi_0[int(xidensity*39):int(xidensity*40)-1],w_export1,"o", label="weighting_function",alpha=0.7)
     
     #ax3.legend(loc='upper right')
     ax3.set_xlabel("$\\xi_0$ ($c/\omega_p$)")
-    ax3.set_ylabel("w")
-    ax3.set_title("Weighting for x viewing $\\xi$-direction")
+    ax3.set_ylabel("$w$")
+    ax3.set_title("$\\xi=\\xi_c$, combined weighting")
 
-    Deltax = 2*s2/xidensity #same as xstep
+    print(f"y_export = {y_0[xidensity*39]} , {y_0[xidensity*40-1]}")
+
+    Deltaxi = 2*s2/xidensity #same as xstep
     summ = 0
-    for w_x in w:
-        summ += w_x*Deltax
-    ax3.text(-23,0.2,f"Sum $w_x$ * $\Delta x$ = {summ:.3f}", fontdict=None, horizontalalignment='center', fontsize=10)
+    for w_xiy in w_export1:
+        summ += w_xiy*Deltaxi
+    print(f"Summ = {summ}")
+    ax3.text(-13,0,f"Sum $w$ * $\Delta \\xi$ = {summ:.3f}", fontdict=None, horizontalalignment='center', fontsize=10)
 
     plt.tight_layout()
 
-    fig3.savefig('weights_x-xi-direction.png',dpi=600,transparent=False)
+    fig3.savefig('weights_xi-cross-direction-1.png',dpi=600,transparent=False)
 
-def ploty(w, x_0, y_0, xi_0, z_0, s1, s2, xidensity_, xdensity, ydensity, xidensity):
-# Plot w (w_x) vs xi
+def ploty(w_y, x_0, y_0, xi_0, z_0, s1, s2, ydensity, xidensity):
+# Plot w_y vs y
     ##########################################################################################
     fig4 = plt.figure()
     ax4 = fig4.add_subplot(111)
 
-    ax4.plot(y_0[50:len(y_0):xidensity_],w,"o", label="weighting_function",alpha=0.7)
+    ax4.plot(y_0[49:len(y_0):xidensity],w_y,"o", label="weighting_function",alpha=0.7)
     
     #ax3.legend(loc='upper right')
     ax4.set_xlabel("$y_0$ ($c/\omega_p$)")
-    ax4.set_ylabel("w")
-    ax4.set_title("Weighting viewing y-direction")
+    ax4.set_ylabel("$w_y$")
+    ax4.set_title("y-direction weighting")
 
     Deltay = 2*s1/ydensity
     summ = 0
-    for w_y in w:
-        summ += w_y*Deltay
+    for w_y_i in w_y:
+        summ += w_y_i*Deltay
     ax4.text(0,0.2,f"Sum $w_y$ * $\Delta y$ = {summ:.3f}", fontdict=None, horizontalalignment='center', fontsize=10)
 
     plt.tight_layout()
 
-    fig4.savefig('weights_y-direction.png',dpi=600,transparent=False)
+    fig4.savefig('weights_y-direction-1.png',dpi=600,transparent=False)
 
 
-def plotxi(w, x_0, y_0, xi_0, z_0, s1, s2, xidensity_, xdensity, ydensity, xidensity):
+def plotxi(w_xi, x_0, y_0, xi_0, z_0, s1, s2, ydensity, xidensity):
 # Plot w (w_xi) vs xi
     ##########################################################################################
     fig5 = plt.figure()
     ax5 = fig5.add_subplot(111)
      
-    ax5.plot(xi_0[int(xidensity_*(ydensity/2)+49):int(xidensity_*(ydensity/2)+xidensity_-50)],w,"o", label="weighting_function",alpha=0.7)
+    ax5.plot(xi_0[0:len(w_xi)],w_xi,"o", label="weighting_function",alpha=0.7)
     
     #ax5.legend(loc='upper right')
     ax5.set_xlabel("$\\xi_0$ ($c/\omega_p$)")
-    ax5.set_ylabel("w")
-    ax5.set_title("Weighting for $\\xi$ viewing $\\xi$-direction")
+    ax5.set_ylabel("$w_\\xi$")
+    ax5.set_title("$\\xi$-direction weighting")
 
-    Deltaxi = 2*s2/len(w)
+    Deltaxi = 2*s2/xidensity
     summ = 0
-    for w_xi in w:
-        summ += w_xi*Deltaxi
-    ax5.text(-23,0.2,f"Sum $w_\\xi$ * $\Delta \\xi$ = {summ:.3f}", fontdict=None, horizontalalignment='center', fontsize=10)
+    for w_xi_i in w_xi:
+        summ += w_xi_i*Deltaxi
+    ax5.text(-13,0.2,f"Sum $w_\\xi$ * $\Delta \\xi$ = {summ:.3f}", fontdict=None, horizontalalignment='center', fontsize=10)
 
     plt.tight_layout()
 
-    fig5.savefig('weights_xi-xi-direction.png',dpi=600,transparent=False)
+    fig5.savefig('weights_xi-direction-1.png',dpi=600,transparent=False)
 
 
 
@@ -150,12 +153,12 @@ def plotweightsxiy(y_0,xi_0, w, rand):
     
     # Create figure
     fig, ax = plt.subplots(1, figsize=(8, 5), dpi=600)
-    fig.suptitle("Xi-Y Weighting Map")
+    fig.suptitle("Weighting Map")
     plt.tight_layout(rect=[0, 0, 1, 0.9])
     
-    h = ax.hist2d(xi_0[:], y_0[:], weights=w[:], bins=[199,100])#, bins=(bin_edges_xi,bin_edges_y), cmap=cmap, vmin=vmin_,vmax=vmax_,cmin=cmin)#, norm=norm)
+    h = ax.hist2d(xi_0[:], y_0[:], weights=w[:], bins=[200,100])#, bins=(bin_edges_xi,bin_edges_y), cmap=cmap, vmin=vmin_,vmax=vmax_,cmin=cmin)#, norm=norm)
 
-    #ax.set_ylim(ymin,ymax)
+    ax.set_ylim(-1,1)
     #ax.set_xlim(ximin,ximax)
 
     if (WB):
@@ -170,7 +173,7 @@ def plotweightsxiy(y_0,xi_0, w, rand):
     secax = ax.secondary_xaxis('top', functions= (returnZ, returnXi))
     secax.set(xlabel= 'Z ($c/\omega_p$)')
     
-    cbar = plt.colorbar(h[3], ax=ax, orientation='horizontal')#, pad=0.3)
+    cbar = plt.colorbar(h[3], ax=ax, orientation='horizontal', pad=0.2)
     #cbar.set_label('Electron Density')
 
     #Saving
