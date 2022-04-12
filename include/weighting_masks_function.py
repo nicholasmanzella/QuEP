@@ -6,6 +6,7 @@ import progressbar
 import time
 
 # Creates weights based on distribution and inputted masks (below)
+# 2D Version
 
 def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xidensity,resolution,sigma_x,sigma_y,sigma_xi,noObj,t0,useWeights_x,useWeights_y,useWeights_xi,useMasks_x,useMasks_xi,useMasks_y):
 
@@ -91,16 +92,3 @@ def yMasks(y_0, w_y):
         w_y = np.where(np.logical_and(y_0 > bot_of_masks[h], y_0 < top_of_masks[h]), 0, w_y)
 
     return w_y
-
-def xMasks(useMasks_x,x_0_current,w_x):
-    if (useMasks_x):
-        # Define masks in x direction. Change if different mask is desired
-        back_of_masks = []  # back limit of each mask in order, on inital x position
-        front_of_masks = []  # right limit of each mask in order, on initial x position
-
-        # Apply masks to w_x
-        for m in range(0,len(back_of_masks)):
-            if (np.logical_and(x_0_current > back_of_masks[m], x_0_current < front_of_masks[m])): # If in region of mask
-                w_x = 0 # Set x weight to zero (0)
-
-    return w_x
