@@ -15,6 +15,7 @@ import multiprocessing as mp
 import include.simulations.useQuasi3D as sim
 mpl.use('Agg')
 plt.rcParams.update({'font.size': 10 })
+plt.rcParams['figure.constrained_layout.use'] = True
 
 
 # Definition of Constants
@@ -154,7 +155,7 @@ def plotweightsxiy(y_0,xi_0, w, rand):
     # Create figure
     fig, ax = plt.subplots(1, figsize=(8, 5), dpi=600)
     fig.suptitle("Weighting Map")
-    plt.tight_layout(rect=[0, 0, 1, 0.9])
+    #plt.tight_layout(rect=[0, 0, 1, 0.9])
     
     h = ax.hist2d(xi_0[:], y_0[:], weights=w[:], bins=[200,100])#, bins=(bin_edges_xi,bin_edges_y), cmap=cmap, vmin=vmin_,vmax=vmax_,cmin=cmin)#, norm=norm)
 
@@ -173,7 +174,7 @@ def plotweightsxiy(y_0,xi_0, w, rand):
     secax = ax.secondary_xaxis('top', functions= (returnZ, returnXi))
     secax.set(xlabel= 'Z ($c/\omega_p$)')
     
-    cbar = plt.colorbar(h[3], ax=ax, orientation='horizontal', pad=0.2)
+    cbar = plt.colorbar(h[3], ax=ax, orientation='horizontal')
     #cbar.set_label('Electron Density')
 
     #Saving

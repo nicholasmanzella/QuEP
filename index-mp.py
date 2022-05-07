@@ -38,7 +38,7 @@ saveWeights = False                 # Save weights to .npz file (Remember to mov
 
 # Masking Options:
 useMasks_xi = False                 # Use masks in xi-direction (Vertical; done during weighting)
-useMasks_y = False                  # Use masks in y-direction (Horizontal; done during weighting)
+useMasks_y = True                  # Use masks in y-direction (Horizontal; done during weighting)
 useMasks_x = False                  # NOT CURRENTLY IN USE - LEAVE FALSE - Use masks in x-direction (transverse; done during weighting)
 
 # Plotting Scripts

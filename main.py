@@ -1,5 +1,7 @@
 # Transverse Electron Probe of Laser Wakefield Tracking Script
-# Author: Marisa Petrusky - marisa.petrusky@stonybrook.edu
+# Authors: 
+# Nicholas Manzella - nick.manzella31@gmail.com
+# Marisa Petrusky - marisa.petrusky@stonybrook.edu - DEFUNCT
 #   This script is designed to take the Lorentz fields of a simulated laser wakefield
 #   and obtain the trajectory of an electron probe through a first order Runge Kutta
 

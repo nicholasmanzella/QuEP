@@ -49,8 +49,8 @@
             "program": "${workspaceFolder}/index-mp.py",
             "console": "integratedTerminal",
             "args": [
-                "input.000051_weighting_test",
-                "input.000051_weighting_test-w"
+                "input.thesis.36-50__xwid-1__0-002__02",
+                "input.thesis.weights__thesis-01"
             ]
         },
         {

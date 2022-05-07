@@ -7,5 +7,5 @@ beamxi_c = -9.0
 
 # Beam spreads (in c/w_p):
 sigma_x = 1
-sigma_xi = 1.5
-sigma_y = 0.2
+sigma_xi = 6
+sigma_y = 1

@@ -73,8 +73,8 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
 
 def xiMasks(xi_0, w_xi):
     # Define masks in xi direction. Change if different mask is desired
-    left_of_masks = [-16,-12.5,-10.1]  # left most limit of each mask in order, on inital xi position
-    right_of_masks = [-15,-12.0,-10.0]  # right most limit of each mask in order, on initial xi position
+    left_of_masks = [-8,-12.5,-10.1]  # left most limit of each mask in order, on inital xi position
+    right_of_masks = [-7,-12.0,-10.0]  # right most limit of each mask in order, on initial xi position
 
     # Apply masks to w_xi
     for g in range(0,len(left_of_masks)):
@@ -84,8 +84,8 @@ def xiMasks(xi_0, w_xi):
 
 def yMasks(y_0, w_y):
     # Define masks in y direction, 0 is 0 on the y-axis. Change if different mask is desired
-    top_of_masks = [0.2,0.5,-0.15]  #upper limit of each mask in order, on inital y position
-    bot_of_masks = [0.1,0.35,-0.20]  #lower limit of each mask in order, on inital y position
+    top_of_masks = [0]  #upper limit of each mask in order, on inital y position
+    bot_of_masks = [-10]  #lower limit of each mask in order, on inital y position
 
     # Apply masks to w_y
     for h in range(0,len(top_of_masks)):
