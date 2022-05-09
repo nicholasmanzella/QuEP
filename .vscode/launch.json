@@ -18,7 +18,7 @@
             "program": "${workspaceFolder}/main.py",
             "console": "integratedTerminal",
             "args": [
-                "input.000010_unitTest"
+                "input.thesis.group_velocity_tests_002"
             ]
         },
         {
@@ -49,8 +49,18 @@
             "program": "${workspaceFolder}/index-mp.py",
             "console": "integratedTerminal",
             "args": [
-                "input.thesis.36-50__xwid-1__0-002__02",
+                "input.thesis.group_velocity_tests_001",
                 "input.thesis.weights__thesis-01"
+            ]
+        },
+        {
+            "name": "Python: index-mp.py No weighting input File",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/index-mp.py",
+            "console": "integratedTerminal",
+            "args": [
+                "input.thesis.group_velocity_tests_001",
             ]
         },
         {
