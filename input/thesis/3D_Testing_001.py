@@ -24,11 +24,11 @@ x_s = [10, 50, 100, 250, 500]
 
 # Shape Parameters (Radius or Side Length, in c/w_p):
 s1 = 1 # In y
-s2 = 6 # In xi
+s2 = 3 # In xi
 
 # Densities
-ydensity = 100
+ydensity = 200
 xidensity = 600
-xdensity = 100 # Probe width
+xdensity = 50 # Probe width
 resolution = 0.002
 

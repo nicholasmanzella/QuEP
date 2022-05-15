@@ -102,13 +102,13 @@ def prepare(sim_name,shape_name,noObj,rand):
     
     # For Quasi_ID = 000130, use (36,50)
     # For Quasi_ID = 000067, use (24,37)
-    zmin = 36 #36  #25#27#400
-    zmax = 50 #50  #500
+    zmin = 37 #36  #25#27#400
+    zmax = 44 #50  #500
     
     ymin = -1
     ymax = 1
 
-    bin_resolution = 0.02 #0.02 #c/w_p
+    bin_resolution = 0.08 #0.02 #c/w_p
     bin_edges_z = np.arange(zmin, zmax, bin_resolution)
     bin_edges_y = np.arange(ymin, ymax, bin_resolution)
     

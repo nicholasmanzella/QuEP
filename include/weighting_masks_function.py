@@ -53,9 +53,6 @@ def getWeights(beamx_c,beamy_c,beamxi_c,x_c,y_c,xi_c,s1,s2,xdensity,ydensity,xid
     if (useMasks_xi): # If using Masks for xi, apply them to xi weighting array
         w_xi = xiMasks(xi_0,w_xi)
 
-    w_y
-    w_xi
-
     start_time_weightcalc = time.time()
 
     # Create final weighting list w to return

@@ -46,7 +46,7 @@ C = 299892458                        # Speed of light in vacuum in m/s
 if __name__ == '__main__':
     # Start of main()
     # Initialize multiprocessing.Pool()
-    pool = mp.Pool(mp.cpu_count())
+    pool = mp.Pool(1)# mp.cpu_count())
 
     start_time = time.time()
     t = time.localtime()
