@@ -32,8 +32,8 @@ from random import randint
 
 # Weighting Options (Only applicable for showFullEvolution and makeFullAnimation plot):
 useWeights_x = False                 # NOT CURRENTLY IN USE - LEAVE FALSE - Use weights in x-direction
-useWeights_y = True                  # Use gaussian weights in y-direction
-useWeights_xi = True                 # Use gaussian weights in xi-direction
+useWeights_y = False                  # Use gaussian weights in y-direction
+useWeights_xi = False                 # Use gaussian weights in xi-direction
 
 skipWeightingCalc = False            # Skip weighting calculation and use imported pre-calculated weights
 saveWeights = False                 # Save weights to .npz file (Remember to move to ./data directory!)
@@ -54,8 +54,7 @@ plotWeightsx = False                  # Plot w vs xi (ONLY for single line of pa
 plotWeightsy = False                  # Plot w vs y (ONLY for single line of particles in y-dir)
 plotWeightsxi = False                  # Plot w vs y (ONLY for single line of particles in xi-dir)
 plotWeightsxiy = False                 # Plots initial particle density map
-plotWeights3D = True                  # Plots y, xi, and 2D cross section
-
+plotWeights3D = False                  # Plots y, xi, and 2D cross section
 
 # DEBUG PLOTTING
 plot2DTracks = False                 # View 2D projections of trajectories (SET ALL OTHERS TO FALSE & ONLY USE FOR SINGLE PARTICLE)
@@ -63,10 +62,7 @@ findFocal = False
 plot3DTracks = False
 findW = False
 
-# Set all others equal False if want animation saved (dependency issue)
-#saveMovie = False                   # Save gif of probe evolution
-#if (saveMovie):
-#    import include.makeAnimation as makeAnimation
+
 
 if __name__ == '__main__':
     # Start of main()
@@ -226,6 +222,7 @@ if __name__ == '__main__':
         if (plotWeightsx):
             #plotWeights.plotx(w, x_0, y_0, xi_0, z_0, s1, s2, beamx_c,beamy_c,beamxi_c,sigma_x,sigma_y,sigma_xi)
             raise NotImplementedError("This functionality is not currently implemented")
+            # This function could be easily added when needed
 
         if (plotWeightsxi):
             plotWeights.plotxi(w_xi, x_0, y_0, xi_0, z_0, s1, s2, yden, xiden, beamxi_c, sigma_xi)
@@ -238,10 +235,6 @@ if __name__ == '__main__':
             plotWeights.plotcross(w_export1, x_0, y_0, xi_0, z_0, s1, s2, yden, xiden, beamxi_c, sigma_xi)
             #plotWeights.ploty(w_y, x_0, y_0, xi_0, z_0, s1, s2, yden, xiden)
             #plotWeights.plotxi(w_xi, x_0, y_0, xi_0, z_0, s1, s2, yden, xiden)
-
-        
-        #if (saveMovie):
-        #    makeAnimation.animate(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noObj, iter)
 
         if (findFocal):
             findFocalY.calculate(x_0, y_0, xi_0, z_0, x_dat, y_dat, z_dat, xi_dat, px_f, py_f, pz_f, sim_name, shape_name, x_s, s1, s2)

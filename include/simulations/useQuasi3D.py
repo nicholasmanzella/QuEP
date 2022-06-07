@@ -53,7 +53,7 @@ def getPlasDensity():
     else:
         return 3e23
 
-def getPropagationSpeed(): 
+def getPropagationSpeed(): # Define the group velocity of the laser
     if (Quasi_ID == '000130'):
         return 1.000 #THIS IS INCORRECT, JUST FOR TESTING
     elif (Quasi_ID == '000067'):

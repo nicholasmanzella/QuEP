@@ -13,7 +13,7 @@ python main.py input.example
 The following parameters must be specified in the initialization file (case insensitive):
 
 * simulation_name - `quasi3D` only (for now!)
-* shape - `hline`, `vline`, `single`, or `rectangle`
+* shape - `hline`, `vline`, `single`, `rectangle`, `rprism`, or `rprism_weighted_after`
 * iterations - Maximum number of steps before tracking in plasma is stopped
 * mode - An extra flag to be used by any simulation. See simulation files under `/include/simulations` for specifications. 
 * fname - File name
@@ -23,28 +23,37 @@ The following parameters must be specified in the initialization file (case inse
 * s1, s2, s3 - Shape parameters. See initialization files under `/include/shape` for specifications. 
 * ydensity, xidensity - Number of electrons to be distributed in specified direction. See initialization files under `/include/shape` for specifications.
 * resolution - An unused parameter that can refer to the spacing between electrons, if `shape` initialization files are modified.
+* debugmode - A boolean parameter that determines whether data of the particle from within the wakefield is collected and exported. Should only be `True` for `single` shape.
 
-Initialization conditions, especially starting coordinates, should be chosen based on the wakefield feature one wants to observe. More conditions may be added by including a new variable in the initialization file, then adding another argument to the `main.py` file (~Line 50), as well as plotting scripts, as deemed necessary. 
+Initialization conditions, especially starting coordinates, should be chosen based on the wakefield feature one wants to observe. More conditions may be added by including a new variable in the initialization file, then adding another argument to the `main.py` file (~Line 55), as well as plotting scripts, as deemed necessary. 
 
 A `.npz` file that includes the final x, y, xi, and z positions of each electron, as well as the final x, y, and z momenta, will then be saved.
 
 ### Plotting Results
 
-To plot generated data, set the appropriate plotting script macros' booleans to `True` in `index.py` (be sure to check the file name readout location), then run
+To plot generated data, set the appropriate plotting script macros' booleans to `True` in `index-mp.py` (be sure to check the file name readout location), then run
 
 ```
-python index.py input.example input.example-weights
+python index-mp.py input.example
+```
+
+If you are using weights for the probe, you must create a weighting input file such as `example-weights.py` and input the beam's initial center coordinates, `beamx_c`, `beamy_c`, and `beamxi_c`, as well as its spread parameters, `sigma_x`, and `sigma_y`, `sigma_xi`. Then run, 
+
+```
+python index-mp.py input.example input.example-weights
 ```
 
 Plotting scripts MUST be edited based on your probe initial conditions, otherwise you might not see anything!
 
 ### Repository Structure 
 
-The `master` branch contains the most up-to-date code. 
+The `master` branch contains the most up-to-date code.
 
-The `version-1.0` branch contains the first complete version of the code. No output files are saved in this version; plots are immediately generated. Multiprocessing is also not implemented here.
+The `version-2.0` branch contains the second complete version of the code, as left by Nick Manzella. This version of the code implements weighting in the y and xi directions, masking in the y and xi directions, an arbitrary group velocity feature, and the ability to create 3D probes with size limitations at larger numbers of particles due to memory issues. 
 
-The respective `unit-test` branches contain input files and plotting scripts used to verify QuEP. They also record electron trajectory data from *inside* the plasma cell (whereas other branches only record final position as the electron is leaving the cell). See my [UG thesis](https://www.researchgate.net/publication/351853356_Picturing_Plasma_Studying_the_Simulated_Transverse_Probing_of_Laser_Wakefield_Accelerators) for walkthroughs of verification testing. Running the `unitTest.py` *within these branches*, then cross-checking the numbers with my thesis can be used to verify if QuEP is working correctly on your computer.
+The `version-1.0` branch contains the first complete version of the code, as left by Marisa Petrusky. No output files are saved in this version; plots are immediately generated. Multiprocessing is also not implemented here.
+
+The respective `unit-test` branches contain input files and plotting scripts used to verify QuEP. See Marisa's [UG thesis](https://www.researchgate.net/publication/351853356_Picturing_Plasma_Studying_the_Simulated_Transverse_Probing_of_Laser_Wakefield_Accelerators) for walkthroughs of her verification testing. Running the `unitTest.py` *within these branches*, then cross-checking the numbers with Marisa's thesis can be used to verify if QuEP is working correctly on your computer.
 
 The `plotting` branch is used as a working branch.
 
@@ -64,12 +73,20 @@ To add a new set of simulation data, create a file within the simulations direct
 
 ### Comments
 
-* QuEP is not optimized algorithm-wise, so even with the Python multiprocessing package, high density probes (e.g. see densities used in `input.L30_35-40_055`) will take several hours to run on personal computers. 
-* Conversely, running low density probes (e.g. single electrons, densities used in `input.animation`) will take (slightly) longer with the multiprocessing version of the code than without it. You may want to switch to `version-1.0` for faster usage.   
+* QuEP is not optimized algorithm-wise, so even with the Python multiprocessing package, high density probes (e.g. >1e6 particles ) will take several hours to run on personal computers. 
+
 * Because this is a numerical simulation, there is no exact way to verify if your output probe is "correct"! We can only decide whether what we see aligns with our physics intuition. 
 
+* As noted before, there are limitations to the 3D probes feature as you will quickly run out of memory on both personal and supercomputers with high density probes
 ### Requirements
 This simulation uses Python 3.0, and requires the packages `h5py`, `importlib`, `numpy`, and `multiprocessing`. Plots require `matplotlib`.
 
 ### Contact
-Contact Marisa Petrusky (marisapetrusky[at]gmail.com) for questions about this code. Source code can be found at https://github.com/marisapetrusky/QuEP/
+Contact Nicholas Manzella (nick.manzella31[at]gmail.com) or Marisa Petrusky (marisapetrusky[at]gmail.com) for questions about this code. Source code can be found at https://github.com/SBU-PAG/QuEP/
+
+#### Theses
+For more information on this project, you can read our senior thesises here:
+
+Nick Manzella (Stony Brook University, 2022): https://1drv.ms/b/s!AkeL_dqkZf-PieYi7_ddYZSPNQklPg?e=ayKaUf
+Marisa Petrusky (Stony Brook University, 2021): https://www.researchgate.net/publication/351853356_Picturing_Plasma_Studying_the_Simulated_Transverse_Probing_of_Laser_Wakefield_Accelerators
+Audrey Farrell (Stony Brook University, 2020): Email Nick or Marisa for copy

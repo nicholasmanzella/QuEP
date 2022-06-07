@@ -1,14 +1,4 @@
-# Transverse Electron Probe of Laser Wakefield Tracking Script
-# Author: Marisa Petrusky - marisa.petrusky@stonybrook.edu
-#   This script is designed to take the Lorentz fields of a simulated laser wakefield
-#   and obtain the trajectory of an electron probe through a first order Runge Kutta
-
-#   Implemented Simulations:
-#   - Quasi3D
-
-#   Instructions on how to add more simulations can be found in the README
-
-#   Derived from Audrey Farrell's electron tracking script: eTracks.py
+# File that will output particles similar to main.py without propagation
 
 # Coordinate System
 #   z   - Direction of laser propagation (longitudinal)

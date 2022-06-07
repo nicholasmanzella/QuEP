@@ -1,3 +1,6 @@
+# For use with shape files of 'rprism_weighted_after' only
+
+
 import sys
 import math
 import numpy as np

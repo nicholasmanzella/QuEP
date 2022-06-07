@@ -1,3 +1,5 @@
+# For use with shape files of 'rectangle' only
+
 import sys
 import math
 import numpy as np
