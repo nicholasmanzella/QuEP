@@ -11,12 +11,12 @@ import math
 import copy
 import time
 import progressbar
-import include.movieWriter as movieWriter
 import multiprocessing as mp
 import include.simulations.useQuasi3D as sim
 
 plt.rcParams.update({'font.size': 12 })
 #plt.rcParams['animation.ffmpeg_path'] = '/ffmpeg/bin'
+plt.rcParams['figure.constrained_layout.use'] = True
 mpl.use('Agg')
 
 # Definition of Constants
@@ -94,7 +94,7 @@ def prepare(sim_name,shape_name,noObj,rand):
     
     # Choose boundaries of screens in mm
     xstart_mm = 0
-    xend_mm = 300
+    xend_mm = 150
     xstep_mm = 50
 
     #binsizez = 6500//4#6000#833#2833#4167#1000#2666#1333
@@ -102,13 +102,13 @@ def prepare(sim_name,shape_name,noObj,rand):
     
     # For Quasi_ID = 000130, use (36,50)
     # For Quasi_ID = 000067, use (24,37)
-    zmin = 36 #36  #25#27#400
-    zmax = 50 #50  #500
+    zmin = 37 #36  #25#27#400
+    zmax = 44 #50  #500
     
     ymin = -1
     ymax = 1
 
-    bin_resolution = 0.02 #0.02 #c/w_p
+    bin_resolution = 0.08 #0.02 #c/w_p
     bin_edges_z = np.arange(zmin, zmax, bin_resolution)
     bin_edges_y = np.arange(ymin, ymax, bin_resolution)
     
@@ -157,8 +157,8 @@ def prepare(sim_name,shape_name,noObj,rand):
 def plotmp(i,x_f,y_f,z_f,px_f,py_f,pz_f, w, xden, plasma_bnds, xs_norm, yslice, zslice, bin_edges_z, bin_edges_y, cmap, cmin, vmin_, vmax_, zmin, zmax, ymin, ymax, new_path, screen_dists):
     # Create figure
     fig, ax = plt.subplots(1, figsize=(8, 5), dpi=600)
-    fig.suptitle("Progression of EProbe")
-    plt.tight_layout(rect=[0, 0, 1, 0.9])
+    #fig.suptitle("Progression of Electron Probe")
+    #plt.tight_layout(rect=[0, 0, 1, 0.9])
         
     # Project positions at distances in x_s
     # If x_s out of plasma, use ballistic trajectory
@@ -185,7 +185,7 @@ def plotmp(i,x_f,y_f,z_f,px_f,py_f,pz_f, w, xden, plasma_bnds, xs_norm, yslice, 
     secax = ax.secondary_xaxis('top', functions= (returnXi, returnZ))
     secax.set(xlabel= '$\\xi$ ($c/\omega_p$)')
     
-    cbar = plt.colorbar(h[3], ax=ax, orientation='horizontal')#, pad=0.3)
+    cbar = plt.colorbar(h[3], ax=ax, orientation='horizontal')#, pad=0.2)
     #cbar.set_label('Electron Density')
 
     #Saving

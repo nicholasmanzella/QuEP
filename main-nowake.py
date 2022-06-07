@@ -103,8 +103,6 @@ if __name__ == '__main__':
             import include.shapes.rprism as shape
         elif (shape_name.upper() == 'RPRISM_WEIGHTED_AFTER'):
             import include.shapes.rprism_weighted_after as shape
-        elif (shape_name.upper() == 'RPRISM_2'):
-            import include.shapes.rprism_2 as shape
         else:
             print("Electron probe shape unrecognized. Quitting...")
             exit()

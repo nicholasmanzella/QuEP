@@ -1,7 +1,8 @@
-# index.py can be used to propagate objects after simulation through fields in main.py
+# index-mp.py can be used to propagate objects after simulation through fields in main.py
 # Available features include weighting of particles and masking of regions
 
 # Include file imports
+from logging import raiseExceptions
 import sys
 import time
 import importlib
@@ -27,6 +28,7 @@ from random import randint
 
 
 # Be sure to change .npz file name location from main.py output!
+# Put .npz file in /data directory
 
 # Weighting Options (Only applicable for showFullEvolution and makeFullAnimation plot):
 useWeights_x = False                 # NOT CURRENTLY IN USE - LEAVE FALSE - Use weights in x-direction
@@ -44,15 +46,15 @@ useMasks_x = False                  # NOT CURRENTLY IN USE - LEAVE FALSE - Use m
 # Plotting Scripts
 showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots # Use for low density probes
 showFullEvolution = False             # View full evolution of probe at hardcoded locations in colored histograms # Use for high density probes
-makeFullAnimation = True
+makeFullAnimation = False
 writeHistData = False
 
-# Weighting Testing
+# Gaussian Weighting Testing
 plotWeightsx = False                  # Plot w vs xi (ONLY for single line of particles in x-dir)
 plotWeightsy = False                  # Plot w vs y (ONLY for single line of particles in y-dir)
 plotWeightsxi = False                  # Plot w vs y (ONLY for single line of particles in xi-dir)
-plotWeightsxiy = True
-plotWeights3D = False
+plotWeightsxiy = False                 # Plots initial particle density map
+plotWeights3D = True                  # Plots y, xi, and 2D cross section
 
 
 # DEBUG PLOTTING
@@ -219,23 +221,23 @@ if __name__ == '__main__':
             writeHist.plot(x_f, y_f, xi_f, z_f, px_f, py_f, pz_f, sim_name, shape_name, noObj, iter)
         
         if (plotWeightsy):
-            plotWeights.ploty(w, x_0, y_0, xi_0, z_0, s1, s2, beamx_c,beamy_c,beamxi_c,sigma_x,sigma_y,sigma_xi)
+            plotWeights.ploty(w_y, x_0, y_0, xi_0, z_0, s1, s2, yden, xiden, beamy_c, sigma_y)
         
         if (plotWeightsx):
-            plotWeights.plotx(w, x_0, y_0, xi_0, z_0, s1, s2, beamx_c,beamy_c,beamxi_c,sigma_x,sigma_y,sigma_xi)
+            #plotWeights.plotx(w, x_0, y_0, xi_0, z_0, s1, s2, beamx_c,beamy_c,beamxi_c,sigma_x,sigma_y,sigma_xi)
+            raise NotImplementedError("This functionality is not currently implemented")
 
         if (plotWeightsxi):
-            plotWeights.plotxi(w, x_0, y_0, xi_0, z_0, s1, s2, beamx_c,beamy_c,beamxi_c,sigma_x,sigma_y,sigma_xi)
+            plotWeights.plotxi(w_xi, x_0, y_0, xi_0, z_0, s1, s2, yden, xiden, beamxi_c, sigma_xi)
 
         if (plotWeightsxiy):
+            # Plots initial map of particle density
             plotWeights.plotweightsxiy(y_0,xi_0, w, rand)
         
         if (plotWeights3D):
-            plotWeights.plotcross(w_export1, x_0, y_0, xi_0, z_0, s1, s2, yden, xiden)
-            plotWeights.ploty(w_y, x_0, y_0, xi_0, z_0, s1, s2, yden, xiden)
-            plotWeights.plotxi(w_xi, x_0, y_0, xi_0, z_0, s1, s2, yden, xiden)
-
-
+            plotWeights.plotcross(w_export1, x_0, y_0, xi_0, z_0, s1, s2, yden, xiden, beamxi_c, sigma_xi)
+            #plotWeights.ploty(w_y, x_0, y_0, xi_0, z_0, s1, s2, yden, xiden)
+            #plotWeights.plotxi(w_xi, x_0, y_0, xi_0, z_0, s1, s2, yden, xiden)
 
         
         #if (saveMovie):

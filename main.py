@@ -1,5 +1,7 @@
 # Transverse Electron Probe of Laser Wakefield Tracking Script
-# Author: Marisa Petrusky - marisa.petrusky@stonybrook.edu
+# Authors: 
+# Nicholas Manzella - nick.manzella31@gmail.com
+# Marisa Petrusky - marisa.petrusky@stonybrook.edu - DEFUNCT
 #   This script is designed to take the Lorentz fields of a simulated laser wakefield
 #   and obtain the trajectory of an electron probe through a first order Runge Kutta
 
@@ -44,7 +46,7 @@ C = 299892458                        # Speed of light in vacuum in m/s
 if __name__ == '__main__':
     # Start of main()
     # Initialize multiprocessing.Pool()
-    pool = mp.Pool(mp.cpu_count())
+    pool = mp.Pool(1)# mp.cpu_count())
 
     start_time = time.time()
     t = time.localtime()
