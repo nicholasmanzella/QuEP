@@ -87,6 +87,8 @@ Contact Nicholas Manzella (nick.manzella31[at]gmail.com) or Marisa Petrusky (mar
 #### Theses
 For more information on this project, you can read our senior thesises here:
 
-Nick Manzella (Stony Brook University, 2022): https://1drv.ms/b/s!AkeL_dqkZf-PieYi7_ddYZSPNQklPg?e=ayKaUf
-Marisa Petrusky (Stony Brook University, 2021): https://www.researchgate.net/publication/351853356_Picturing_Plasma_Studying_the_Simulated_Transverse_Probing_of_Laser_Wakefield_Accelerators
-Audrey Farrell (Stony Brook University, 2020): Email Nick or Marisa for copy
+Nick Manzella (Stony Brook University, 2022): [Development of methods for modelingthe interactions of plasma wakefieldswith a realistic 3D electron probe](https://1drv.ms/b/s!AkeL_dqkZf-PieYi7_ddYZSPNQklPg?e=ayKaUf)
+
+Marisa Petrusky (Stony Brook University, 2021): [Picturing Plasma: Studying the Simulated Transverse Probing of Laser Wakefield Accelerators](https://www.researchgate.net/publication/351853356_Picturing_Plasma_Studying_the_Simulated_Transverse_Probing_of_Laser_Wakefield_Accelerators)
+
+Audrey Farrell (Stony Brook University, 2020): Simulating beam induced ionization-injectionin plasma wakefield accelerators (*Email Nick or Marisa for copy*)
