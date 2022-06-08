@@ -46,7 +46,7 @@ useMasks_x = False                  # NOT CURRENTLY IN USE - LEAVE FALSE - Use m
 # Plotting Scripts
 showQuickEvolution = False           # View evolution of probe after leaving plasma at inputted x_s in scatter plots # Use for low density probes
 showFullEvolution = False             # View full evolution of probe at hardcoded locations in colored histograms # Use for high density probes
-makeFullAnimation = False
+makeFullAnimation = True
 writeHistData = False
 
 # Gaussian Weighting Testing
